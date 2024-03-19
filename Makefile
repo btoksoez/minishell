@@ -1,5 +1,6 @@
 NAME = minishell
-LIBFT = libft/libft.a
+LIBFT_DIR = includes/libft
+LIBFT = $(LIBFT_DIR)/libft.a
 READLINELIB = -lreadline
 CFLAGS = -Wall -Wextra -Werror -g
 CC = cc
@@ -25,7 +26,7 @@ $(NAME): $(OBJ_DIR) $(OBJ) $(LIBFT)
 	@echo "$(CYAN)make$(RESET)   $@ $(GREEN)[OK]$(RESET)"
 
 $(LIBFT):
-	@$(MAKE) -C ./libft --no-print-directory
+	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 
 $(OBJ_DIR):
 	@mkdir -p $@
@@ -35,12 +36,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 clean:
 	@$(RM) $(OBJ_DIR)
-	@$(MAKE) -C ./libft clean --no-print-directory
+	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
 	@echo "$(ORANGE)$@$(RESET)  $(NAME) $(GREEN)[OK]$(RESET)"
 
 fclean: clean
 	@$(RM) $(NAME)
-	@$(MAKE) -C ./libft fclean --no-print-directory
+	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
 	@echo "$(RED)$@$(RESET) $(NAME) $(GREEN)[OK]$(RESET)"
 
 re: fclean all
