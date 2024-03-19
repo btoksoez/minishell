@@ -15,7 +15,6 @@ STRUCTURE:
 		- pipes between childs and parent
 		- handling redirections
 
-
 TODO:
 - understand readline functions
 - understand signals
