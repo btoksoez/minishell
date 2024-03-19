@@ -1,18 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:19:34 by andrealbuqu       #+#    #+#             */
-/*   Updated: 2024/03/19 14:53:04 by btoksoez         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:18:01 by andrealbuqu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-// int	main(void)
-// {
-// 	printf("here\n");
-// }
+int	main(void)
+{
+	char	*input;
+
+	while (1)
+	{
+		input = readline("minishell$ ");
+		if (!input)
+			break;
+		if (*input)
+			add_history(input);
+		printf("Input: %s\n", input);
+		free(input);
+	}
+	return 0;
+}
