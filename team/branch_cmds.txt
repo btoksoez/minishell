@@ -1,3 +1,5 @@
+COMMANDS FOR GIT
+
 Working with branches:
 https://www.youtube.com/watch?v=QV0kVNvkMxc
 Merging branches:
@@ -27,9 +29,13 @@ SUMMARY:
 
 	delete branch:
 		git branck -D (name)
+		git push origin --delete (name)  (deletes on GIT)
 
 	merge branch: (go to main)
 		git merge (name)
 
 	push to github: (origin refers to the repository, name is the branch)
 		git push origin (name)
+
+	push from feature/x to dev
+		git push origin feature/loop:dev
