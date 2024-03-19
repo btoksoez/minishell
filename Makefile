@@ -1,5 +1,6 @@
 NAME = minishell
 LIBFT = libft/libft.a
+READLINELIB = -lreadline
 CFLAGS = -Wall -Wextra -Werror -g
 CC = cc
 COMPRESS = ar rcs
@@ -20,7 +21,7 @@ RESET = \033[0m
 all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJ) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(READLINELIB)
 	@echo "$(CYAN)make$(RESET)   $@ $(GREEN)[OK]$(RESET)"
 
 $(LIBFT):

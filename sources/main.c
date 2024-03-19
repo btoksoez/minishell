@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:19:34 by andrealbuqu       #+#    #+#             */
-/*   Updated: 2024/03/19 11:24:49 by andrealbuqu      ###   ########.fr       */
+/*   Updated: 2024/03/19 14:53:04 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
-{
-	printf("here\n");
-}
+// int	main(void)
+// {
+// 	printf("here\n");
+// }

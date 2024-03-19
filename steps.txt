@@ -53,6 +53,7 @@ Possible Structure?
 
 - minishell loop that keep prompting and calling different functions once prompt is given
 	- parsing
+		- error checking (unclosed quotes etc.)
 		- lexer: put all input into a linked list, pass to parser
 		- parser: identify redirections, builtins, and other text correctly and put them in lists and delete from lexer list
 		- pass back the struct that holds all lists of different arguments
@@ -63,6 +64,7 @@ Possible Structure?
 		- special case heredoc?
 		- open forks for number of commands, make child run them -> order?
 		- pipes between childs and parent
+		- handling redirections
 
 
 TODO:
@@ -70,4 +72,4 @@ TODO:
 - understand signals
 - understand directory functions
 - understand why we need terminal functions
-
+- git branch strategy
