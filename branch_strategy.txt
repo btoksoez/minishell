@@ -1,11 +1,11 @@
-﻿    2. Create Dev Branch:
+﻿    1. Create Dev Branch:
 
 # Create a new branch named 'dev' based on the main branch
 git checkout -b dev
 # Push the dev branch to the remote repository
 git push origin dev
 
-    3. Create Feature Branch:
+    2. Create Feature Branch:
 
 # Create a new branch for a feature (e.g., feature/user-authentication)
 git checkout -b feature/user-authentication dev
@@ -14,7 +14,7 @@ git add .
 git commit -m "Implement user authentication"
 git push origin feature/user-authentication
 
-    4. Merge Feature into Dev Branch:
+    3. Merge Feature into Dev Branch:
 
 # Switch to the dev branch
 git checkout dev
@@ -23,10 +23,21 @@ git merge feature/user-authentication
 # Push the changes to the remote dev branch
 git push origin dev
 
-    5. Delete Feature Branch after Merging:
+    4. Delete Feature Branch after Merging:
 
 # Delete the feature branch locally
 git branch -d feature/user-authentication
 # Delete the feature branch on the remote repository
 git push origin --delete feature/user-authentication
 
+SUMMARY:
+	check commits history:
+		git log --oneline
+	check branches:
+		git branch -a
+	create branche:
+		git branch (name)
+	move into branche:
+		git checkout (name)
+	move back to master:
+		git checkout master(main)
