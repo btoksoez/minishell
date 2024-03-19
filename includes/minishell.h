@@ -6,7 +6,7 @@
 /*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:18:48 by andrealbuqu       #+#    #+#             */
-/*   Updated: 2024/03/19 15:23:31 by andrealbuqu      ###   ########.fr       */
+/*   Updated: 2024/03/19 17:08:40 by andrealbuqu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,5 @@
 # include <sys/ioctl.h>			// ioctl
 # include <termios.h>			// tcsetattr, tcgetattr
 # include <termcap.h>			// tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
-
-# define INPUT 0
 
 #endif
