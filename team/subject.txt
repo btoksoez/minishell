@@ -1,4 +1,4 @@
-External functions:
+EXTERNAL FUNCTIONS:
 	- readline, rl_clear_history, rl_on_new_line,
 	- rl_replace_line, rl_redisplay, add_history,
 	- printf, malloc, free, write, access, open, read,
@@ -10,7 +10,7 @@ External functions:
 	- getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 	- tgetnum, tgetstr, tgoto, tputs
 
-Mandatory Part:
+MANDATORY PART:
 	1. Display a prompt when waiting for a new command
 	2. Have a working history
 	3. Search and launch the right executable (PATH variable or absolute path)

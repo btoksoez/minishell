@@ -1,0 +1,39 @@
+DEFINITIONS:
+	- https://www.gnu.org/software/bash/manual/html_node/Definitions.html#index-name
+
+PARSING GUIDE:
+	- https://tomassetti.me/guide-parsing-algorithms-terminology/
+
+GUIDES:
+GITHUB - https://github.com/zelhajou/42-minishell?tab=readme-ov-file#project-structure
+NOTION - https://minishell.simple.ink/
+
+SHELL:
+Documentation:
+	- https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html
+Tutorial:
+	- https://brennan.io/2015/01/16/write-a-shell-in-c/
+
+TESTING:
+1	- https://docs.google.com/spreadsheets/d/1BLU6C9S7aoCl01x74GiW7s4xpEWWJ1cPrMTcLwISruk/edit#gid=1627853444
+2	- https://github.com/Pyr-0/Minishell-42/wiki/edge-(or-non-edge)-cases-to-test-out
+3 	- https://github.com/nicolasgasco/42_minishell/blob/main/test_cases.txt
+
+YOUTUBE:
+What Happens When You Type a Command in Your Terminal (8 min)
+	- https://www.youtube.com/watch?v=2P7fcVHxA9o&list=LL&index=7
+
+Shell Code Explained (32min + 53min)
+	- https://www.youtube.com/watch?v=ubt-UjcQUYg&list=PLbtzT1TYeoMhF4hcpEiCsOeN13zqrzBJq&index=1
+
+Unix terminals and shells (16min + 17min + 22min + 13min + 15min)
+	- https://www.youtube.com/playlist?list=PLFAC320731F539902
+
+Terminal vs. Bash vs. Command line vs. Prompt (11min)
+	- https://www.youtube.com/watch?v=hMSByvFHOro
+
+Tree Data Structure | Illustrated Data Structures (8min)
+	- https://www.youtube.com/watch?v=S2W3SXGPVyU
+
+TOTAL: 3h15min
+Watched: 40min
