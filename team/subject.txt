@@ -46,30 +46,3 @@ NOTE: Avoid using more than one global variable to indicate a received signal.
 
 NOTE: The readline() function can cause memory leaks. You don’t have to fix them. But
 		that doesn’t mean your own code, yes the code you wrote, can have memory leaks.
-
-
-
-Possible Structure?
-
-- minishell loop that keep prompting and calling different functions once prompt is given
-	- parsing
-		- error checking (unclosed quotes etc.)
-		- lexer: put all input into a linked list, pass to parser
-		- parser: identify redirections, builtins, and other text correctly and put them in lists and delete from lexer list
-		- pass back the struct that holds all lists of different arguments
-	- expanding
-		- replace $ with envps
-	- execution
-		- builtins need to be executed in parents process because they are changing properties of the process itself
-		- special case heredoc?
-		- open forks for number of commands, make child run them -> order?
-		- pipes between childs and parent
-		- handling redirections
-
-
-TODO:
-- understand readline functions
-- understand signals
-- understand directory functions
-- understand why we need terminal functions
-- git branch strategy

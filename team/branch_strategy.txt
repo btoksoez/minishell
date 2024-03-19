@@ -29,30 +29,3 @@ git push origin dev
 git branch -d feature/user-authentication
 # Delete the feature branch on the remote repository
 git push origin --delete feature/user-authentication
-
-Working with branches
-https://www.youtube.com/watch?v=QV0kVNvkMxc
-Mergung with branches
-https://www.youtube.com/watch?v=XX-Kct0PfFc
-
-SUMMARY:
-	check commits history:
-		git log --oneline
-
-	check branches:
-		git branch -a
-
-	create branche:
-		git branch (name)
-
-	move into branche:
-		git checkout (name)
-
-	create and move into branche:
-		git checkout -b (name)
-
-	move back to master:
-		git checkout master(main)
-
-	delete branch:
-		git branck -D (name)

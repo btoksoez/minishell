@@ -1,0 +1,35 @@
+Working with branches:
+https://www.youtube.com/watch?v=QV0kVNvkMxc
+Merging branches:
+https://www.youtube.com/watch?v=XX-Kct0PfFc
+Pushing to Github as a team:
+https://www.youtube.com/watch?v=fQLK8Ib_SKk
+https://www.youtube.com/watch?v=MnUd31TvBoU
+
+SUMMARY:
+	check commits history:
+		git log --oneline
+
+	check branches:
+		git branch -a
+
+	create branche:
+		git branch (name)
+
+	move into branche:
+		git checkout (name)
+
+	create and move into branche:
+		git checkout -b (name)
+
+	move back to master:
+		git checkout (main)
+
+	delete branch:
+		git branck -D (name)
+
+	merge branch: (go to main)
+		git merge (name)
+
+	push to github: (origin refers to the repository, name is the branch)
+		git push origin (name)
