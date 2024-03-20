@@ -1,30 +1,17 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 11:19:34 by andrealbuqu       #+#    #+#             */
-/*   Updated: 2024/03/19 15:18:01 by andrealbuqu      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
 
-int	main(void)
+void	clean_up(t_shell *shell)
 {
-	char	*input;
+	if (shell->line)
+		free(shell->line);
+}
 
-	while (1)
-	{
-		input = readline("minishell$ ");
-		if (!input)
-			break;
-		if (*input)
-			add_history(input);
-		printf("Input: %s\n", input);
-		free(input);
-	}
+int	main(int argc, char *argv[], char *envp[])
+{
+	t_shell	shell;
+
+	loop(&shell);
+	clean_up(&shell);
+
 	return 0;
 }

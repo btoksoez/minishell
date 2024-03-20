@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 11:18:48 by andrealbuqu       #+#    #+#             */
-/*   Updated: 2024/03/19 17:46:12 by andrealbuqu      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -28,5 +16,24 @@
 # include <sys/ioctl.h>			// ioctl
 # include <termios.h>			// tcsetattr, tcgetattr
 # include <termcap.h>			// tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+
+
+/* structs */
+
+typedef struct s_shell
+{
+	char	*line;
+}	t_shell;
+
+
+/* functions */
+void loop(t_shell *shell);
+
+/* error checking*/
+int		check_errors(char *line);
+int		check_quotation_marks(char *line);
+int		check_pipes(char *line);
+void	error_message(char *message);
+
 
 #endif
