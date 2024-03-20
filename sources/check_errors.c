@@ -1,25 +1,57 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   check_errors.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/20 12:47:13 by btoksoez          #+#    #+#             */
-/*   Updated: 2024/03/20 12:53:59 by btoksoez         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
 
+void	error_message(char *message)
+{
+	write(2, message, ft_strlen(message));
+}
+
+int	check_quotation_marks(char *line)
+{
+	int	n_double;
+	int	n_single;
+
+	n_double = 0;
+	n_single = 0;
+	while (*line)
+	{
+		if (*line == '\"')
+			n_double++;
+		else if (*line == '\'')
+			n_single++;
+		line++;
+	}
+	if (n_double % 2 != 0 || n_single % 2 != 0)
+		return (error_message("syntax error: unclosed quote"), 1);
+	return (0);
+}
+
+int	check_pipes(char *line)
+{
+	char *first_pipe;
+
+	first_pipe = ft_strchr(line, '|');
+	printf("Pipe 1: %s", first_pipe);
+	if (!first_pipe)	//line does not have a pipe symbol
+		return (0);
+	first_pipe++;
+	while (*first_pipe == 32)
+		first_pipe++;
+	if (*first_pipe == '|')
+		return (1);
+	printf("Pipe: %s", first_pipe);
+	printf("Pipe return: %d", check_pipes(first_pipe));
+
+	return (0);
+}
+
+/* checks for correct use of quotation marks (check if there are even number of them?)
+	 and checks for pipes (2 or more in a row or nothing before or after) */
 int	check_errors(char *line)
 {
-	//check for correct use of quotation marks (check if there are even number of them?)
-	//check for pipes (2 in a row or nothing before or after)
-	//check redirections (correct order of args)
-	if error: return (1)
-
-	return (0)
+	printf("\n\nPipe return value: %d", check_pipes(line));
+	if (check_quotation_marks(line) || check_pipes(line))
+		return (1);
+	return (0);
 }
 
 

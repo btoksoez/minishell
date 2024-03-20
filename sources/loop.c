@@ -1,23 +1,25 @@
 #include "../includes/minishell.h"
 
-void loop(void)
+void loop(t_shell *shell)
 {
-	char	*line;
 	// char	**args;
 	// int		status;
 
 	while (1)
 	{
-		line = readline("minishell$ ");
-		if (!line)
+		shell->line = readline("minishell$ ");
+		if (!shell->line)
 			break;
-		if (*line)
-			add_history(line);
-		printf("Input: %s\n", line);
-		if (check_errors(line))
-			return ;
-		// args = parse(line);
+		if (*shell->line)
+			add_history(shell->line);
+		printf("Input: %s\n", shell->line);
+		if (check_errors(shell->line))
+			continue ;	//will go to next iteration of while loop, not finishing this one
+		// args = parse(shell->line);
 		// status = execute(args);
-		free(line);
+		if (ft_strcmp(shell->line, "exit") == 0)
+			break ;
+		free(shell->line);
+		//reset()	//reset lists of tokens etc, but keep history
 	}
 }

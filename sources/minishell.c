@@ -1,22 +1,17 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 11:19:34 by andrealbuqu       #+#    #+#             */
-/*   Updated: 2024/03/20 12:44:21 by btoksoez         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
 
-int	main(void)
+void	clean_up(t_shell *shell)
 {
-	loop();
+	if (shell->line)
+		free(shell->line);
+}
 
-	//clean up
+int	main(int argc, char *argv[], char *envp[])
+{
+	t_shell	shell;
+
+	loop(&shell);
+	clean_up(&shell);
 
 	return 0;
 }
