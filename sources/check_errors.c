@@ -2,7 +2,7 @@
 
 void	error_message(char *message)
 {
-	write(2, message, ft_strlen(message));
+	ft_putendl_fd(message, 2);
 }
 
 int	check_quotation_marks(char *line)
@@ -30,17 +30,13 @@ int	check_pipes(char *line)
 	char *first_pipe;
 
 	first_pipe = ft_strchr(line, '|');
-	printf("Pipe 1: %s", first_pipe);
-	if (!first_pipe)	//line does not have a pipe symbol
+	if (!first_pipe)
 		return (0);
 	first_pipe++;
-	while (*first_pipe == 32)
+	while (*first_pipe == ' ')
 		first_pipe++;
 	if (*first_pipe == '|')
-		return (1);
-	printf("Pipe: %s", first_pipe);
-	printf("Pipe return: %d", check_pipes(first_pipe));
-
+		return (error_message("syntax error: duplicate pipe"), 1);
 	return (0);
 }
 
@@ -48,7 +44,6 @@ int	check_pipes(char *line)
 	 and checks for pipes (2 or more in a row or nothing before or after) */
 int	check_errors(char *line)
 {
-	printf("\n\nPipe return value: %d", check_pipes(line));
 	if (check_quotation_marks(line) || check_pipes(line))
 		return (1);
 	return (0);

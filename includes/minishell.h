@@ -25,7 +25,6 @@ typedef struct s_shell
 	char	*line;
 }	t_shell;
 
-
 /* functions */
 void loop(t_shell *shell);
 
@@ -34,6 +33,5 @@ int		check_errors(char *line);
 int		check_quotation_marks(char *line);
 int		check_pipes(char *line);
 void	error_message(char *message);
-
 
 #endif

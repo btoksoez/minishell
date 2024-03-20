@@ -12,6 +12,5 @@ int	main(int argc, char *argv[], char *envp[])
 
 	loop(&shell);
 	clean_up(&shell);
-
-	return 0;
+	return (0);
 }
