@@ -14,7 +14,9 @@ void loop(void)
 		if (*line)
 			add_history(line);
 		printf("Input: %s\n", line);
-		// args = parse(line); //TODO
+		if (check_errors(line))
+			return ;
+		// args = parse(line);
 		// status = execute(args);
 		free(line);
 	}

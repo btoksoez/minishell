@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:19:34 by andrealbuqu       #+#    #+#             */
-/*   Updated: 2024/03/19 15:18:01 by andrealbuqu      ###   ########.fr       */
+/*   Updated: 2024/03/20 12:44:21 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,9 @@
 
 int	main(void)
 {
-	char	*input;
+	loop();
 
-	while (1)
-	{
-		input = readline("minishell$ ");
-		if (!input)
-			break;
-		if (*input)
-			add_history(input);
-		printf("Input: %s\n", input);
-		free(input);
-	}
+	//clean up
+
 	return 0;
 }
