@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:18:48 by andrealbuqu       #+#    #+#             */
-/*   Updated: 2024/03/19 17:08:40 by andrealbuqu      ###   ########.fr       */
+/*   Updated: 2024/03/20 12:08:57 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,8 @@
 # include <sys/ioctl.h>			// ioctl
 # include <termios.h>			// tcsetattr, tcgetattr
 # include <termcap.h>			// tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+
+/* functions */
+void loop(void);
 
 #endif
