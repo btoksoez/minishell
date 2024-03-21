@@ -22,8 +22,12 @@ bool	check_quotation_marks(char *line)
 
 bool	check_pipes(char *line)
 {
-	char *first_pipe;
+	char	*first_pipe;
 
+	if (ft_strncmp(line, "|", 1) == 0)
+		return (error_message("syntax error: no command before pipe"), true);
+	if (line[ft_strlen(line) - 1] == '|')
+		return (error_message("syntax error: no command after pipe"), true);
 	first_pipe = ft_strchr(line, '|');
 	if (!first_pipe)
 		return (false);
@@ -57,6 +61,18 @@ bool	check_syntax_errors(char *line)
         Missing input file: command < without specifying an input file.
         Invalid input file path: command < non_existing_file where non_existing_file does not exist.
         Incorrect placement: < input_file command where < is placed after the command.
+
+		works:
+		< valid file
+		cmd < 
+
+		doesnt work:
+		< invalid file
+		cmd <
+
+		Note: if on the right always assumes it is a file
+		NOte: if on the left always assumes it is a cmd
+		Doesnt need both (file is mandatory, cmd is optional)
 
     Misuse of Output Redirection (>, >>):
         Missing output file: command > or command >> without specifying an output file.

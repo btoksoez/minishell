@@ -17,7 +17,7 @@ void	loop(t_shell *shell)
 			add_history(shell->line);
 		if (ft_strcmp(shell->line, "exit") == 0)
 			break ;
-		tokenize(shell->line, tokens);
+		tokens = tokenize(shell->line);
 		if (!tokens)
 			status = 1; 							// search for the right status value
 

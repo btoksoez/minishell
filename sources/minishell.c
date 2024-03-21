@@ -8,7 +8,9 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)envp;
 	if (argc != 1)
 		exit_error_message("Invalid number of arguments");
+	fprintf(stderr, "\n"); // temporary (for easy to undestand tests)
 	loop(&shell);
 	clean_up(&shell);
+	fprintf(stderr, "\n"); // temporary (for easy to undestand tests)
 	return (0);
 }

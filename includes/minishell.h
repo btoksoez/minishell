@@ -57,6 +57,6 @@ void	exit_error_message(char *message);
 
 /*----------------------tokenization----------------------*/
 /*--------------------------------------------------------*/
-void	tokenize(char *line, t_token *tokens);
+t_token	*tokenize(char *line);
 
 #endif
