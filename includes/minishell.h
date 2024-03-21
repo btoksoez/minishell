@@ -11,52 +11,67 @@
 # include <termios.h>
 # include <termcap.h>
 
-/*-----------------------defenitions----------------------*/
-/*--------------------------------------------------------*/
-# define WHITE_SPACES " \t\n\v\f\r"
-# define TOKENS "<>|"
 
-/*-------------------------structs------------------------*/
-/*--------------------------------------------------------*/
-typedef struct s_shell
-{
-	char	*line;
-}			t_shell;
+/* constants */
 
+# define SINGLE_TOKENS "<>|"
+# define WHITESPACE " \t\n\v\f\r"
+# define QUOTE_DELIMITER "$\""
+
+/* structs */
 typedef enum e_token_type
 {
-	PIPE,
-	WORD,
-	RE_INPUT,
-	RE_OUTPUT,
-	RE_APPEND,
-	RE_HERE_DOC,
-}	t_token_type;
+	PIPE,		//for pipes
+	RE_INPUT,	//for '<'
+	RE_OUTPUT,	//for '>'
+	APPEND,		//for '>>'
+	HEREDOC,	//for '<<'
+	WORD,		//for args and commands
+	ENV_VAR		//for environment variables
+} t_token_type;
 
-typedef struct s_token
+typedef struct	s_tree_node
 {
 	t_token_type	type;
-	struct s_token	*next;
-}					t_token;
+	char			*args;
+	struct s_tree_node	*left;
+	struct s_tree_node	*right;
+}			t_tree_node;
 
-/*-----------------------Minishell------------------------*/
-/*--------------------------------------------------------*/
-void	loop(t_shell *shell);
+typedef struct s_tokens
+{
+	t_token_type		type;
+	char				*value;
+	struct s_tokens		*previous;
+	struct s_tokens		*next;
+}				t_tokens;
 
-/*---------------------syntax checking--------------------*/
-/*--------------------------------------------------------*/
-bool	check_syntax_errors(char *line);
-bool	check_quotation_marks(char *line);
-bool	check_pipes(char *line);
 
-/*----------------------close program---------------------*/
-/*--------------------------------------------------------*/
-void	clean_up(t_shell *shell);
+typedef struct s_shell
+{
+	char			*line;
+	t_tree_node	*tree;
+}			t_shell;
+
+/* functions */
+void loop(t_shell *shell);
+
+/* error checking*/
+int		check_errors(char *line);
+int		check_quotation_marks(char *line);
+int		check_pipes(char *line);
 void	error_message(char *message);
+
 void	exit_error_message(char *message);
 
 /*----------------------tokenization----------------------*/
 /*--------------------------------------------------------*/
-t_token	*tokenize(char *line);
+t_tokens	*tokenize(char *line);
+
+
+/* utils */
+char	*ft_strdup_delimiter_char(const char *s, char delimiter);
+char	*ft_strdup_delimiter_string(const char *s, char *delimiter);
+char	*skip_whitespace(char *line);
 
 #endif
