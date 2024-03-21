@@ -66,19 +66,19 @@ t_tokens	*add_node_back(t_tokens *previous)
 /* not sure if this is necessary
 should initialize new node 		*/
 
-t_tokens	*token_init(void)
-{
-	t_tokens	*new;
+	t_tokens	*token_init(void)
+	{
+		t_tokens	*new;
 
-	new = (t_tokens *)malloc(sizeof(t_tokens));
-	if (!new)
-		return (error_message("token init node malloc"), NULL);
-	new->previous = NULL;
-	new->next = NULL;
-	new->value = NULL;
-	new->type = 0;
-	return (new);
-}
+		new = (t_tokens *)malloc(sizeof(t_tokens));
+		if (!new)
+			return (error_message("token init node malloc"), NULL);
+		new->previous = NULL;
+		new->next = NULL;
+		new->value = NULL;
+		new->type = 0;
+		return (new);
+	}
 
 /*takes start of line, skips until word ends (until whitespace is encountered)
 null terminates word and puts it into value, puts word as type, returns end of word as new start*/
@@ -163,7 +163,12 @@ void print_tokens(t_tokens *head) {
 }
 
 
-/* should return a list of token nodes that contains all tokens, ready to be passed to tree? */
+/* should return a list of token nodes that contains all tokens, ready to be passed to tree function
+
+will fail if line is
+	- not trimmed
+	- empty
+	 */
 t_tokens *get_tokens(char *line)
 {
 	t_tokens	*head;
@@ -195,6 +200,7 @@ t_tokens *get_tokens(char *line)
 		previous = current;
 		current = add_node_back(previous);
 	}
+	free(current);
 	previous->next = NULL;
 	return (head);
 
@@ -223,7 +229,7 @@ void free_tokens(t_tokens *head) {
 /* main for testing the token function */
 int main() {
     // Assume you have a function get_tokens that creates and returns the token list
-    char *line = "hello > < << >> | d      $ $DEJDJE   d";
+    char *line = "   ";
     t_tokens *token_list = get_tokens(line);
 
     if (token_list != NULL) {
