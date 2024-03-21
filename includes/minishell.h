@@ -18,12 +18,46 @@
 # include <termcap.h>			// tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 
 
+/* constants */
+
+# define SINGLE_TOKENS "<>|\0"
+# define WHITESPACE " \t\n\v\f\r\0"
+
 /* structs */
 
 typedef struct s_shell
 {
-	char	*line;
-}	t_shell;
+	char			*line;
+	t_tree_node	*tree;
+}			t_shell;
+
+typedef struct	s_tree_node
+{
+	t_token_type	type;
+	char			*args;
+	struct s_tree_node	*left;
+	struct s_tree_node	*right;
+}			t_tree_node;
+
+typedef struct s_tokens
+{
+	t_token_type		type;
+	char				*value;
+	struct s_tokens		*previous;
+	struct s_tokens		*next;
+}				t_tokens;
+
+
+typedef enum e_token_type
+{
+	PIPE,		//for pipes
+	RE_INPUT,	//for '<'
+	RE_OUTPUT,	//for '>'
+	APPEND,		//for '>>'
+	HEREDOC,	//for '<<'
+	WORD,		//for args and commands
+	ENV_VAR		//for environment variables
+} t_token_type
 
 /* functions */
 void loop(t_shell *shell);

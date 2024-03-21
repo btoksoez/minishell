@@ -2,7 +2,8 @@
 
 void loop(t_shell *shell)
 {
-	// char	**args;
+	t_tree_node		*tree_head;
+	t_tokens	*tokens;
 	// int	status;
 
 	while (true)
@@ -17,7 +18,8 @@ void loop(t_shell *shell)
 			free(shell->line);
 			continue ;
 		}
-		// args = parse(shell->line);
+		// tokens = get_tokens(shell->line)
+		// tree_head = parse(tokens);
 		// status = execute(args);
 		if (ft_strcmp(shell->line, "exit") == 0)
 			break ;
