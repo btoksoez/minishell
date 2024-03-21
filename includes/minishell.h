@@ -11,14 +11,13 @@
 # include <termios.h>
 # include <termcap.h>
 
-
-/* constants */
-
 # define SINGLE_TOKENS "<>|"
 # define WHITESPACE " \t\n\v\f\r"
 # define QUOTE_DELIMITER "$\""
 
-/* structs */
+/*--------------------------structs-----------------------*/
+/*--------------------------------------------------------*/
+
 typedef enum e_token_type
 {
 	PIPE,		//for pipes
@@ -28,15 +27,15 @@ typedef enum e_token_type
 	HEREDOC,	//for '<<'
 	WORD,		//for args and commands
 	ENV_VAR		//for environment variables
-} t_token_type;
+}	t_token_type;
 
 typedef struct	s_tree_node
 {
-	t_token_type	type;
-	char			*args;
+	t_token_type		type;
+	char				*args;
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
-}			t_tree_node;
+}						t_tree_node;
 
 typedef struct s_tokens
 {
@@ -44,32 +43,38 @@ typedef struct s_tokens
 	char				*value;
 	struct s_tokens		*previous;
 	struct s_tokens		*next;
-}				t_tokens;
+}						t_tokens;
 
 
 typedef struct s_shell
 {
-	char			*line;
+	char		*line;
 	t_tree_node	*tree;
-}			t_shell;
+}				t_shell;
 
-/* functions */
+/*-----------------------minishell------------------------*/
+/*--------------------------------------------------------*/
 void loop(t_shell *shell);
 
-/* error checking*/
-int		check_errors(char *line);
-int		check_quotation_marks(char *line);
-int		check_pipes(char *line);
-void	error_message(char *message);
+/*-------------------syntax checking----------------------*/
+/*--------------------------------------------------------*/
+bool	check_syntax_errors(char *line);
+bool	check_quotation_marks(char *line);
+bool	check_pipes(char *line);
+void	clean_up(t_shell *shell);
 
+/*---------------------close program----------------------*/
+/*--------------------------------------------------------*/
+void	error_message(char *message);
+void	exit_error_message(char *message);
 void	exit_error_message(char *message);
 
 /*----------------------tokenization----------------------*/
 /*--------------------------------------------------------*/
 t_tokens	*tokenize(char *line);
 
-
-/* utils */
+/*-----------------------------utils----------------------*/
+/*--------------------------------------------------------*/
 char	*ft_strdup_delimiter_char(const char *s, char delimiter);
 char	*ft_strdup_delimiter_string(const char *s, char *delimiter);
 char	*skip_whitespace(char *line);

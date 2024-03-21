@@ -7,6 +7,7 @@ void	loop(t_shell *shell)
 	int	status;
 
 	(void)status;
+	(void)tree_head;
 	while (true)
 	{
 		tokens = NULL;
