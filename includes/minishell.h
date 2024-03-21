@@ -20,13 +20,13 @@
 
 typedef enum e_token_type
 {
-	PIPE,		//for pipes
-	RE_INPUT,	//for '<'
-	RE_OUTPUT,	//for '>'
-	APPEND,		//for '>>'
-	HEREDOC,	//for '<<'
-	WORD,		//for args and commands
-	ENV_VAR		//for environment variables
+	PIPE,		//0 for pipes
+	RE_INPUT,	//1 for '<'
+	RE_OUTPUT,	//2 for '>'
+	APPEND,		//3 for '>>'
+	HEREDOC,	//4 for '<<'
+	WORD,		//5 for args and commands
+	ENV_VAR		//6 for environment variables
 }	t_token_type;
 
 typedef struct	s_tree_node
