@@ -41,5 +41,5 @@ SUMMARY:
 		git push origin feature/loop:dev
 
 	if a branch is not properly tracking the origin
-		git branch --set-upstream-to=origin/feature/parsing feature/parsing
+		git branch --set-upstream-to=origin/feature/(branch) (branch)
 		git pull
