@@ -10,43 +10,37 @@ char	*token_envp(char *start, t_tokens *token)
 		return (error_message("strdup token envp"), NULL);
 	token->value = word;
 	token->type = ENV_VAR;
+	start += ft_strlen(word);
+	return (start);
+}
+
+/* skip beginning quote, strdup everything inside quotes, skip ending quote, return start*/
+char	*handle_single_quotes(char *start, t_tokens *token)
+{
+	char	*word;
+	word = ft_strdup_delimiter_char(++start, '\'');
+	if (!word)
+		return (error_message("strdup quotes"), NULL);
+	token->value = word;
+	token->type = WORD;
 	start += ft_strlen(word) + 1;
 	return (start);
 }
 
-// char	*handle_quotes(char *start, t_tokens *token)
+// char	*handle_double_quotes(char *start, t_tokens *token)
 // {
-// 	char	*word;
-// 	//check if single or double quotes
-// 	//add as word?
-// 	//if double quotes and if $ call token_envp function?
-// 	if (start == '\'')
-// 	{
-// 		word = ft_strdup_delimiter_char(++start, '\'');
-// 		if (!word)
-// 			return (error_message("strdup quotes"), NULL);
-// 	}
-// 	else if (start++ == '\"')
-// 	{
-// 		while (start != '\"')
-// 		{
+// 	// while (*start != '\"')
+// 	// {
 
-// 		}
-// 		//while start is not closing quotes
-// 			//strdup until you encounter '$' or '\"'
-// 				//if word is NULL or '\0', free + delete ->means either empty quotes or $ is first thing
-// 				//if not empty make new node with word
-// 			//if start + ft_strlen(word) == '$' -> next one is envp
-// 			//strdup until whitespace
-// 				//make new node
-// 			//repeat
-// 	}
-// 	else
-// 		return (error_message("quotes wrong param"), NULL);
-// 	token->value = word;
-// 	token->type = WORD;
-// 	start += ft_strlen(word) + 1;
-// 	return (start);
+// 	// }
+// 	//while start is not closing quotes
+// 		//strdup until you encounter '$' or '\"'
+// 			//if word is NULL or '\0', free + delete ->means either empty quotes or $ is first thing
+// 			//if not empty make new node with word
+// 		//if start + ft_strlen(word) == '$' -> next one is envp
+// 		//strdup until whitespace
+// 			//make new node
+// 		//repeat
 // }
 
 t_tokens	*add_node_back(t_tokens *previous)
@@ -119,9 +113,9 @@ put token as type, return end of token
 */
 char	*double_token(char *start, t_tokens *token)
 {
-	if (*start == '<' && *(++start) == '<')
+	if (*start == '<' && *(start + 1) == '<')
 		token->type = HEREDOC;
-	else if (*start == '>' && *(++start) == '>')
+	else if (*start == '>' && *(start + 1) == '>')
 		token->type = APPEND;
 	else
 		return (error_message("double token error"), NULL);
@@ -163,11 +157,10 @@ void print_tokens(t_tokens *head) {
 }
 
 
-/* should return a list of token nodes that contains all tokens, ready to be passed to tree function
-
+/* should return a list of token nodes that contains all tokens,
+ready to be passed to tree function
 will fail if line is
 	- not trimmed
-	- empty
 	 */
 t_tokens *get_tokens(char *line)
 {
@@ -178,14 +171,14 @@ t_tokens *get_tokens(char *line)
 	head = token_init();
 	current = head;
 	previous = NULL;
-	if (!line)
+	if (!line || *line == 0)
 		return (NULL);
 	while (*line != '\0')
 	{
 		line = skip_whitespace(line);
-		// if (*line == '\'' || line == '\"')
-		// 	line = handle_quotes(line, current);
-		if (ft_strchr(SINGLE_TOKENS, *line) && ft_strchr(WHITESPACE, *(line + 1)))
+		if (*line == '\'')
+			line = handle_single_quotes(line, current);
+		else if (ft_strchr(SINGLE_TOKENS, *line) && ft_strchr(WHITESPACE, *(line + 1)))
 			line = single_token(line, current);
 		else if ((*line == '>' && *(line + 1) == '>') || (*line == '<' && *(line + 1) == '<'))
 			line = double_token(line, current);
@@ -193,22 +186,12 @@ t_tokens *get_tokens(char *line)
 			line = token_envp(line, current);
 		else
 			line = token_word(line, current, WHITESPACE);
-		printf("\nCurrent line: %d\n", *line);
-		if (*line == '\0')
-			printf("\nCurrent line: null terminator\n");
-		printf("Current node: %d, %s\n", current->type, current->value);
 		previous = current;
 		current = add_node_back(previous);
 	}
 	free(current);
 	previous->next = NULL;
 	return (head);
-
-	//go through each character
-	//separate by whitespace, but not if inside quotes
-		//call a function that returns whatever is inside quotes as a word and skips to the ending of the quote?
-	//classify what token it is and put it in the node
-	//return list
 }
 
 /*free tokens, might need changes */
@@ -229,7 +212,7 @@ void free_tokens(t_tokens *head) {
 /* main for testing the token function */
 int main() {
     // Assume you have a function get_tokens that creates and returns the token list
-    char *line = "   ";
+    char *line = "";
     t_tokens *token_list = get_tokens(line);
 
     if (token_list != NULL) {
@@ -251,7 +234,7 @@ int main() {
 // 	char	*trimmed_line;
 
 // 	trimmed_line = ft_strtrim(line, WHITESPACE);
-// 	if (!trimmed_line)
+// 	if (!trimmed_line) //check if this checks for empty line
 // 		return (NULL);
 // 	if (check_syntax_errors(trimmed_line))		// check syntax needs to be completed
 // 		return (NULL);
