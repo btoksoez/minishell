@@ -20,16 +20,21 @@
 
 /* constants */
 
-# define SINGLE_TOKENS "<>|\0"
-# define WHITESPACE " \t\n\v\f\r\0"
+# define SINGLE_TOKENS "<>|"
+# define WHITESPACE " \t\n\v\f\r"
+# define QUOTE_DELIMITER "$\""
 
 /* structs */
-
-typedef struct s_shell
+typedef enum e_token_type
 {
-	char			*line;
-	t_tree_node	*tree;
-}			t_shell;
+	PIPE,		//for pipes
+	RE_INPUT,	//for '<'
+	RE_OUTPUT,	//for '>'
+	APPEND,		//for '>>'
+	HEREDOC,	//for '<<'
+	WORD,		//for args and commands
+	ENV_VAR		//for environment variables
+} t_token_type;
 
 typedef struct	s_tree_node
 {
@@ -48,16 +53,11 @@ typedef struct s_tokens
 }				t_tokens;
 
 
-typedef enum e_token_type
+typedef struct s_shell
 {
-	PIPE,		//for pipes
-	RE_INPUT,	//for '<'
-	RE_OUTPUT,	//for '>'
-	APPEND,		//for '>>'
-	HEREDOC,	//for '<<'
-	WORD,		//for args and commands
-	ENV_VAR		//for environment variables
-} t_token_type
+	char			*line;
+	t_tree_node	*tree;
+}			t_shell;
 
 /* functions */
 void loop(t_shell *shell);
@@ -67,5 +67,11 @@ int		check_errors(char *line);
 int		check_quotation_marks(char *line);
 int		check_pipes(char *line);
 void	error_message(char *message);
+
+
+/* utils */
+char	*ft_strdup_delimiter_char(const char *s, char delimiter);
+char	*ft_strdup_delimiter_string(const char *s, char *delimiter);
+char	*skip_whitespace(char *line);
 
 #endif
