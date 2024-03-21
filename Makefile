@@ -22,9 +22,8 @@ RESET = \033[0m
 all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJ) $(LIBFT)
-	@$(CC) -g $(OBJ) $(LIBFT) -o $(NAME) $(READLINELIB)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(READLINELIB)
 	@echo "$(CYAN)make$(RESET)   $@ $(GREEN)[OK]$(RESET)"
-#add c_flags back
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
@@ -33,8 +32,7 @@ $(OBJ_DIR):
 	@mkdir -p $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@$(CC) -g -c $< -o $@
-#add c_flags back
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@$(RM) $(OBJ_DIR)

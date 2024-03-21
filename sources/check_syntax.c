@@ -1,11 +1,6 @@
 #include "../includes/minishell.h"
 
-void	error_message(char *message)
-{
-	ft_putendl_fd(message, 2);
-}
-
-int	check_quotation_marks(char *line)
+bool	check_quotation_marks(char *line)
 {
 	int	n_double;
 	int	n_single;
@@ -21,32 +16,33 @@ int	check_quotation_marks(char *line)
 		line++;
 	}
 	if (n_double % 2 != 0 || n_single % 2 != 0)
-		return (error_message("syntax error: unclosed quote"), 1);
-	return (0);
+		return (error_message("syntax error: unclosed quote"), true);
+	return (false);
 }
 
-int	check_pipes(char *line)
+bool	check_pipes(char *line)
 {
 	char *first_pipe;
 
 	first_pipe = ft_strchr(line, '|');
 	if (!first_pipe)
-		return (0);
+		return (false);
 	first_pipe++;
 	while (*first_pipe == ' ')
 		first_pipe++;
 	if (*first_pipe == '|')
-		return (error_message("syntax error: duplicate pipe"), 1);
-	return (0);
+		return (error_message("syntax error: duplicate pipe"), true);
+	return (false);
 }
 
-/* checks for correct use of quotation marks (check if there are even number of them?)
-	 and checks for pipes (2 or more in a row or nothing before or after) */
-int	check_errors(char *line)
+bool	check_syntax_errors(char *line)
 {
 	if (check_quotation_marks(line) || check_pipes(line))
-		return (1);
-	return (0);
+	{
+		free(line);
+		return (true);
+	}
+	return (false);
 }
 
 
@@ -80,5 +76,4 @@ int	check_errors(char *line)
     Misuse of Compound Commands:
         Incorrect compound command syntax with redirections and pipes: command1 && command2 | command3, command1 | command2 && command3, etc.
         Misuse of parentheses or braces with incorrect redirections: (command1 > output_file) | command2, { command1 > output_file; } | command2.
-
 		*/
