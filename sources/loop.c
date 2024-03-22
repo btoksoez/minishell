@@ -2,9 +2,9 @@
 
 void	loop(t_shell *shell)
 {
-	t_tree_node		*tree_head;
+	t_tree_node	*tree_head;
 	t_tokens	*tokens;
-	int	status;
+	int			status;
 
 	(void)status;
 	(void)tree_head;

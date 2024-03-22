@@ -15,8 +15,8 @@
 # define WHITESPACE " \t\n\v\f\r"
 # define QUOTE_DELIMITER "$\""
 
-/*--------------------------structs-----------------------*/
-/*--------------------------------------------------------*/
+/*-------------------------------structs----------------------------*/
+/*------------------------------------------------------------------*/
 
 typedef enum e_token_type
 {
@@ -52,31 +52,37 @@ typedef struct s_shell
 	t_tree_node	*tree;
 }				t_shell;
 
-/*-----------------------minishell------------------------*/
-/*--------------------------------------------------------*/
-void loop(t_shell *shell);
+/*----------------------------minishell-----------------------------*/
+/*------------------------------------------------------------------*/
+void		loop(t_shell *shell);
 
-/*-------------------syntax checking----------------------*/
-/*--------------------------------------------------------*/
-bool	check_syntax_errors(char *line);
-bool	check_quotation_marks(char *line);
-bool	check_pipes(char *line);
-void	clean_up(t_shell *shell);
+/*--------------------------syntax checking-------------------------*/
+/*------------------------------------------------------------------*/
+bool		check_syntax_errors(char *line);
+bool		check_quotation_marks(char *line);
+bool		check_pipes(char *line);
+void		clean_up(t_shell *shell);
 
-/*---------------------close program----------------------*/
-/*--------------------------------------------------------*/
-void	error_message(char *message);
-void	exit_error_message(char *message);
-void	exit_error_message(char *message);
+/*--------------------------close program---------------------------*/
+/*------------------------------------------------------------------*/
+void		error_message(char *message);
+void		exit_error_message(char *message);
+void		exit_error_message(char *message);
 
-/*----------------------tokenization----------------------*/
-/*--------------------------------------------------------*/
+/*----------------------------tokenization--------------------------*/
+/*------------------------------------------------------------------*/
 t_tokens	*tokenize(char *line);
-
-/*-----------------------------utils----------------------*/
-/*--------------------------------------------------------*/
-char	*ft_strdup_delimiter_char(const char *s, char delimiter);
-char	*ft_strdup_delimiter_string(const char *s, char *delimiter);
-char	*skip_whitespace(char *line);
+t_tokens	*get_tokens(char *line);
+char		*handle_single_quotes(char *start, t_tokens *token);
+char		*token_word(char *start, t_tokens *token, char *delimiter);
+char		*single_token(char *start, t_tokens *token);
+char		*double_token(char *start, t_tokens *token);
+char		*token_envp(char *start, t_tokens *token);
+void		free_tokens(t_tokens *head);
+t_tokens	*add_node_back(t_tokens *previous);
+t_tokens	*token_init(void);
+char		*ft_strdup_delimiter_char(const char *s, char delimiter);
+char		*ft_strdup_delimiter_string(const char *s, char *delimiter);
+char		*skip_whitespace(char *line);
 
 #endif
