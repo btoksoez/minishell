@@ -29,7 +29,7 @@ t_tokens	*get_tokens(char *line)
 		return (NULL);
 	while (*line != '\0')
 	{
-		line = skip_whitespace(line);
+		line = skip_whitespace_and_empty_quotes(line);
 		if (*line == '\'')
 			line = handle_single_quotes(line, current);
 		else if (ft_strchr(SINGLE_TOKENS, *line) && ft_strchr(WHITESPACE, *(line + 1)))

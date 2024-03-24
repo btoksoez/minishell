@@ -42,11 +42,20 @@ char	*ft_strdup_delimiter_string(const char *s, char *delimiter)
 	return (dup);
 }
 
-char	*skip_whitespace(char *line)
+/* checks whether the current and next char are empty quotes or whitespace and skips them,
+else returns current position */
+char	*skip_whitespace_and_empty_quotes(char *line)
 {
-	while (ft_strchr(WHITESPACE, *line))
-		line++;
-	return (line);
+	while (ft_strchr(WHITESPACE, *line)
+		|| (*line == '\'' && *(line + 1) == '\'')
+		|| (*line == '\"' && *(line + 1) == '\"'))
+	{
+		if (*line == '\'' || *line == '\"')
+			line += 2;
+		else
+			line++;
+	}
+	return line;
 }
 
 t_tokens	*add_node_back(t_tokens *previous)
