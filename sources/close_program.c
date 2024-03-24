@@ -4,6 +4,7 @@ void	clean_up(t_shell *shell)
 {
 	if (shell->line)
 		free(shell->line);
+	// free_tokens(shell->tokens);
 }
 
 void	error_message(char *message)

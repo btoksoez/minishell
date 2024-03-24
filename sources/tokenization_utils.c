@@ -86,3 +86,37 @@ t_tokens	*token_init(void)
 	new->type = 0;
 	return (new);
 }
+
+/* prints tokens for test purposes */
+void print_tokens(t_tokens *head) 
+{
+    t_tokens *current = head;
+    int index = 1;
+
+    while (current != NULL) {
+        printf("+----------------------------------+\n");
+        printf("| Node %d                           |\n", index);
+        printf("+----------------------------------+\n");
+        printf("| Value: %-25s |\n", current->value);
+        printf("| Type: %-26d |\n", current->type);
+
+        // Print previous pointer
+        if (current->previous != NULL) {
+            printf("| Previous: Node %-4d (%-10s) |\n", index - 1, current->previous->value);
+        } else {
+            printf("| Previous: %-24s |\n", "NULL");
+        }
+
+        // Print next pointer
+        if (current->next != NULL) {
+            printf("| Next: Node %-8d (%-10s) |\n", index + 1, current->next->value);
+        } else {
+            printf("| Next: %-28s |\n", "NULL");
+        }
+
+        printf("+----------------------------------+\n\n");
+
+        current = current->next;
+        index++;
+    }
+}

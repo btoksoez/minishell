@@ -16,6 +16,7 @@ t_tokens	*tokenize(char *line)
 	return (tokens);
 }
 
+//fix if empty quotes at end, 1 node too much
 t_tokens	*get_tokens(char *line)
 {
 	t_tokens	*head;
