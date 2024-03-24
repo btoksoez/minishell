@@ -32,6 +32,8 @@ t_tokens	*get_tokens(char *line)
 		line = skip_whitespace_and_empty_quotes(line);
 		if (*line == '\'')
 			line = handle_single_quotes(line, current);
+		else if (*line == '\"')
+			line = handle_double_quotes(line, &current);
 		else if (ft_strchr(SINGLE_TOKENS, *line) && ft_strchr(WHITESPACE, *(line + 1)))
 			line = single_token(line, current);
 		else if ((*line == '>' && *(line + 1) == '>') || (*line == '<' && *(line + 1) == '<'))
@@ -61,18 +63,34 @@ char	*handle_single_quotes(char *start, t_tokens *token)
 	return (start);
 }
 
-// char	*handle_double_quotes(char *start, t_tokens *token)
-// {
-// 	// while (*start != '\"')
-// 	// {
+/* skip beginning quote, stdup everything inside,
+create node for each word and each envp,
+set pointer to current to last node created */
+char	*handle_double_quotes(char *start, t_tokens **current)
+{
+	t_tokens	*previous;
+	char		*line;
 
-// 	// }
-// 	//while start is not closing quotes
-// 		//strdup until you encounter '$' or '\"'
-// 			//if word is NULL or '\0', free + delete ->means either empty quotes or $ is first thing
-// 			//if not empty make new node with word
-// 		//if start + ft_strlen(word) == '$' -> next one is envp
-// 		//strdup until whitespace
-// 			//make new node
-// 		//repeat
-// }
+	start++;
+	char *new_start = ft_strchr(start, '\"') + 1;
+	if (*start == '\"')
+		return (new_start);
+	line = ft_strdup_delimiter_char(start, '\"');
+	if (!line || *line == 0)
+		return (error_message("double quotes"), NULL);
+	while (*line != '\0')
+	{
+		if (*line == '$' && !ft_strchr(WHITESPACE, *(line + 1)))
+			line = token_envp(line, *current);
+		else if (*line == '$')
+			line = token_word(line, *current, "\"");
+		else
+			line = token_word(line, *current, QUOTE_DELIMITER);
+		previous = *current;
+		*current = add_node_back(previous);
+	}
+	free(*current);
+	previous->next = NULL;
+	*current = previous;
+	return (new_start);
+}

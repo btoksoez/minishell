@@ -74,6 +74,7 @@ void		exit_error_message(char *message);
 t_tokens	*tokenize(char *line);
 t_tokens	*get_tokens(char *line);
 char		*handle_single_quotes(char *start, t_tokens *token);
+char		*handle_double_quotes(char *start, t_tokens **current);
 char		*token_word(char *start, t_tokens *token, char *delimiter);
 char		*single_token(char *start, t_tokens *token);
 char		*double_token(char *start, t_tokens *token);
@@ -83,6 +84,6 @@ t_tokens	*add_node_back(t_tokens *previous);
 t_tokens	*token_init(void);
 char		*ft_strdup_delimiter_char(const char *s, char delimiter);
 char		*ft_strdup_delimiter_string(const char *s, char *delimiter);
-char	*skip_whitespace_and_empty_quotes(char *line);
+char		*skip_whitespace_and_empty_quotes(char *line);
 
 #endif
