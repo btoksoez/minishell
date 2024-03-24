@@ -11,6 +11,7 @@ void	loop(t_shell *shell)
 	while (true)
 	{
 		tokens = NULL;
+		status = 0;
 		shell->line = readline("minishell$ ");
 		if (!shell->line)
 			break;
@@ -20,10 +21,10 @@ void	loop(t_shell *shell)
 			break ;
 		tokens = tokenize(shell->line);
 		if (!tokens)
-			status = 1; 							// search for the right status value
-
-		// args = parse(shell->line);
-		// status = execute(args);
+			status = 1; 								// search for the right status value
+		// if (!status)
+		// 	tree_head = parse_commandline(&tokens);
+		// execute(tree_head);
 		// reset()	//reset lists of tokens etc, but keep history
 		free(shell->line);
 	}

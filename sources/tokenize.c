@@ -11,7 +11,9 @@ t_tokens	*tokenize(char *line)
 	if (check_syntax_errors(trimmed_line))
 		return (NULL);
 	tokens = get_tokens(trimmed_line);
-	// check_error(tokens);
+	if (!tokens)
+		free(line);
+	// check_error(tokens);						 // what errors?
 	free(trimmed_line);
 	return (tokens);
 }
