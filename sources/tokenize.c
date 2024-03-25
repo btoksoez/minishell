@@ -1,22 +1,35 @@
 #include "../includes/minishell.h"
 
+char *trim_line(char *line, char *set)
+{
+	char	*str;
+	int		len;
+
+	str = ft_strtrim(line, set);
+	len = ft_strlen(str);
+    if (len >= 2 && ((str[len - 1] == '\"' && str[len - 2] == '\"')
+		|| (str[len - 1] == '\'' && str[len - 2] == '\'')))
+	{
+		ft_bzero(&str[len - 2], 2);
+	}
+	return (str);
+}
+
 t_tokens	*tokenize(char *line)
 {
 	t_tokens	*tokens = NULL;
 	char		*trimmed_line;
 
-	trimmed_line = ft_strtrim(line, WHITESPACE);
+	trimmed_line = trim_line(line, WHITESPACE);
 	if (!trimmed_line)
 		return (NULL);
 	if (check_syntax_errors(trimmed_line))
 		return (NULL);
 	tokens = get_tokens(trimmed_line);
-	// check_error(tokens);
 	free(trimmed_line);
 	return (tokens);
 }
 
-//fix if empty quotes at end, 1 node too much
 t_tokens	*get_tokens(char *line)
 {
 	t_tokens	*head;
@@ -31,6 +44,8 @@ t_tokens	*get_tokens(char *line)
 	while (*line != '\0')
 	{
 		line = skip_whitespace_and_empty_quotes(line);
+		if (*line == '\0')
+			break ;
 		if (*line == '\'')
 			line = handle_single_quotes(line, current);
 		else if (*line == '\"')

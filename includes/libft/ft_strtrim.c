@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 16:18:06 by andre-da          #+#    #+#             */
-/*   Updated: 2023/10/18 14:49:56 by andre-da         ###   ########.fr       */
+/*   Updated: 2024/03/25 11:22:14 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,12 @@ static int	ft_end(char const *s1, char const *set)
 	return (ft_strlen(s1) - 1 - g);
 }
 
-/* int	main(void)
-{
-	char	str[] = "llllo Worlhe";
-	char	trim[] = "ehl";
+// int	main(void)
+// {
+// 	char	str[] = "llllo Worlhe \"";
+// 	char	trim[] = "'' \"";
 
-	printf("%s\n", ft_strtrim(str, trim));
-	return (0);
-} */
+// 	printf("%s\n", str);
+// 	printf("%s\n", ft_strtrim(str, trim));
+// 	return (0);
+// }

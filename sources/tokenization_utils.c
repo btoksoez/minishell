@@ -46,15 +46,22 @@ char	*ft_strdup_delimiter_string(const char *s, char *delimiter)
 else returns current position */
 char	*skip_whitespace_and_empty_quotes(char *line)
 {
-	while (ft_strchr(WHITESPACE, *line)
+	while ((ft_strchr(WHITESPACE, *line)
 		|| (*line == '\'' && *(line + 1) == '\'')
-		|| (*line == '\"' && *(line + 1) == '\"'))
+		|| (*line == '\"' && *(line + 1) == '\"')) && *line)
 	{
 		if (*line == '\'' || *line == '\"')
 			line += 2;
 		else
 			line++;
 	}
+	return line;
+}
+
+char	*skip_whitespace(char *line)
+{
+	while (ft_strchr(WHITESPACE, *line) && *line)
+		line++;
 	return line;
 }
 
@@ -88,7 +95,7 @@ t_tokens	*token_init(void)
 }
 
 /* prints tokens for test purposes */
-void print_tokens(t_tokens *head) 
+void print_tokens(t_tokens *head)
 {
     t_tokens *current = head;
     int index = 1;
