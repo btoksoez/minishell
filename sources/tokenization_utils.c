@@ -1,11 +1,5 @@
 #include "../includes/minishell.h"
 
-char	*skip_whitespace(char *line)
-{
-	while (ft_strchr(WHITESPACE, *line))
-		line++;
-	return (line);
-}
 char	*ft_strdup_delimiter_char(const char *s, char delimiter)
 {
 	int		i;
@@ -15,7 +9,7 @@ char	*ft_strdup_delimiter_char(const char *s, char delimiter)
 	while (s[i] != delimiter)
 		i++;
 	dup = malloc(sizeof(char) * (i + 1));
-	if (dup == NULL)
+	if (!dup)
 		return (NULL);
 	i = 0;
 	while (s[i] != delimiter)
@@ -47,13 +41,39 @@ char	*ft_strdup_delimiter_string(const char *s, char *delimiter)
 	dup[i] = '\0';
 	return (dup);
 }
-// int	main(void)
-// {
-// 	char	str[] = "hello   ";
-// 	char	*dup = ft_strdup_whitespace(str);
 
-// 	printf("Length: %d\n", ft_strlen(dup));
-// 	printf("My function: %s\n", dup);
-// 	free(dup);
-// 	return (0);
-// }
+char	*skip_whitespace(char *line)
+{
+	while (ft_strchr(WHITESPACE, *line))
+		line++;
+	return (line);
+}
+
+t_tokens	*add_node_back(t_tokens *previous)
+{
+	t_tokens	*new;
+
+	new = (t_tokens *)malloc(sizeof(t_tokens));
+	if (!new)
+		return (error_message("malloc error: add token"), NULL);
+	new->previous = previous;
+	new->next = NULL;
+	previous->next = new;
+	new->value = NULL;
+	new->type = 0;
+	return (new);
+}
+
+t_tokens	*token_init(void)
+{
+	t_tokens	*new;
+
+	new = (t_tokens *)malloc(sizeof(t_tokens));
+	if (!new)
+		return (error_message("malloc error: token init"), NULL);
+	new->previous = NULL;
+	new->next = NULL;
+	new->value = NULL;
+	new->type = 0;
+	return (new);
+}
