@@ -29,12 +29,21 @@ typedef enum e_token_type
 	ENV_VAR		//6 for environment variables
 }	t_token_type;
 
+typedef struct	s_redir_node
+{
+	t_token_type		type;
+	char				*file;
+	char				*delimiter;
+	struct s_redir_node	*next;
+}						t_redir_node;
+
 typedef struct	s_tree_node
 {
 	t_token_type		type;
-	char				*args;
+	char				*cmd;
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
+
 }						t_tree_node;
 
 typedef struct s_tokens

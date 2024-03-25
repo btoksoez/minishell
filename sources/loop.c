@@ -20,11 +20,11 @@ void	loop(t_shell *shell)
 		if (ft_strcmp(shell->line, "exit") == 0)
 			break ;
 		tokens = tokenize(shell->line);
-		print_tokens(tokens);
+		// print_tokens(tokens);
 		if (!tokens)
 			status = 1; 								// search for the right status value
-		// if (!status)
-		// 	tree_head = parse_commandline(&tokens);
+		if (!status)
+			tree_head = parse_commandline(tokens);
 		// execute(tree_head);
 		// reset()	//reset lists of tokens etc, but keep history
 		free(shell->line);
