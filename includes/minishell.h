@@ -87,6 +87,11 @@ char		*ft_strdup_delimiter_string(const char *s, char *delimiter);
 char		*skip_whitespace_and_empty_quotes(char *line);
 char		*skip_whitespace(char *line);
 
+/*----------------------------expansion-----------------------------*/
+/*------------------------------------------------------------------*/
+void	expand(t_tokens *tokens);
+
+
 /*----------------------------testing-------------------------------*/
 /*------------------------------------------------------------------*/
 void	print_tokens(t_tokens *head);

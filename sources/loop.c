@@ -20,6 +20,7 @@ void	loop(t_shell *shell)
 		if (ft_strcmp(shell->line, "exit") == 0)
 			break ;
 		tokens = tokenize(shell->line);
+		expand(tokens);
 		print_tokens(tokens);
 		if (!tokens)
 			status = 1; 								// search for the right status value
