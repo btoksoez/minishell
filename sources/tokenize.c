@@ -13,7 +13,6 @@ t_tokens	*tokenize(char *line)
 	tokens = get_tokens(trimmed_line);
 	if (!tokens)
 		free(line);
-	// check_error(tokens);						 // what errors?
 	free(trimmed_line);
 	return (tokens);
 }

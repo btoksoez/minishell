@@ -43,3 +43,6 @@ SUMMARY:
 	if a branch is not properly tracking the origin
 		git branch --set-upstream-to=origin/feature/(branch) (branch)
 		git pull
+
+	if we want to pull what is in Git without Merging
+		git pull --rebase origin feature/parsing

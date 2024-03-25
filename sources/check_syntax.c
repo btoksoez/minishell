@@ -44,8 +44,6 @@ bool	check_redirection(char *line)
 		if (*line == '<' || *line == '>')
 		{
 			line++;
-			if (!*line)
-				return (error_message("parse error: near `\\n'"), true);
 			if (*line == '<' || *line == '>')
 			{
 				line++;
@@ -54,7 +52,6 @@ bool	check_redirection(char *line)
 				if (*line == '>')
 					return (error_message("parse error: near `>'"), true);
 			}
-			line = skip_whitespace(line);
 			if (!*line)
 				return (error_message("parse error: near `\\n'"), true);
 		}

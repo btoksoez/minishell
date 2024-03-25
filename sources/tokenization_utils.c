@@ -6,7 +6,7 @@ char	*ft_strdup_delimiter_char(const char *s, char delimiter)
 	char	*dup;
 
 	i = 0;
-	while (s[i] != delimiter) // "&& !s[i]"" in case no quote? if '\0' we should not alloc, just return NULL (?)
+	while (s[i] != delimiter)
 		i++;
 	dup = malloc(sizeof(char) * (i + 1));
 	if (!dup)
