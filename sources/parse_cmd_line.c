@@ -124,10 +124,8 @@ t_tree_node	*parse_execution(t_tokens *tokens_start, t_tokens *tokens_end)
 {
 	t_tree_node	*ast_node;
 	t_tokens	*current;
-	t_tokens	*previous;
 
 	current = tokens_start;
-	previous = NULL;
 	while ((current && current->next) && (current != tokens_end))
 	{
 		if (current->type >= RE_INPUT && current->type <= HEREDOC)
@@ -135,25 +133,40 @@ t_tree_node	*parse_execution(t_tokens *tokens_start, t_tokens *tokens_end)
 			ast_node = add_ast_node(current);
 			ast_node->redir_list = add_redir_list(current, tokens_end);
 			// free_redir_nodes(previous, current, tokens_start);
-			if (current->previous)
+			if (current->previous == NULL)
 			{
-				current->previous->next = current->next->next;
-				free(current);
-				free(current->next);
-				current = previous->next;
+				if (current->next && current->next->next)
+				{
+					t_tokens *temp = current->next->next;
+					free(current->next);
+					free(current);
+					current = temp;
+					tokens_start = current;
+				}
+				else
+				{
+					if (current->next)
+					{
+						free (current->next);
+						free (current);
+					}
+					else
+						free(current);
+					current = NULL;
+					tokens_start = NULL;
+				}
 			}
 			else
 			{
-				tokens_start = current->next->next;
-				free(current);
+				t_tokens *temp = current->next->next;
 				free(current->next);
-				current = tokens_start;
+				free(current);
+				current = temp;
 			}
 			ast_node->left = parse_cmd(tokens_start, tokens_end);
 			return (ast_node);
 		}
 		current = current->next;
-		previous = current;
 	}
 	ast_node = parse_cmd(tokens_start, current);
 	return (ast_node);
