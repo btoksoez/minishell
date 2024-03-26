@@ -62,7 +62,7 @@ char	*skip_whitespace(char *line)
 {
 	while (ft_strchr(WHITESPACE, *line) && *line)
 		line++;
-	return line;
+	return (line);
 }
 
 t_tokens	*add_node_back(t_tokens *previous)
@@ -94,36 +94,18 @@ t_tokens	*token_init(void)
 	return (new);
 }
 
-/* prints tokens for test purposes */
-void print_tokens(t_tokens *head)
+int	tokens_len(t_tokens *tokens_start, t_tokens *tokens_end)
 {
-    t_tokens *current = head;
-    int index = 1;
+	int	len;
+	t_tokens	*current;
 
-    while (current != NULL) {
-        printf("+----------------------------------+\n");
-        printf("| Node %d                           |\n", index);
-        printf("+----------------------------------+\n");
-        printf("| Value: %-25s |\n", current->value);
-        printf("| Type: %-26d |\n", current->type);
-
-        // Print previous pointer
-        if (current->previous != NULL) {
-            printf("| Previous: Node %-4d (%-10s) |\n", index - 1, current->previous->value);
-        } else {
-            printf("| Previous: %-24s |\n", "NULL");
-        }
-
-        // Print next pointer
-        if (current->next != NULL) {
-            printf("| Next: Node %-8d (%-10s) |\n", index + 1, current->next->value);
-        } else {
-            printf("| Next: %-28s |\n", "NULL");
-        }
-
-        printf("+----------------------------------+\n\n");
-
-        current = current->next;
-        index++;
-    }
+	current = tokens_start;
+	len = 0;
+	while (current != tokens_end && current->next)
+	{
+		current = current->next;
+		len++;
+	}
+	len++;
+	return (len);
 }
