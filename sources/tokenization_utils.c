@@ -62,7 +62,7 @@ char	*skip_whitespace(char *line)
 {
 	while (ft_strchr(WHITESPACE, *line) && *line)
 		line++;
-	return line;
+	return (line);
 }
 
 t_tokens	*add_node_back(t_tokens *previous)

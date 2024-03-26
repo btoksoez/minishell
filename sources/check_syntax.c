@@ -41,20 +41,22 @@ bool	check_redirection(char *line)
 {
 	while (*line)
 	{
-		if (*line == '<' || *line == '>')
+		if (*line == '\'')
 		{
 			line++;
-			if (*line == '<' || *line == '>')
-			{
+			while (*line && *line != '\'')
 				line++;
-				if (*line == '<')
-					return (error_message("parse error: near `<'"), true);
-				if (*line == '>')
-					return (error_message("parse error: near `>'"), true);
-			}
-			if (!*line)
-				return (error_message("parse error: near `\\n'"), true);
 		}
+		if (*line == '\"')
+		{
+			line++;
+			while (*line && *line != '\"')
+				line++;
+		}
+		if (ft_strncmp(line, "<>", 2) == 0)
+			return (error_message("parse error: near `>'"), true);
+		if (ft_strncmp(line, "><", 2) == 0)
+			return (error_message("parse error: near `<'"), true);
 		line++;
 	}
 	return (false);
