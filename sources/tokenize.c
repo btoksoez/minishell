@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-char *trim_line(char *line, char *set)
+char	*trim_line(char *line, char *set)
 {
 	char	*str;
 	int		len;

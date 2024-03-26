@@ -48,7 +48,7 @@ t_tree_node	*add_ast_node(t_tokens *tokens)
 	new_node->cmd = NULL;
 	new_node->right = NULL;
 	new_node->left = NULL;
-
+	new_node->redir_list = NULL;
 	return (new_node);
 }
 
@@ -102,6 +102,24 @@ t_redir_node	*add_redir_list(t_tokens *tokens_start, t_tokens *tokens_end)
 	return (head_redir_list);
 }
 
+// static void	free_redir_nodes(t_tokens *prev, t_tokens *curr, t_tokens *token_s)
+// {
+// 	if (curr->previous)
+// 	{
+// 		curr->previous->next = curr->next->next;  		// Skip redir & file node
+// 		free(curr);  									// Free memory for current node
+// 		free(curr->next);
+// 		curr = prev->next;  							// Move to the next node
+// 	}
+// 	else
+// 	{
+// 		token_s = curr->next->next;  					// Update tokens_start if deleting the first node
+// 		free(curr); 									// Free memory for current node
+// 		free(curr->next);
+// 		curr = token_s;  								// Move to the new first node
+// 	}
+// }
+
 t_tree_node	*parse_execution(t_tokens *tokens_start, t_tokens *tokens_end)
 {
 	t_tree_node	*ast_node;
@@ -116,25 +134,27 @@ t_tree_node	*parse_execution(t_tokens *tokens_start, t_tokens *tokens_end)
 		{
 			ast_node = add_ast_node(current);
 			ast_node->redir_list = add_redir_list(current, tokens_end);
-			//delete tokens from token list
-			if (current->previous) {
-                current->previous->next = current->next->next;  // Skip redir & file node
-                free(current);  // Free memory for current node
+			// free_redir_nodes(previous, current, tokens_start);
+			if (current->previous)
+			{
+				current->previous->next = current->next->next;
+				free(current);
 				free(current->next);
-                current = previous->next;  // Move to the next node
-            } else {
-                tokens_start = current->next->next;  // Update tokens_start if deleting the first node
-                free(current);  // Free memory for current node
+				current = previous->next;
+			}
+			else
+			{
+				tokens_start = current->next->next;
+				free(current);
 				free(current->next);
-                current = tokens_start;  // Move to the new first node
-            }
+				current = tokens_start;
+			}
 			ast_node->left = parse_cmd(tokens_start, tokens_end);
 			return (ast_node);
 		}
 		current = current->next;
 		previous = current;
 	}
-	//if no redirection to the right
 	ast_node = parse_cmd(tokens_start, current);
 	return (ast_node);
 }
@@ -156,72 +176,6 @@ t_tree_node	*parse_commandline(t_tokens *tokens_start)
 		}
 		current = current->next;
 	}
-	// if no pipe to the right
 	ast_head = parse_execution(tokens_start, current);
 	return (ast_head);
-}
-
-// Function to print the AST tree and associated redirection lists
-// Helper function to print spaces for indentation
-void print_spaces(int count) {
-    for (int i = 0; i < count; i++) {
-        printf("    ");  // Adjust the number of spaces as needed
-    }
-}
-
-// Function to print the AST tree and associated redirection lists with indentation
-void print_ast_tree(t_tree_node *root, int level)
-{
-    if (root == NULL) {
-        return;
-    }
-
-    // Print the node type with indentation based on the level
-    print_spaces(level);
-    printf("Node Type: %d\n", root->type);
-
-    // Print command if available
-    if (root->cmd != NULL) {
-        print_spaces(level);
-        printf("Command: ");
-        for (int i = 0; root->cmd[i] != NULL; i++) {
-            printf("%s ", root->cmd[i]);
-        }
-        printf("\n");
-    }
-
-    // Print redirection list if available
-    if (root->redir_list != NULL) {
-        print_spaces(level);
-        printf("Redirection List:\n");
-        print_redir_list(root->redir_list, level + 1);
-    }
-
-    // Recursively print left and right subtrees with increased indentation
-    print_spaces(level);
-    printf("Left subtree:\n");
-    print_ast_tree(root->left, level + 1);
-
-    print_spaces(level);
-    printf("Right subtree:\n");
-    print_ast_tree(root->right, level + 1);
-}
-
-// Function to print the redirection list with indentation
-void print_redir_list(t_redir_node *head_redir_list, int level)
-{
-    t_redir_node *current = head_redir_list;
-
-    while (current != NULL) {
-        print_spaces(level);
-        printf("Type: %d, ", current->type);
-        if (current->file != NULL) {
-            printf("File: %s", current->file);
-        }
-        if (current->delimiter != NULL) {
-            printf(", Delimiter: %s", current->delimiter);
-        }
-        printf("\n");
-        current = current->next;
-    }
 }
