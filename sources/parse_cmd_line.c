@@ -45,9 +45,38 @@ t_tree_node	*add_ast_node(t_tokens *tokens)
 	if (!new_node)
 		return (error_message("malloc error: adding AST node"), NULL);
 	new_node->type = tokens->type;
-	new_node->cmd = tokens->value;
+	new_node->cmd = NULL;
+	new_node->right = NULL;
+	new_node->left = NULL;
 
 	return (new_node);
+}
+
+/* go through all (rest) tokens, take value, save in one big char** */
+t_tree_node *parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end)
+{
+	char **cmd_array;
+	t_tree_node *cmd_node;
+	t_tokens *current;
+	int	i;
+	int token_len;
+
+	token_len = tokens_len(tokens_start, tokens_end);
+	cmd_array = (char **)malloc(sizeof(char *) * (token_len + 1));
+	if (!cmd_array)
+		return (NULL);
+	current = tokens_start;
+	i = 0;
+	while (i < token_len)
+	{
+		cmd_array[i] = current->value;
+		i++;
+		current = current->next;
+	}
+	cmd_array[i] = NULL;
+	cmd_node = add_ast_node(tokens_start);
+	cmd_node->cmd = cmd_array;
+	return (cmd_node);
 }
 
 /* add type of redir and file/delimiter to a node in redir list
@@ -76,22 +105,34 @@ t_redir_node	*add_redir_list(t_tokens *tokens_start, t_tokens *tokens_end)
 t_tree_node	*parse_execution(t_tokens *tokens_start, t_tokens *tokens_end)
 {
 	t_tree_node	*ast_node;
-	t_tokens 	*current;
+	t_tokens	*current;
+	t_tokens	*previous;
 
 	current = tokens_start;
-	ast_node->right = NULL;
-	ast_node->left = NULL;
+	previous = NULL;
 	while ((current && current->next) && (current != tokens_end))
 	{
 		if (current->type >= RE_INPUT && current->type <= HEREDOC)
 		{
 			ast_node = add_ast_node(current);
-			ast_node->right = add_redir_list(current, tokens_end);
+			ast_node->redir_list = add_redir_list(current, tokens_end);
 			//delete tokens from token list
-			ast_node->left = parse_cmd(tokens_start, current);
+			if (current->previous) {
+                current->previous->next = current->next->next;  // Skip redir & file node
+                free(current);  // Free memory for current node
+				free(current->next);
+                current = previous->next;  // Move to the next node
+            } else {
+                tokens_start = current->next->next;  // Update tokens_start if deleting the first node
+                free(current);  // Free memory for current node
+				free(current->next);
+                current = tokens_start;  // Move to the new first node
+            }
+			ast_node->left = parse_cmd(tokens_start, tokens_end);
 			return (ast_node);
 		}
 		current = current->next;
+		previous = current;
 	}
 	//if no redirection to the right
 	ast_node = parse_cmd(tokens_start, current);
@@ -104,8 +145,6 @@ t_tree_node	*parse_commandline(t_tokens *tokens_start)
 	t_tokens	*current;
 
 	current = tokens_start;
-	ast_head->right = NULL;
-	ast_head->left = NULL;
 	while (current && current->next)
 	{
 		if (current->type == PIPE)
@@ -122,51 +161,67 @@ t_tree_node	*parse_commandline(t_tokens *tokens_start)
 	return (ast_head);
 }
 
-void print_ast(t_tree_node *node, int level)
-{
-    if (node == NULL) return;
-
-    // Print the current node
-    printf("%*s", level * 4, ""); // Adjust indentation based on the level
-    switch (node->type) {
-        case PIPE:
-            printf("PIPE\n");
-            break;
-        case RE_INPUT:
-            printf("RE_INPUT\n");
-            break;
-        case RE_OUTPUT:
-            printf("RE_OUTPUT\n");
-            break;
-        case APPEND:
-            printf("APPEND\n");
-            break;
-        case HEREDOC:
-            printf("HEREDOC\n");
-            break;
-        case WORD:
-            printf("WORD: %s\n", node->args);
-            break;
-        case ENV_VAR:
-            printf("ENV_VAR: %s\n", node->args);
-            break;
-        default:
-            printf("Unknown type\n");
-            break;
+// Function to print the AST tree and associated redirection lists
+// Helper function to print spaces for indentation
+void print_spaces(int count) {
+    for (int i = 0; i < count; i++) {
+        printf("    ");  // Adjust the number of spaces as needed
     }
-
-    // Recursively print left and right subtrees
-    print_ast(node->left, level + 1);
-    print_ast(node->right, level + 1);
 }
 
-// int main() {
-//     // Assuming you have an AST root node named ast_root
-//     t_tree_node *ast_root = parse_commandline(/* your tokens */);
+// Function to print the AST tree and associated redirection lists with indentation
+void print_ast_tree(t_tree_node *root, int level)
+{
+    if (root == NULL) {
+        return;
+    }
 
-//     // Print the AST
-//     printf("Abstract Syntax Tree:\n");
-//     print_ast(ast_root, 0);
+    // Print the node type with indentation based on the level
+    print_spaces(level);
+    printf("Node Type: %d\n", root->type);
 
-//     return 0;
-// }
+    // Print command if available
+    if (root->cmd != NULL) {
+        print_spaces(level);
+        printf("Command: ");
+        for (int i = 0; root->cmd[i] != NULL; i++) {
+            printf("%s ", root->cmd[i]);
+        }
+        printf("\n");
+    }
+
+    // Print redirection list if available
+    if (root->redir_list != NULL) {
+        print_spaces(level);
+        printf("Redirection List:\n");
+        print_redir_list(root->redir_list, level + 1);
+    }
+
+    // Recursively print left and right subtrees with increased indentation
+    print_spaces(level);
+    printf("Left subtree:\n");
+    print_ast_tree(root->left, level + 1);
+
+    print_spaces(level);
+    printf("Right subtree:\n");
+    print_ast_tree(root->right, level + 1);
+}
+
+// Function to print the redirection list with indentation
+void print_redir_list(t_redir_node *head_redir_list, int level)
+{
+    t_redir_node *current = head_redir_list;
+
+    while (current != NULL) {
+        print_spaces(level);
+        printf("Type: %d, ", current->type);
+        if (current->file != NULL) {
+            printf("File: %s", current->file);
+        }
+        if (current->delimiter != NULL) {
+            printf(", Delimiter: %s", current->delimiter);
+        }
+        printf("\n");
+        current = current->next;
+    }
+}

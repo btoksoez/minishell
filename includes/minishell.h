@@ -40,9 +40,10 @@ typedef struct	s_redir_node
 typedef struct	s_tree_node
 {
 	t_token_type		type;
-	char				*cmd;
+	char				**cmd;
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
+	struct s_redir_node	*redir_list;
 
 }						t_tree_node;
 
@@ -96,9 +97,21 @@ char		*ft_strdup_delimiter_string(const char *s, char *delimiter);
 char		*skip_whitespace_and_empty_quotes(char *line);
 char		*skip_whitespace(char *line);
 
+/*----------------------------parsing-------------------------------*/
+/*------------------------------------------------------------------*/
+t_tree_node	*parse_commandline(t_tokens *tokens_start);
+t_tree_node	*parse_execution(t_tokens *tokens_start, t_tokens *tokens_end);
+t_tree_node	*add_ast_node(t_tokens *tokens);
+t_redir_node	*add_redir_list(t_tokens *tokens_start, t_tokens *tokens_end);
+t_redir_node	*add_redir_node(t_tokens *current);
+void	redir_add_back(t_redir_node **head_redir_list, t_redir_node *new_node);
+int	tokens_len(t_tokens *tokens_start, t_tokens *tokens_end);
+t_tree_node *parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end);
+
 /*----------------------------testing-------------------------------*/
 /*------------------------------------------------------------------*/
 void	print_tokens(t_tokens *head);
-void	print_ast(t_tree_node *node, int level);
+void print_ast_tree(t_tree_node *root, int level);
+void print_redir_list(t_redir_node *head_redir_list, int level);
 
 #endif

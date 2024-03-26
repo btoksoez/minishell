@@ -25,6 +25,8 @@ void	loop(t_shell *shell)
 			status = 1; 								// search for the right status value
 		if (!status)
 			tree_head = parse_commandline(tokens);
+		print_ast_tree(tree_head, 0);
+		print_tokens(tokens);
 		// execute(tree_head);
 		// reset()	//reset lists of tokens etc, but keep history
 		free(shell->line);
