@@ -2,13 +2,13 @@
 
 void	loop(t_shell *shell)
 {
-	t_tree_node	*tree_head;
+	t_tree_node	*tree;
 	t_tokens	*tokens;
 	t_tokens	*tokens_head;
 	int			status;
 
 	(void)status;
-	(void)tree_head;
+	(void)tree;
 	while (true)
 	{
 		tokens = NULL;
@@ -22,14 +22,16 @@ void	loop(t_shell *shell)
 			break ;
 		check_syntax_errors(shell->line);
 		tokens = tokenize(shell->line);
-		//check tokens for errors, f.e. are tokens after redirections always WORDS and not ENV or other REDIR
+		if (!check_tokens(tokens))
+			break ;
+		//expand(tokens);
 		tokens_head = tokens;
 		print_tokens(tokens_head);
 		if (!tokens)
 			status = 1; 								// search for the right status value
 		if (!status)
-			tree_head = parse_commandline(tokens);
-		print_tree(tree_head, 0);
+			tree = parse_commandline(tokens);
+		print_tree(tree, 0);
 		// execute(tree_head);
 		// reset()	//reset lists of tokens etc, but keep history
 		free(shell->line);

@@ -55,6 +55,7 @@ typedef struct	s_tree_node
 {
 	t_tree_type			type;
 	char				*cmd;
+	//int					(*builtin)(t_tree_node *tree);
 	struct s_args		*args;
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
@@ -85,6 +86,7 @@ bool			check_syntax_errors(char *line);
 bool			check_quotation_marks(char *line);
 bool			check_pipes(char *line);
 void			clean_up(t_shell *shell);
+bool			check_tokens(t_tokens *tokens);
 
 /*--------------------------close program---------------------------*/
 /*------------------------------------------------------------------*/
