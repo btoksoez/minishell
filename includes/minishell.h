@@ -18,6 +18,14 @@
 /*-------------------------------structs----------------------------*/
 /*------------------------------------------------------------------*/
 
+typedef enum e_tree_type
+{
+	PHANTOM,	//0 for phantom
+	PIPE_TREE,	//1 for pipe
+	CMD,		//2 for command
+	ARG			//3 for arguments
+}	t_tree_type;
+
 typedef enum e_token_type
 {
 	PIPE,		//0 for pipes
@@ -29,22 +37,29 @@ typedef enum e_token_type
 	ENV_VAR		//6 for environment variables
 }	t_token_type;
 
-typedef struct	s_redir_node
+typedef struct	s_args
+{
+	t_tree_type			type;
+	char				*arg;
+	struct s_args		*next;
+}						t_args;
+
+typedef struct	s_redir_list
 {
 	t_token_type		type;
-	char				*file;
-	char				*delimiter;
-	struct s_redir_node	*next;
-}						t_redir_node;
+	char				*file;	//removed delimiter, if type == HEREDOC, then file is delimiter
+	struct s_redir_list	*next;
+}						t_redir_list;
 
 typedef struct	s_tree_node
 {
-	t_token_type		type;
-	char				**cmd;
+	t_tree_type			type;
+	char				*cmd;
+	//int					(*builtin)(t_tree_node *tree);
+	struct s_args		*args;
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
-	struct s_redir_node	*redir_list;
-
+	struct s_redir_list	*redir_list;
 }						t_tree_node;
 
 typedef struct s_tokens
@@ -54,7 +69,6 @@ typedef struct s_tokens
 	struct s_tokens		*previous;
 	struct s_tokens		*next;
 }						t_tokens;
-
 
 typedef struct s_shell
 {
@@ -72,6 +86,7 @@ bool			check_syntax_errors(char *line);
 bool			check_quotation_marks(char *line);
 bool			check_pipes(char *line);
 void			clean_up(t_shell *shell);
+bool			check_tokens(t_tokens *tokens);
 
 /*--------------------------close program---------------------------*/
 /*------------------------------------------------------------------*/
@@ -100,13 +115,11 @@ char			*skip_whitespace(char *line);
 /*----------------------------parsing-------------------------------*/
 /*------------------------------------------------------------------*/
 t_tree_node		*parse_commandline(t_tokens *tokens_start);
-t_tree_node		*parse_execution(t_tokens *tokens_start, t_tokens *tokens_end);
-t_tree_node		*add_ast_node(t_tokens *tokens);
-t_redir_node	*add_redir_list(t_tokens *tokens_start, t_tokens *tokens_end);
-t_redir_node	*add_redir_node(t_tokens *current);
-void			redir_add_back(t_redir_node **head_redir_list, t_redir_node *new_node);
+t_tree_node		*add_ast_node(void);
+void			add_redir_list(t_redir_list **head, t_token_type type, char *filename);
+void			add_arg(t_args **args, t_tokens *current);
 int				tokens_len(t_tokens *tokens_start, t_tokens *tokens_end);
-t_tree_node 	*parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end);
+t_tree_node		*parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end);
 
 /*----------------------------expansion-----------------------------*/
 /*------------------------------------------------------------------*/
@@ -117,7 +130,6 @@ void	expand(t_tokens *tokens);
 /*------------------------------------------------------------------*/
 void			print_tokens(t_tokens *head);
 void			print_spaces(int count);
-void			print_ast_tree(t_tree_node *root, int level);
-void			print_redir_list(t_redir_node *head_redir_list, int level);
+void			print_tree(t_tree_node *root, int level);
 
 #endif

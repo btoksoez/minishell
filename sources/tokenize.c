@@ -52,7 +52,8 @@ t_tokens	*get_tokens(char *line)
 			line = handle_double_quotes(line, &current);
 		else if (ft_strchr(SINGLE_TOKENS, *line) && ft_strchr(WHITESPACE, *(line + 1)))
 			line = single_token(line, current);
-		else if ((*line == '>' && *(line + 1) == '>') || (*line == '<' && *(line + 1) == '<'))
+		else if ((*line == '>' && *(line + 1) == '>' && ft_strchr(WHITESPACE, *(line + 2)))
+			|| (*line == '<' && *(line + 1) == '<' && ft_strchr(WHITESPACE, *(line + 2))))
 			line = double_token(line, current);
 		else if (*line == '$' && !ft_strchr(WHITESPACE, *(line + 1)))
 			line = token_envp(line, current);

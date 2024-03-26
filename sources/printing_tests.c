@@ -28,55 +28,52 @@ void	print_tokens(t_tokens *head)
 	}
 }
 
-void	print_spaces(int count)
+static void print_indent(int level)
 {
-	for (int i = 0; i < count; i++)
-		printf("    ");
+    for (int i = 0; i < level * 4; i++) {
+        printf(" ");
+    }
 }
 
-void	print_ast_tree(t_tree_node *root, int level)
+void print_tree(t_tree_node *root, int level)
 {
-	if (root == NULL)
-		return;
-	printf("\n");
-	print_spaces(level);
-	printf("  Node Type: %d\n", root->type);
-	if (root->cmd != NULL)
-	{
-		print_spaces(level);
-		printf("	Command: ");
-		for (int i = 0; root->cmd[i] != NULL; i++)
-			printf("%s ", root->cmd[i]);
-		printf("\n");
-	}
-	if (root->redir_list != NULL)
-	{
-		print_spaces(level);
-		printf("  Redirection List:\n");
-		print_redir_list(root->redir_list, level + 1);
-	}
-	print_spaces(level);
-	printf("  Left subtree:\n");
-	print_ast_tree(root->left, level + 1);
-	
-	print_spaces(level);
-	printf("  Right subtree:\n");
-	print_ast_tree(root->right, level + 1);
-	printf("\n");
-}
+    if (root == NULL) {
+        return;
+    }
 
-void	print_redir_list(t_redir_node *head_redir_list, int level)
-{
-	t_redir_node *current = head_redir_list;
+    print_indent(level);
+    printf("Node Type: %d\n", root->type);
 
-	while (current != NULL)
-	{
-		print_spaces(level);
-		if (current->file != NULL)
-			printf("	File: %s", current->file);
-		if (current->delimiter != NULL)
-			printf(", 	Delimiter: %s", current->delimiter);
-		printf("\n");
-		current = current->next;
-	}
+    if (root->type == CMD) {
+        print_indent(level);
+        printf("Command: %s\n", root->cmd);
+    }
+
+    // Print arguments list
+    t_args *args = root->args;
+    print_indent(level);
+    printf("Arguments:\n");
+    while (args != NULL) {
+        print_indent(level);
+        printf("%s\n", args->arg);
+        args = args->next;
+    }
+
+    // Print redirection list
+    t_redir_list *redir = root->redir_list;
+    print_indent(level);
+    printf("Redirection List:\n");
+    while (redir != NULL) {
+        print_indent(level);
+        printf("Type: %d, File: %s\n", redir->type, redir->file);
+        redir = redir->next;
+    }
+
+    print_indent(level);
+    printf("Left subtree:\n");
+    print_tree(root->left, level + 1);
+
+    print_indent(level);
+    printf("Right subtree:\n");
+    print_tree(root->right, level + 1);
 }

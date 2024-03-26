@@ -106,6 +106,5 @@ int	tokens_len(t_tokens *tokens_start, t_tokens *tokens_end)
 		current = current->next;
 		len++;
 	}
-	len++;
 	return (len);
 }
