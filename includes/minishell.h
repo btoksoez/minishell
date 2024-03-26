@@ -99,5 +99,6 @@ char		*skip_whitespace(char *line);
 /*----------------------------testing-------------------------------*/
 /*------------------------------------------------------------------*/
 void	print_tokens(t_tokens *head);
+void	print_ast(t_tree_node *node, int level);
 
 #endif

@@ -45,7 +45,7 @@ t_tree_node	*add_ast_node(t_tokens *tokens)
 	if (!new_node)
 		return (error_message("malloc error: adding AST node"), NULL);
 	new_node->type = tokens->type;
-	new_node->args = tokens->value;
+	new_node->cmd = tokens->value;
 
 	return (new_node);
 }
@@ -122,43 +122,43 @@ t_tree_node	*parse_commandline(t_tokens *tokens_start)
 	return (ast_head);
 }
 
-// void print_ast(t_tree_node *node, int level)
-// {
-//     if (node == NULL) return;
+void print_ast(t_tree_node *node, int level)
+{
+    if (node == NULL) return;
 
-//     // Print the current node
-//     printf("%*s", level * 4, ""); // Adjust indentation based on the level
-//     switch (node->type) {
-//         case PIPE:
-//             printf("PIPE\n");
-//             break;
-//         case RE_INPUT:
-//             printf("RE_INPUT\n");
-//             break;
-//         case RE_OUTPUT:
-//             printf("RE_OUTPUT\n");
-//             break;
-//         case APPEND:
-//             printf("APPEND\n");
-//             break;
-//         case HEREDOC:
-//             printf("HEREDOC\n");
-//             break;
-//         case WORD:
-//             printf("WORD: %s\n", node->args);
-//             break;
-//         case ENV_VAR:
-//             printf("ENV_VAR: %s\n", node->args);
-//             break;
-//         default:
-//             printf("Unknown type\n");
-//             break;
-//     }
+    // Print the current node
+    printf("%*s", level * 4, ""); // Adjust indentation based on the level
+    switch (node->type) {
+        case PIPE:
+            printf("PIPE\n");
+            break;
+        case RE_INPUT:
+            printf("RE_INPUT\n");
+            break;
+        case RE_OUTPUT:
+            printf("RE_OUTPUT\n");
+            break;
+        case APPEND:
+            printf("APPEND\n");
+            break;
+        case HEREDOC:
+            printf("HEREDOC\n");
+            break;
+        case WORD:
+            printf("WORD: %s\n", node->args);
+            break;
+        case ENV_VAR:
+            printf("ENV_VAR: %s\n", node->args);
+            break;
+        default:
+            printf("Unknown type\n");
+            break;
+    }
 
-//     // Recursively print left and right subtrees
-//     print_ast(node->left, level + 1);
-//     print_ast(node->right, level + 1);
-// }
+    // Recursively print left and right subtrees
+    print_ast(node->left, level + 1);
+    print_ast(node->right, level + 1);
+}
 
 // int main() {
 //     // Assuming you have an AST root node named ast_root
