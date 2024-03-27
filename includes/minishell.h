@@ -76,6 +76,8 @@ typedef struct s_shell
 	t_tree_node	*tree;
 }				t_shell;
 
+typedef 
+
 /*----------------------------minishell-----------------------------*/
 /*------------------------------------------------------------------*/
 void			loop(t_shell *shell);

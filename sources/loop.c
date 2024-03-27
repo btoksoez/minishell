@@ -4,7 +4,6 @@ void	loop(t_shell *shell)
 {
 	t_tree_node	*tree;
 	t_tokens	*tokens;
-	t_tokens	*tokens_head;
 	int			status;
 
 	(void)status;
@@ -20,13 +19,13 @@ void	loop(t_shell *shell)
 			add_history(shell->line);
 		if (ft_strcmp(shell->line, "exit") == 0)
 			break ;
-		check_syntax_errors(shell->line);
+		if (check_syntax_errors(shell->line))
+			continue ;
 		tokens = tokenize(shell->line);
-		if (!check_tokens(tokens))
-			break ;
+		if (check_tokens(tokens))
+			continue ;
 		//expand(tokens);
-		tokens_head = tokens;
-		print_tokens(tokens_head);
+		print_tokens(tokens);
 		if (!tokens)
 			status = 1; 								// search for the right status value
 		if (!status)
