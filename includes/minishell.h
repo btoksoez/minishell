@@ -76,7 +76,7 @@ typedef struct s_shell
 	t_tree_node	*tree;
 }				t_shell;
 
-typedef 
+extern volatile sig_atomic_t g_sig;
 
 /*----------------------------minishell-----------------------------*/
 /*------------------------------------------------------------------*/
@@ -89,6 +89,10 @@ bool			check_quotation_marks(char *line);
 bool			check_pipes(char *line);
 void			clean_up(t_shell *shell);
 bool			check_tokens(t_tokens *tokens);
+
+/*--------------------------syntax checking-------------------------*/
+/*------------------------------------------------------------------*/
+void			signals(void);
 
 /*--------------------------close program---------------------------*/
 /*------------------------------------------------------------------*/
