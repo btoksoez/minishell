@@ -39,67 +39,6 @@ char	*get_full_cmd(t_tree_node *node)
 	return (command);
 }
 
-void	free_and_close(int fd, char **paths, char *path, char *path_cmd)
-{
-	if (!path_cmd)
-	{
-		if (path)
-			free(path);
-		if (fd >= 0)
-			close(fd);
-		ft_freematrix(paths);
-	}
-	else
-	{
-		free(path);
-		free(path_cmd);
-	}
-}
-
-void	get_path_index(char **envp, int *index)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			*index = i;
-			return ;
-		}
-		i++;
-	}
-}
-
-char	*get_path(char *cmd, char **envp)
-{
-	char	**paths;
-	char	*single_path;
-	char	*path_cmd;
-	int		fd;
-	int		i;
-
-	get_path_index(envp, &i);
-	paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (paths[i])
-	{
-		single_path = ft_strjoin(paths[i], "/");
-		path_cmd = ft_strjoin(single_path, cmd);
-		fd = open(path_cmd, O_RDONLY);
-		if (fd >= 0)
-		{
-			free_and_close(fd, paths, single_path, NULL);
-			return (path_cmd);
-		}
-		free_and_close(fd, paths, single_path, path_cmd);
-		i++;
-	}
-	free_and_close(fd, paths, NULL, NULL);
-	return (NULL);
-}
-
 void	execute_command(t_shell *shell, t_tree_node *node)
 {
 	(void)shell;
@@ -129,16 +68,18 @@ void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node)
 	execute_command(shell, l_node);
 }
 
+// need to add tree level to start the forks with the right pdis and fds
+
 void	execute(t_shell *shell)
 {
 	if (shell->tree->type == PIPE_TREE)
 		execute_pipe(shell, shell->tree->left, shell->tree->right);
 	else
 	{
-		shell->id[0] = fork();
-		if (shell->id[0] == -1)
-			error_message(" Failed to execute fork");
-		if (shell->id[0] == 0)
+		// shell->id[0] = fork();
+		// if (shell->id[0] == -1)
+		// 	error_message(" Failed to execute fork");
+		// if (shell->id[0] == 0)
 			execute_command(shell, shell->tree);
 	}
 }

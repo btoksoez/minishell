@@ -90,6 +90,8 @@ extern volatile sig_atomic_t g_sig;
 
 /*----------------------------minishell-----------------------------*/
 /*------------------------------------------------------------------*/
+void			init_shell(t_shell *shell, char **envp);
+void			copy_envp(t_shell *shell, char **envp);
 void			loop(t_shell *shell);
 
 /*--------------------------syntax checking-------------------------*/
@@ -156,6 +158,9 @@ int				mini_unset(t_shell *shell, t_tree_node *tree);
 /*---------------------------execution------------------------------*/
 /*------------------------------------------------------------------*/
 void			execute(t_shell *shell);
+char			*get_path(char *cmd, char **envp);
+void			get_path_index(char **envp, int *index);
+void			free_and_close_path(int fd, char **paths, char *path, char *path_cmd);
 
 /*----------------------------testing-------------------------------*/
 /*------------------------------------------------------------------*/

@@ -7,7 +7,7 @@ char	*trim_line(char *line, char *set)
 
 	str = ft_strtrim(line, set);
 	len = ft_strlen(str);
-    if (len >= 2 && ((str[len - 1] == '\"' && str[len - 2] == '\"')
+	if (len >= 2 && ((str[len - 1] == '\"' && str[len - 2] == '\"')
 		|| (str[len - 1] == '\'' && str[len - 2] == '\'')))
 	{
 		ft_bzero(&str[len - 2], 2);
