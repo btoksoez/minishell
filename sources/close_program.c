@@ -4,6 +4,7 @@ void	clean_up(t_shell *shell)
 {
 	if (shell->line)
 		free(shell->line);
+	printf("Cleaning done\n");	//just for test purposes
 	// free_tokens(shell->tokens);
 }
 

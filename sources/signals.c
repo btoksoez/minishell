@@ -1,7 +1,27 @@
 #include "../includes/minishell.h"
 
+
+/*
+when not in heredoc:
+[works] ctrl + c: display new prompt (has to work always, even if line not empty)
+[works] ctrl + d: exit shell gracefully (cleaning + freeing) (only when line empty)
+[works] ctrl + /: nothing
+
+when in heredoc:
+[should work] ctrl + c: stop heredoc without saving (display new prompt, has to work also when line not empty)
+[need to implement] ctrl + d: same as EOF (only when pressed on empty line); however we implement EOF, we just need to check for g_sig == 3 too
+[works] ctrl + /: nothing
+*/
+
+
+
+/* global variable to store signal;
+volatile = value may change unexpectedly, so compiler should not optimize its accesses
+sig_atomic_t: special type to guarantee access to it
+extern: declared in .h file, but defined here */
 volatile sig_atomic_t g_sig = 0;
 
+/* sets g_sig and depending on sig code, makes new prompt*/
 void	sigint_handler(int sig)
 {
 	g_sig = sig;
@@ -13,14 +33,10 @@ void	sigint_handler(int sig)
 	rl_on_new_line();
 	rl_redisplay();
 	}
-	else if (sig == 3)
-	{
-		
-
-	}
 	return ;
 }
 
+/* receives signals and calls sigint handler with a certain int sig */
 void	signals(void)
 {
 	struct sigaction	sa;

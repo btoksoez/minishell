@@ -10,6 +10,8 @@ void	loop(t_shell *shell)
 	(void)tree;
 	while (true)
 	{
+		if (g_sig == 3)
+			break;
 		tokens = NULL;
 		status = 0;
 		shell->line = readline("minishell$ ");

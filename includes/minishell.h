@@ -23,7 +23,7 @@ typedef enum e_tree_type
 	PHANTOM,	//0 for phantom
 	PIPE_TREE,	//1 for pipe
 	CMD,		//2 for command
-	ARG			//3 for arguments
+	BUILTIN		//3 for builtins
 }	t_tree_type;
 
 typedef enum e_token_type
@@ -39,7 +39,6 @@ typedef enum e_token_type
 
 typedef struct	s_args
 {
-	t_tree_type			type;
 	char				*arg;
 	struct s_args		*next;
 }						t_args;
@@ -51,16 +50,6 @@ typedef struct	s_redir_list
 	struct s_redir_list	*next;
 }						t_redir_list;
 
-typedef struct	s_tree_node
-{
-	t_tree_type			type;
-	char				*cmd;
-	//int					(*builtin)(t_tree_node *tree);
-	struct s_args		*args;
-	struct s_tree_node	*left;
-	struct s_tree_node	*right;
-	struct s_redir_list	*redir_list;
-}						t_tree_node;
 
 typedef struct s_tokens
 {
@@ -69,12 +58,22 @@ typedef struct s_tokens
 	struct s_tokens		*previous;
 	struct s_tokens		*next;
 }						t_tokens;
-
 typedef struct s_shell
 {
-	char		*line;
-	t_tree_node	*tree;
-}				t_shell;
+	char				*line;
+	struct t_tree_node	*tree;
+}						t_shell;
+
+typedef struct	s_tree_node
+{
+	t_tree_type			type;
+	char				*cmd;
+	int					(*builtin)(t_shell *shell, struct t_tree_node *tree);	//stores builtin function pointer
+	struct s_args		*args;
+	struct s_tree_node	*left;
+	struct s_tree_node	*right;
+	struct s_redir_list	*redir_list;
+}						t_tree_node;
 
 extern volatile sig_atomic_t g_sig;
 
@@ -129,8 +128,19 @@ t_tree_node		*parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end);
 
 /*----------------------------expansion-----------------------------*/
 /*------------------------------------------------------------------*/
-void	expand(t_tokens *tokens);
+void			expand(t_tokens *tokens);
 
+/*----------------------------builtins------------------------------*/
+/*------------------------------------------------------------------*/
+int				(*builtin_arr(char *str))(t_shell *shell, struct t_tree_node *tree);
+
+int				mini_cd(t_shell *shell, t_tree_node *tree);
+int				mini_echo(t_shell *shell, t_tree_node *tree);
+int				mini_export(t_shell *shell, t_tree_node *tree);
+int				mini_env(t_shell *shell, t_tree_node *tree);
+int				mini_exit(t_shell *shell, t_tree_node *tree);
+int				mini_pwd(t_shell *shell, t_tree_node *tree);
+int				mini_unset(t_shell *shell, t_tree_node *tree);
 
 /*----------------------------testing-------------------------------*/
 /*------------------------------------------------------------------*/
