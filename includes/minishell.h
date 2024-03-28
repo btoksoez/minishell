@@ -50,7 +50,6 @@ typedef struct	s_redir_list
 	struct s_redir_list	*next;
 }						t_redir_list;
 
-
 typedef struct s_tokens
 {
 	t_token_type		type;
@@ -68,7 +67,7 @@ typedef struct	s_tree_node
 {
 	t_tree_type			type;
 	char				*cmd;
-	int					(*builtin)(t_shell *shell, struct t_tree_node *tree);	//stores builtin function pointer
+	int					(*builtin)(t_shell *shell, struct s_tree_node *cmd_node);	//stores builtin function pointer
 	struct s_args		*args;
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
@@ -132,10 +131,10 @@ void			expand(t_tokens *tokens);
 
 /*----------------------------builtins------------------------------*/
 /*------------------------------------------------------------------*/
-int				(*builtin_arr(char *str))(t_shell *shell, struct t_tree_node *tree);
+int				(*builtin_arr(char *str))(t_shell *shell, struct s_tree_node *cmd_node);
 
 int				mini_cd(t_shell *shell, t_tree_node *tree);
-int				mini_echo(t_shell *shell, t_tree_node *tree);
+int				mini_echo(t_shell *shell, t_tree_node *cmd_node);
 int				mini_export(t_shell *shell, t_tree_node *tree);
 int				mini_env(t_shell *shell, t_tree_node *tree);
 int				mini_exit(t_shell *shell, t_tree_node *tree);

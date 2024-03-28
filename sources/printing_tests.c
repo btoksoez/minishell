@@ -35,6 +35,34 @@ static void print_indent(int level)
     }
 }
 
+void print_builtin_name(int (*builtin)(t_shell *, struct s_tree_node *tree)) {
+    if (builtin == NULL)
+        return;
+
+    // Compare the function pointer against the builtin array
+    static void	*builtins[7][2] =
+	{
+		{"echo", mini_echo},
+		{"cd", mini_cd},
+		{"pwd", mini_pwd},
+		{"export", mini_export},
+		{"unset", mini_unset},
+		{"env", mini_env},
+		{"exit", mini_exit}
+	};
+    int num_builtins = sizeof(builtins) / sizeof(builtins[0]);
+
+    for (int i = 0; i < num_builtins; i++) {
+        if (builtins[i][1] == (void *)builtin) {
+            printf("Builtin function: %s\n", (char *)builtins[i][0]);
+            return;
+        }
+    }
+
+    // Print (null) if no match found (shouldn't happen in your case)
+    printf("Builtin function: (null)\n");
+}
+
 void print_tree(t_tree_node *root, int level)
 {
     if (root == NULL) {
@@ -47,6 +75,13 @@ void print_tree(t_tree_node *root, int level)
     if (root->type == CMD) {
         print_indent(level);
         printf("Command: %s\n", root->cmd);
+    }
+
+    // Print builtin
+    if (root->builtin != NULL)
+    {
+        print_indent(level);
+        print_builtin_name(root->builtin);
     }
 
     // Print arguments list

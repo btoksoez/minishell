@@ -82,36 +82,28 @@ t_tree_node	*parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end)
 	//go through tokens
 	while (current != tokens_end)	//will not process tokens_end
 	{
-		printf("Current: %s\n",current->value);
-		printf("CMD NODE: %d\n", cmd_node->type);
 		//if it's a redirection add to list
 		if (current->type >= RE_INPUT && current->type <= HEREDOC)
 		{
-			printf("1if\n");
 			add_redir_list(&(cmd_node->redir_list), current->type, current->next->value);
 			//do current = current->next to skip both redirction and file token_nodes
 			current = current->next;
 		}
-		//first word that is not a redirecation is the cmd, add it to cmd->type
-			//what is first thing that is not a redirection is a env var?
+		//first word that is not a redirecation is the cmd/builtin, add it to cmd->type
 		else if (cmd_node->type == PHANTOM)
 		{
-			printf("2if\n");
-			// cmd_node->builtin = builtin_arr(current->value);	//will be null if current->value is not a builtin cmd
-			// if (cmd_node->builtin != NULL)
-			// 	cmd_node->type = BUILTIN;
-			// else
-			// {
-			cmd_node->type = CMD;
-			cmd_node->cmd = current->value;
-			// }
+			cmd_node->builtin = builtin_arr(current->value);	//will be null if current->value is not a builtin cmd
+			if (cmd_node->builtin != NULL)
+				cmd_node->type = BUILTIN;
+			else
+			{
+				cmd_node->type = CMD;
+				cmd_node->cmd = current->value;
+			}
 		}
 		//else add it as an arg
 		else
-		{
-			printf("3if\n");
 			add_arg(&(cmd_node->args), current);
-		}
 		current = current->next;
 	}
 	return (cmd_node);

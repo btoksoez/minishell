@@ -26,12 +26,19 @@ void	loop(t_shell *shell)
 		tokens = tokenize(shell->line);
 		if (check_tokens(tokens))
 			continue ;
-		//expand(tokens);
+		// expand(tokens);
 		print_tokens(tokens);
 		if (!tokens)
 			status = 1; 								// search for the right status value
 		if (!status)
 			tree = parse_commandline(tokens);
+		// //quick test of echo
+		// while (tree)
+		// {
+		// 	if (tree->builtin != NULL)
+		// 		tree->builtin(shell, tree);
+		// 	tree = tree->left;
+		// }
 		print_tree(tree, 0);
 		// execute(tree_head);
 		// reset()	//reset lists of tokens etc, but keep history

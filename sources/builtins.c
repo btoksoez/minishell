@@ -1,7 +1,11 @@
 #include "../includes/minishell.h"
 
-/* go through array of builtins and return function pointer if exists, else NULL */
-int		(*builtin_arr(char *str))(t_shell *shell, struct t_tree_node *tree)
+/* go through array of builtins and return function pointer if exists, else NULL
+later in execution can be executed with
+if (cmd->builtin != NULL)
+	cmd->builtin(shell, tree)
+*/
+int		(*builtin_arr(char *str))(t_shell *shell, struct s_tree_node *tree)
 {
 	static void	*builtins[7][2] =
 	{
@@ -21,13 +25,9 @@ int		(*builtin_arr(char *str))(t_shell *shell, struct t_tree_node *tree)
 	while (i < 7)
 	{
 		if (!ft_strncmp(builtins[i][0], str, ft_strlen(builtins[i][0])))
-		{
-			printf("Builtin returns %s\n", (char *)builtins[i][0]);
 			return (builtins[i][1]);	//returns builtin pointer if str is equal to the builtcmd
-		}
 		i++;
 	}
-	printf("Builtin returns NULL\n");
 	return (NULL);
 }
 
