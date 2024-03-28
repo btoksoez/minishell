@@ -14,9 +14,13 @@
 # define SINGLE_TOKENS "<>|"
 # define WHITESPACE " \t\n\v\f\r"
 # define QUOTE_DELIMITER "$\""
+# define TRUE 1
+# define FALSE 0
 
 /*-------------------------------structs----------------------------*/
 /*------------------------------------------------------------------*/
+
+typedef struct	s_tree_node t_tree_node;
 
 typedef enum e_tree_type
 {
@@ -57,10 +61,18 @@ typedef struct s_tokens
 	struct s_tokens		*previous;
 	struct s_tokens		*next;
 }						t_tokens;
+
 typedef struct s_shell
 {
+	char				**envp;
+	pid_t				*id;
+	int					**fd;
 	char				*line;
-	struct t_tree_node	*tree;
+	int					pipe_nbr;
+	int					status;
+	int					env_status;
+	t_tree_node			*tree;
+	t_tokens			*tokens;
 }						t_shell;
 
 typedef struct	s_tree_node
@@ -100,7 +112,7 @@ void			exit_error_message(char *message);
 
 /*----------------------------tokenization--------------------------*/
 /*------------------------------------------------------------------*/
-t_tokens		*tokenize(char *line);
+t_tokens		*tokenize(t_shell *shell);
 t_tokens		*get_tokens(char *line);
 char			*handle_single_quotes(char *start, t_tokens *token);
 char			*handle_double_quotes(char *start, t_tokens **current);
@@ -141,10 +153,15 @@ int				mini_exit(t_shell *shell, t_tree_node *tree);
 int				mini_pwd(t_shell *shell, t_tree_node *tree);
 int				mini_unset(t_shell *shell, t_tree_node *tree);
 
+/*---------------------------execution------------------------------*/
+/*------------------------------------------------------------------*/
+void			execute(t_shell *shell);
+
 /*----------------------------testing-------------------------------*/
 /*------------------------------------------------------------------*/
 void			print_tokens(t_tokens *head);
 void			print_spaces(int count);
 void			print_tree(t_tree_node *root, int level);
+
 
 #endif

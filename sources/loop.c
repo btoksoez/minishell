@@ -1,19 +1,41 @@
 #include "../includes/minishell.h"
 
+void	reset(t_shell *shell)
+{
+	shell->pipe_nbr = 0;
+}
+
+void	prepare_to_execute(t_shell *shell)
+{
+	int	i;
+
+	shell->id = (pid_t *)malloc(sizeof(shell->pipe_nbr - 1));
+	if (!shell->id)
+		error_message("Pid Memory allocation failed");
+	shell->fd = (int **)malloc(sizeof(shell->pipe_nbr - 1));
+	if (!shell->fd)
+		error_message("Fds Memory allocation failed");
+	i = 0;
+	while (i < shell->pipe_nbr - 2)
+	{
+		shell->fd[i] = (int *)malloc(sizeof(int) * 2);
+		if (!shell->fd[i])
+			error_message("Fds Memory allocation failed");
+		if (pipe(shell->fd[i]) == -1)
+			error_message("Failed to create the pipe");
+		i++;
+	}
+	shell->fd[shell->pipe_nbr - 2] = NULL;
+}
+
 void	loop(t_shell *shell)
 {
-	t_tree_node	*tree;
-	t_tokens	*tokens;
-	int			status;
-
-	(void)status;
-	(void)tree;
 	while (true)
 	{
 		if (g_sig == 3)
 			break;
-		tokens = NULL;
-		status = 0;
+		shell->tokens = NULL;
+		shell->status = 0;
 		shell->line = readline("minishell$ ");
 		if (!shell->line)
 			break;
@@ -23,15 +45,16 @@ void	loop(t_shell *shell)
 			break ;
 		if (check_syntax_errors(shell->line))
 			continue ;
-		tokens = tokenize(shell->line);
-		if (check_tokens(tokens))
+		shell->tokens = tokenize(shell);
+		if (check_tokens(shell->tokens))
 			continue ;
 		// expand(tokens);
-		print_tokens(tokens);
-		if (!tokens)
-			status = 1; 								// search for the right status value
-		if (!status)
-			tree = parse_commandline(tokens);
+		if (!shell->tokens)
+			shell->status = 1; 								// search for the right status value
+		if (!shell->status)
+			shell->tree = parse_commandline(shell->tokens);
+		prepare_to_execute(shell);
+		execute(shell);
 		// //quick test of echo
 		// while (tree)
 		// {
@@ -39,9 +62,9 @@ void	loop(t_shell *shell)
 		// 		tree->builtin(shell, tree);
 		// 	tree = tree->left;
 		// }
-		print_tree(tree, 0);
-		// execute(tree_head);
-		// reset()	//reset lists of tokens etc, but keep history
+		// print_tokens(shell->tokens);
+		// print_tree(shell->tree, 0);
+		reset(shell);	//reset lists of tokens etc, but keep history
 		free(shell->line);
 	}
 }
