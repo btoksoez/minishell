@@ -24,6 +24,7 @@ void	init_shell(t_shell *shell, char **envp)
 	if (!*envp || !envp)
 	{
 		shell->env_status = FALSE;
+		//TODO: which envps to init if no envp
 	}
 	else
 	{
@@ -35,4 +36,6 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->pipe_nbr = 0;
 	shell->line = NULL;
 	shell->tree = NULL;
+	shell->std_fds[0] = dup(STDIN_FILENO);
+	shell->std_fds[1] = dup(STDOUT_FILENO);
 }

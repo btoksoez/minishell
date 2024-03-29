@@ -24,7 +24,16 @@ void	close_all_fds(t_shell *shell)
 	int	pipes;
 	int	i;
 
+	// printf("\nOpen file descriptors before reset:\n");
+	// for (int fd = 0; fd <= 1000; fd++)
+	// {
+	// 	int flags = fcntl(fd, F_GETFL);
+	// 	if (flags != -1)
+	// 		printf("File descriptor %d is open\n", fd);
+	// }
+	// printf("\n");
 	i = 0;
+	fprintf(stderr, "AFTER PIPES: %d\n", shell->pipe_nbr);
 	pipes = shell->pipe_nbr;
 	if (shell->infile >= 0)
 		close(shell->infile);
@@ -40,6 +49,8 @@ void	close_all_fds(t_shell *shell)
 	}
 	if (shell->here_doc)
 		unlink("here_doc");
+	// close(STDIN_FILENO);
+	// close(STDOUT_FILENO);
 }
 
 void	child_error_message(t_shell *shell, char *str, char *cmd, int code)

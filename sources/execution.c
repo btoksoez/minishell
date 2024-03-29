@@ -7,6 +7,8 @@ void	init_heredoc(char *limiter, t_shell *shell)
 	int		fd;
 
 	fd = open("here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd < 0)
+		error_message("Failed to create here_doc");
 	shell->here_doc = true;
 	while (true)
 	{
@@ -99,7 +101,7 @@ void	redirect_input_output(t_shell *shell, int i)
 	}
 	else
 	{
-		if (dup2(shell->fd[i - 1][READ_END], STDIN_FILENO) == -1)
+		if (dup2(shell->fd[i][READ_END], STDIN_FILENO) == -1)
 			error_message("Error setting pipe read end to STDIN");
 	}
 	if (shell->outfile)
@@ -109,7 +111,7 @@ void	redirect_input_output(t_shell *shell, int i)
 	}
 	else
 	{
-		if (dup2(shell->fd[i][WRITE_END], STDOUT_FILENO) == -1)
+		if (dup2(shell->fd[i + 1][WRITE_END], STDOUT_FILENO) == -1)
 			error_message("Error setting pipe write end to STDOUT");
 	}
 }
@@ -125,22 +127,22 @@ void	execute_command(t_shell *shell, t_tree_node *node, int i)
 	char	**command;
 	char	*path;
 
-	(void)i;
+	fprintf(stderr, "PREPARE PIPES: %d i: %d\n", shell->pipe_nbr, i);
 	command = NULL;
 	path = NULL;
 	if (node->redir_list)
 		open_files(shell, node->redir_list);
-	// redirect_input_output(shell, i);
-	// printf("do you come here\n?");
+	redirect_input_output(shell, i);
 	if (node->cmd)
 	{
 		path = get_path(node->cmd, shell->envp);
 		command = get_full_cmd(node);
 	}
-	// if (!command_path)
-	// 	invalid_path(command, shell, node->cmd);
-	// close_all_fds(shell);
-	// execve(command_path, command, shell->envp);
+	if (!path)
+		invalid_path(command, shell, node->cmd);
+	fprintf(stderr, "PREPARE PIPES: %d i: %d\n", shell->pipe_nbr, i);
+	close_all_fds(shell);
+	execve(path, command, shell->envp);
 }
 
 void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int i)
@@ -149,31 +151,29 @@ void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int 
 		execute_pipe(shell, r_node->left, r_node->right, i + 1);
 	else
 	{
-		// shell->id[i + 1] = fork();
-		// if (shell->id[i + 1] == -1)
-		// 	error_message(" Failed to execute fork");
-		// if (shell->id[i + 1] == 0)
+		shell->id[i + 1] = fork();
+		if (shell->id[i + 1] == -1)
+			error_message(" Failed to execute fork");
+		if (shell->id[i + 1] == 0)
 			execute_command(shell, r_node, i + 1);
 	}
-	// shell->id[i] = fork();
-	// if (shell->id[i] == -1)
-	// 	error_message(" Failed to execute fork");
-	// if (shell->id[i] == 0)
+	shell->id[i] = fork();
+	if (shell->id[i] == -1)
+		error_message(" Failed to execute fork");
+	if (shell->id[i] == 0)
 		execute_command(shell, l_node, i);
 }
-
-// need to add tree level to start the forks with the right pdis and fds
 
 void	execute(t_shell *shell)
 {
 	if (shell->tree->type == PIPE_TREE)
-		execute_pipe(shell, shell->tree->left, shell->tree->right, 1);
+		execute_pipe(shell, shell->tree->left, shell->tree->right, 0);
 	else
 	{
-		// shell->id[0] = fork();
-		// if (shell->id[0] == -1)
-		// 	error_message(" Failed to execute fork");
-		// if (shell->id[0] == 0)
+		shell->id[0] = fork();
+		if (shell->id[0] == -1)
+			error_message(" Failed to execute fork");
+		if (shell->id[0] == 0)
 			execute_command(shell, shell->tree, 0);
 	}
 }
