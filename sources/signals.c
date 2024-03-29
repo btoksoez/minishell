@@ -5,12 +5,12 @@
 when not in heredoc:
 [works] ctrl + c: display new prompt (has to work always, even if line not empty)
 [works] ctrl + d: exit shell gracefully (cleaning + freeing) (only when line empty)
-[no] ctrl + /: nothing
+[yes] ctrl + /: delete current line
 
 when in heredoc:
 [should work] ctrl + c: stop heredoc without saving (display new prompt, has to work also when line not empty)
 [need to implement] ctrl + d: same as EOF (only when pressed on empty line); however we implement EOF, we just need to check for g_sig == 3 too
-[works] ctrl + /: nothing
+[need to check] ctrl + /: nothing
 */
 
 
@@ -25,13 +25,12 @@ volatile sig_atomic_t g_sig = 0;
 void	sigint_handler(int sig)
 {
 	g_sig = sig;
-	ft_putnbr_fd(sig, 1);
 	if (sig == 2)
 	{
-	// rl_replace_line("", 0);
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_redisplay();
+		rl_replace_line("", 0);
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_redisplay();
 	}
 	return ;
 }
