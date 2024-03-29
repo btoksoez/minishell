@@ -61,6 +61,7 @@ typedef struct s_shell
 {
 	char				*line;
 	struct s_tree_node	*tree;
+	t_tokens			*tokens;
 }						t_shell;
 
 typedef struct	s_tree_node
@@ -140,6 +141,13 @@ int				mini_env(t_shell *shell, t_tree_node *tree);
 int				mini_exit(t_shell *shell, t_tree_node *tree);
 int				mini_pwd(t_shell *shell, t_tree_node *tree);
 int				mini_unset(t_shell *shell, t_tree_node *tree);
+
+/*----------------------------testing-------------------------------*/
+/*------------------------------------------------------------------*/
+void			free_tree(t_tree_node *node);
+void			free_tokens(t_tokens *head);
+void			free_args(t_args *args);
+void			free_redir_list(t_redir_list *redir_list);
 
 /*----------------------------testing-------------------------------*/
 /*------------------------------------------------------------------*/

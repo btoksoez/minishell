@@ -51,18 +51,3 @@ char	*token_envp(char *start, t_tokens *token)
 	start += ft_strlen(word);
 	return (start);
 }
-
-void	free_tokens(t_tokens *head)
-{
-	t_tokens *current = head;
-	t_tokens *next_node;
-
-	while (current != NULL)
-	{
-		next_node = current->next;
-		if (current->value != NULL)
-			free(current->value);
-		free(current);
-		current = next_node;
-	}
-}

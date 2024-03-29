@@ -2,7 +2,6 @@
 
 void	loop(t_shell *shell)
 {
-	t_tokens	*tokens;
 	int			status;
 
 	(void)status;
@@ -10,7 +9,6 @@ void	loop(t_shell *shell)
 	{
 		if (g_sig == 3)
 			break;
-		tokens = NULL;
 		status = 0;
 		shell->line = readline("minishell$ ");
 		if (!shell->line)
@@ -21,15 +19,15 @@ void	loop(t_shell *shell)
 			break ;
 		if (check_syntax_errors(shell->line))
 			continue ;
-		tokens = tokenize(shell->line);
-		if (check_tokens(tokens))
+		shell->tokens = tokenize(shell->line);
+		if (check_tokens(shell->tokens))
 			continue ;
-		expand(tokens);
-		print_tokens(tokens);
-		if (!tokens)
+		expand(shell->tokens);
+		print_tokens(shell->tokens);
+		if (!shell->tokens)
 			status = 1; 								// search for the right status value
 		if (!status)
-			shell->tree = parse_commandline(tokens);
+			shell->tree = parse_commandline(shell->tokens);
 		//quick test of echo
 		while (shell->tree)
 		{
