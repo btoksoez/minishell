@@ -16,11 +16,12 @@
 # define QUOTE_DELIMITER "$\""
 # define TRUE 1
 # define FALSE 0
+# define WRITE_END 1
+# define READ_END 0
+# define INPUT 0
 
 /*-------------------------------structs----------------------------*/
 /*------------------------------------------------------------------*/
-
-typedef struct	s_tree_node t_tree_node;
 
 typedef enum e_tree_type
 {
@@ -68,10 +69,13 @@ typedef struct s_shell
 	pid_t				*id;
 	int					**fd;
 	char				*line;
+	int					infile;
+	int					outfile;
+	bool				here_doc;
 	int					pipe_nbr;
 	int					status;
 	int					env_status;
-	t_tree_node			*tree;
+	struct s_tree_node	*tree;
 	t_tokens			*tokens;
 }						t_shell;
 
@@ -110,7 +114,8 @@ void			signals(void);
 /*------------------------------------------------------------------*/
 void			error_message(char *message);
 void			exit_error_message(char *message);
-void			exit_error_message(char *message);
+void			close_all_fds(t_shell *shell);
+void			child_error_message(t_shell *shell, char *str, char *cmd, int code);
 
 /*----------------------------tokenization--------------------------*/
 /*------------------------------------------------------------------*/

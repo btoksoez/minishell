@@ -30,6 +30,8 @@ void	init_shell(t_shell *shell, char **envp)
 		copy_envp(shell, envp);
 		shell->env_status = TRUE;
 	}
+	shell->infile = 0;
+	shell->outfile = 0;
 	shell->pipe_nbr = 0;
 	shell->line = NULL;
 	shell->tree = NULL;

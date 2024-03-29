@@ -3,6 +3,9 @@
 void	reset(t_shell *shell)
 {
 	shell->pipe_nbr = 0;
+	shell->infile = 0;
+	shell->outfile = 0;
+	// close_all_fds(shell);
 }
 
 void	prepare_to_execute(t_shell *shell)
@@ -26,6 +29,21 @@ void	prepare_to_execute(t_shell *shell)
 		i++;
 	}
 	shell->fd[shell->pipe_nbr - 2] = NULL;
+}
+
+void	wait_pids(int fds, t_shell *shell)
+{
+	// int	status;
+	int	i;
+
+	i = 0;
+	while (fds > 0)
+	{
+		waitpid(shell->id[i++], NULL, 0);
+		fds--;
+	}
+	// waitpid(shell->id[i], &status, 0);
+	// return (status);						 //change to int
 }
 
 void	loop(t_shell *shell)
@@ -64,6 +82,7 @@ void	loop(t_shell *shell)
 		// }
 		// print_tokens(shell->tokens);
 		// print_tree(shell->tree, 0);
+		// wait_pids(shell->pipe_nbr + 1, shell);
 		reset(shell);	//reset lists of tokens etc, but keep history
 		free(shell->line);
 	}
