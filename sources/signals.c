@@ -5,7 +5,7 @@
 when not in heredoc:
 [works] ctrl + c: display new prompt (has to work always, even if line not empty)
 [works] ctrl + d: exit shell gracefully (cleaning + freeing) (only when line empty)
-[works] ctrl + /: nothing
+[no] ctrl + /: nothing
 
 when in heredoc:
 [should work] ctrl + c: stop heredoc without saving (display new prompt, has to work also when line not empty)

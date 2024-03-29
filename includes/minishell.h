@@ -13,7 +13,7 @@
 
 # define SINGLE_TOKENS "<>|"
 # define WHITESPACE " \t\n\v\f\r"
-# define QUOTE_DELIMITER "$\""
+# define WHITESPACE_DOLLAR " \t\n\v\f\r$"
 
 /*-------------------------------structs----------------------------*/
 /*------------------------------------------------------------------*/
@@ -46,7 +46,7 @@ typedef struct	s_args
 typedef struct	s_redir_list
 {
 	t_token_type		type;
-	char				*file;	//removed delimiter, if type == HEREDOC, then file is delimiter
+	char				*file;
 	struct s_redir_list	*next;
 }						t_redir_list;
 
@@ -60,7 +60,7 @@ typedef struct s_tokens
 typedef struct s_shell
 {
 	char				*line;
-	struct t_tree_node	*tree;
+	struct s_tree_node	*tree;
 }						t_shell;
 
 typedef struct	s_tree_node
@@ -103,7 +103,7 @@ void			exit_error_message(char *message);
 t_tokens		*tokenize(char *line);
 t_tokens		*get_tokens(char *line);
 char			*handle_single_quotes(char *start, t_tokens *token);
-char			*handle_double_quotes(char *start, t_tokens **current);
+char			*handle_double_quotes(char *start, t_tokens *token);
 char			*token_word(char *start, t_tokens *token, char *delimiter);
 char			*single_token(char *start, t_tokens *token);
 char			*double_token(char *start, t_tokens *token);

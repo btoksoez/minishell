@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 12:25:16 by andrealbuqu       #+#    #+#             */
-/*   Updated: 2023/12/13 01:24:34 by andrealbuqu      ###   ########.fr       */
+/*   Updated: 2024/03/29 13:56:06 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 static void		ft_free(int *nl_finder, char *buffer);
-static size_t	ft_stringlen(const char *s);
+size_t	ft_stringlen(const char *s);
 static char		*ft_stringjoin(char *s1, char *s2);
 
 char	*get_next_line(int fd)
@@ -60,7 +60,7 @@ static void	ft_free(int *nl_finder, char *buffer)
 	}
 }
 
-static size_t	ft_stringlen(const char *s)
+size_t	ft_stringlen(const char *s)
 {
 	size_t	i;
 
