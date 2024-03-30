@@ -6,8 +6,12 @@ int	mini_echo(t_shell *shell, t_tree_node *cmd_node)
 {
 	int		nl_flag;
 	t_args	*current;
-	//TODO
 
+	if (!cmd_node || !cmd_node->args)
+	{
+		ft_putchar_fd('\n', 1);
+		return (EXIT_FAILURE);
+	}
 	nl_flag = 1;
 	current = cmd_node->args;
 	if (ft_strncmp(cmd_node->args->arg,  "-n", ft_strlen(cmd_node->args->arg)) == 0)	//first arg after echo is -n, set first arg to next one

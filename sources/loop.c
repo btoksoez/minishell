@@ -23,7 +23,7 @@ void	loop(t_shell *shell)
 		if (check_tokens(shell->tokens))
 			continue ;
 		expand(shell->tokens);
-		print_tokens(shell->tokens);
+		// print_tokens(shell->tokens);
 		if (!shell->tokens)
 			status = 1; 								// search for the right status value
 		if (!status)
