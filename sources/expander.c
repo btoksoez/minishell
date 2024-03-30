@@ -1,6 +1,5 @@
 #include "../includes/minishell.h"
 
-
 char	*replace_env(char *str)
 {
 	char *env_value;
@@ -52,6 +51,16 @@ char	*ft_strdup_until(char *s)
 	return (dup);
 }
 
+void	free_strs(char *s1, char *s2, char *s3)
+{
+	if (s1)
+		free(s1);
+	if (s2)
+		free(s2);
+	if (s3)
+		free(s3);
+}
+
 char	*find_and_replace(char *org_str)
 {
 	char		*new_str;
@@ -59,23 +68,24 @@ char	*find_and_replace(char *org_str)
 	char		*str_env;
 	char		*result;
 
+	if (!org_str)
+		return (NULL);
 	result = ft_strdup("");
 	while (*org_str)
 	{
-		str_before = ft_strdup_until(org_str);
-		org_str = find_env(org_str);	//skip until env
+		str_before = ft_strdup_until(org_str);	//can be NULL, if $ first sign
+		org_str = find_env(org_str);	//skip until env, can be NULL if no $
 		if (!org_str)
 		{
 			result = ft_strjoin(result, str_before);	// No more '$' found, append remaining string and break
 			break;
 		}
 		str_env = ft_strdup_delimiter_string(++org_str, WHITESPACE_DOLLAR);	//malloc from start env until whitespace, dollar or end of org_str
-		new_str = ft_strjoin(str_before, replace_env(str_env));	//replaces env with its value
+		char *replace = replace_env(str_env);
+		new_str = ft_strjoin(str_before, replace);	//replaces env with its value
 		org_str += ft_strlen(str_env);
 		result = ft_strjoin(result, new_str);
-		free(str_before);
-		free(str_env);
-		free(new_str);
+		free_strs(str_before, str_env, new_str);
 	}
 	return (result);
 }
@@ -93,19 +103,27 @@ void	expand(t_tokens *tokens)
 		if (current->type == 6)
 		{
 			result = find_and_replace(current->value);
-			free(current->value);
 			current->value = result;
 		}
 		current = current->next;
 	}
 }
+// int main() {
+//     // Sample tokens with an environment variable
+//     t_tokens *tokens = malloc(sizeof(t_tokens));
+//     tokens->type = 6;  // Assuming type 6 represents an environment variable
+//     tokens->value = "yes it works $USER";  // Environment variable to expand
+//     tokens->next = NULL;
+// 	tokens->previous = NULL;
 
-// int main(void)
-// {
-// 	char *start = "ded          .$USR$VAR ";
-// 	char *end = ft_strnstr(start, "$USER", ft_strlen(start));
+//     // Call the expand function to expand environment variables
+//     printf("Before expansion: %s\n", tokens->value);
+//     expand(tokens);
+//     printf("After expansion: %s\n", tokens->value);
 
-// 	char *before = ft_strdup_until(start);
+//     // Free allocated memory
+//     free(tokens->value);
+//     free(tokens);
 
-// 	printf("Start: %s\nEnd: %s\nBefore: %s\n", start, end, before);
+//     return 0;
 // }

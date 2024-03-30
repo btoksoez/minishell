@@ -33,7 +33,7 @@ char	*ft_strdup_delimiter_string(const char *s, char *delimiter)
 	if (dup == NULL)
 		return (NULL);
 	i = 0;
-	while (!ft_strchr(delimiter, s[i]))
+	while (s[i] && !ft_strchr(delimiter, s[i]))
 	{
 		((unsigned char *)dup)[i] = ((unsigned char *)s)[i];
 		i++;
