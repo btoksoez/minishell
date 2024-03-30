@@ -96,8 +96,7 @@ void			signals(void);
 /*--------------------------close program---------------------------*/
 /*------------------------------------------------------------------*/
 void			error_message(char *message);
-void			exit_error_message(char *message);
-void			exit_error_message(char *message);
+void			exit_error_message(char *message, int exit_code);
 
 /*----------------------------tokenization--------------------------*/
 /*------------------------------------------------------------------*/

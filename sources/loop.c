@@ -15,8 +15,8 @@ void	loop(t_shell *shell)
 			break;
 		if (*shell->line)
 			add_history(shell->line);
-		if (ft_strcmp(shell->line, "exit") == 0)
-			break ;
+		// if (ft_strcmp(shell->line, "exit") == 0)
+		// 	break ;
 		if (check_syntax_errors(shell->line))
 			continue ;
 		shell->tokens = tokenize(shell->line);
@@ -28,16 +28,16 @@ void	loop(t_shell *shell)
 			status = 1; 								// search for the right status value
 		if (!status)
 			shell->tree = parse_commandline(shell->tokens);
-		//quick test of echo
+		// quick test of echo
 		while (shell->tree)
 		{
 			if (shell->tree->builtin != NULL)
 				shell->tree->builtin(shell, shell->tree);
 			shell->tree = shell->tree->left;
 		}
-		print_tree(shell->tree, 0);
-		// execute(tree_head);
+		// print_tree(shell->tree, 0);
+		// execute(shell->tree);
 		// reset()	//reset lists of tokens etc, but keep history
-		free(shell->line);
+		// free(shell->line);
 	}
 }
