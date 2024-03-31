@@ -14,6 +14,12 @@
 # define SINGLE_TOKENS "<>|"
 # define WHITESPACE " \t\n\v\f\r"
 # define WHITESPACE_DOLLAR " \t\n\v\f\r$"
+# define QUOTE_DELIMITER "$\""
+# define TRUE 1
+# define FALSE 0
+# define WRITE_END 1
+# define READ_END 0
+# define INPUT 0
 
 /*-------------------------------structs----------------------------*/
 /*------------------------------------------------------------------*/
@@ -57,9 +63,20 @@ typedef struct s_tokens
 	struct s_tokens		*previous;
 	struct s_tokens		*next;
 }						t_tokens;
+
 typedef struct s_shell
 {
+	char				**envp;
+	pid_t				*id;
+	int					**fd;
 	char				*line;
+	int					infile;
+	int					outfile;
+	bool				here_doc;
+	int					pipe_nbr;
+	int					status;
+	int					std_fds[2];
+	int					env_status;
 	struct s_tree_node	*tree;
 	t_tokens			*tokens;
 }						t_shell;
@@ -79,6 +96,8 @@ extern volatile sig_atomic_t g_sig;
 
 /*----------------------------minishell-----------------------------*/
 /*------------------------------------------------------------------*/
+void			init_shell(t_shell *shell, char **envp);
+void			copy_envp(t_shell *shell, char **envp);
 void			loop(t_shell *shell);
 
 /*--------------------------syntax checking-------------------------*/
@@ -100,7 +119,7 @@ void			exit_error_message(char *message, int exit_code);
 
 /*----------------------------tokenization--------------------------*/
 /*------------------------------------------------------------------*/
-t_tokens		*tokenize(char *line);
+t_tokens		*tokenize(t_shell *shell);
 t_tokens		*get_tokens(char *line);
 char			*handle_single_quotes(char *start, t_tokens *token);
 char			*handle_double_quotes(char *start, t_tokens *token);
@@ -141,6 +160,13 @@ int				mini_exit(t_shell *shell, t_tree_node *tree);
 int				mini_pwd(t_shell *shell, t_tree_node *tree);
 int				mini_unset(t_shell *shell, t_tree_node *tree);
 
+/*---------------------------execution------------------------------*/
+/*------------------------------------------------------------------*/
+void			execute(t_shell *shell);
+char			*get_path(char *cmd, char **envp);
+void			get_path_index(char **envp, int *index);
+void			free_and_close_path(int fd, char **paths, char *path, char *path_cmd);
+
 /*----------------------------testing-------------------------------*/
 /*------------------------------------------------------------------*/
 void			free_tree(t_tree_node *node);
@@ -153,5 +179,6 @@ void			free_redir_list(t_redir_list *redir_list);
 void			print_tokens(t_tokens *head);
 void			print_spaces(int count);
 void			print_tree(t_tree_node *root, int level);
+
 
 #endif

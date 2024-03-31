@@ -111,4 +111,5 @@ void print_tree(t_tree_node *root, int level)
     print_indent(level);
     printf("Right subtree:\n");
     print_tree(root->right, level + 1);
+	printf("\n");
 }

@@ -10,6 +10,7 @@ int	main(int argc, char *argv[], char *envp[])
 		exit_error_message("Invalid number of arguments", 1);
 	signals();
 	fprintf(stderr, "\n"); // temporary (for easy to undestand tests)
+	init_shell(&shell, envp);
 	loop(&shell);
 	clean_up(&shell);
 	fprintf(stderr, "\n"); // temporary (for easy to undestand tests)

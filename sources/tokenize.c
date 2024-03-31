@@ -7,7 +7,7 @@ char	*trim_line(char *line, char *set)
 
 	str = ft_strtrim(line, set);
 	len = ft_strlen(str);
-    if (len >= 2 && ((str[len - 1] == '\"' && str[len - 2] == '\"')
+	if (len >= 2 && ((str[len - 1] == '\"' && str[len - 2] == '\"')
 		|| (str[len - 1] == '\'' && str[len - 2] == '\'')))
 	{
 		ft_bzero(&str[len - 2], 2);
@@ -15,18 +15,32 @@ char	*trim_line(char *line, char *set)
 	return (str);
 }
 
-t_tokens	*tokenize(char *line)
+void	count_pipes(t_tokens *tokens, t_shell *shell)
+{
+	t_tokens *current;
+
+	current = tokens;
+	while (current != NULL)
+	{
+		if (current->type == PIPE)
+			shell->pipe_nbr++;
+		current = current->next;
+	}
+}
+
+t_tokens	*tokenize(t_shell *shell)
 {
 	t_tokens	*tokens = NULL;
 	char		*trimmed_line;
 
-	trimmed_line = trim_line(line, WHITESPACE);
+	trimmed_line = trim_line(shell->line, WHITESPACE);
 	if (!trimmed_line)
 		return (NULL);
 	if (check_syntax_errors(trimmed_line))
 		return (NULL);
 	tokens = get_tokens(trimmed_line);
 	free(trimmed_line);
+	count_pipes(tokens, shell);
 	return (tokens);
 }
 
