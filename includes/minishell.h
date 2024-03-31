@@ -64,9 +64,19 @@ typedef struct s_tokens
 	struct s_tokens		*next;
 }						t_tokens;
 
+typedef struct	s_envps
+{
+	char				*pwd;
+	char				*oldpwd;
+	char				*home;
+	int					pwd_index;
+	int					oldpwd_index;
+}				t_envps;
+
 typedef struct s_shell
 {
 	char				**envp;
+	t_envps				*envps;
 	pid_t				*id;
 	int					**fd;
 	char				*line;
@@ -99,6 +109,7 @@ extern volatile sig_atomic_t g_sig;
 void			init_shell(t_shell *shell, char **envp);
 void			copy_envp(t_shell *shell, char **envp);
 void			loop(t_shell *shell);
+t_envps			*init_envps(void);
 
 /*--------------------------syntax checking-------------------------*/
 /*------------------------------------------------------------------*/
@@ -159,6 +170,8 @@ int				mini_env(t_shell *shell, t_tree_node *tree);
 int				mini_exit(t_shell *shell, t_tree_node *tree);
 int				mini_pwd(t_shell *shell, t_tree_node *tree);
 int				mini_unset(t_shell *shell, t_tree_node *tree);
+char			*extend_path(char *path);
+int				is_valid_path(char *path);
 
 /*---------------------------execution------------------------------*/
 /*------------------------------------------------------------------*/
@@ -179,6 +192,6 @@ void			free_redir_list(t_redir_list *redir_list);
 void			print_tokens(t_tokens *head);
 void			print_spaces(int count);
 void			print_tree(t_tree_node *root, int level);
-
+void			print_envp(t_shell *shell);
 
 #endif

@@ -7,9 +7,9 @@ void	copy_envp(t_shell *shell, char **envp)
 
 	while (envp[len])
 		len++;
-	shell->envp = (char **)malloc(sizeof(char *) * len + 1);
+	shell->envp = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!shell->envp)
-		exit_error_message("Envp memory allocation failed");
+		exit_error_message("Envp memory allocation failed", 1);
 	i = 0;
 	while (i < len)
 	{
@@ -19,12 +19,29 @@ void	copy_envp(t_shell *shell, char **envp)
 	shell->envp[i] = NULL;
 }
 
+t_envps	*init_envps(void)
+{
+	t_envps	*envps;
+
+	envps = malloc(sizeof(t_envps));
+	if (!envps)
+		return (NULL);
+	envps->pwd = NULL;
+	envps->oldpwd = NULL;
+	envps->home = NULL;
+	envps->pwd_index = -1;
+	envps->oldpwd_index = -1;
+	return (envps);
+}
+
 void	init_shell(t_shell *shell, char **envp)
 {
 	if (!*envp || !envp)
 	{
 		shell->env_status = FALSE;
-		//TODO: which envps to init if no envp
+		/*TODO: which envps to init if no envp
+		we need PWD, OLDPWD, HOME, */
+
 	}
 	else
 	{
@@ -38,4 +55,5 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->tree = NULL;
 	shell->std_fds[0] = dup(STDIN_FILENO);
 	shell->std_fds[1] = dup(STDOUT_FILENO);
+	shell->envps = init_envps();
 }

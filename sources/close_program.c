@@ -4,7 +4,6 @@ void	clean_up(t_shell *shell)
 {
 	if (shell->line)
 		free(shell->line);
-	printf("exit\n");	//just for test purposes
 	// free_tokens(shell->tokens);
 	// free_tree(shell->tree);
 	exit_error_message("exit", 0);
