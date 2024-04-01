@@ -6,15 +6,6 @@ void	reset(t_shell *shell)
 	shell->infile = 0;
 	shell->outfile = 0;
 
-	// printf("\nOpen file descriptors after reset:\n");
-	// for (int fd = 0; fd <= 1000; fd++)
-	// {
-	// 	int flags = fcntl(fd, F_GETFL);
-	// 	if (flags != -1)
-	// 		printf("File descriptor %d is open\n", fd);
-	// }
-	// printf("\n");
-
 	if (dup2(shell->std_fds[0], STDIN_FILENO) == -1)
 		error_message("Failed to reset stdin");
 	if (dup2(shell->std_fds[1], STDOUT_FILENO) == -1)
