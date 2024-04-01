@@ -108,3 +108,17 @@ int	tokens_len(t_tokens *tokens_start, t_tokens *tokens_end)
 	}
 	return (len);
 }
+int	args_len(t_args *args)
+{
+	int	len;
+
+	len = 0;
+	if (!args)
+		return (len);
+	while (args)
+	{
+		args = args->next;
+		len++;
+	}
+	return (len);
+}

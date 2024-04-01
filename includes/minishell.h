@@ -145,6 +145,7 @@ char			*ft_strdup_delimiter_char(const char *s, char delimiter);
 char			*ft_strdup_delimiter_string(const char *s, char *delimiter);
 char			*skip_whitespace_and_empty_quotes(char *line);
 char			*skip_whitespace(char *line);
+int				args_len(t_args *args);
 
 /*----------------------------parsing-------------------------------*/
 /*------------------------------------------------------------------*/
