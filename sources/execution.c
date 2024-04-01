@@ -92,7 +92,7 @@ char	**get_full_cmd(t_tree_node *node)
 	return (command);
 }
 
-void	redirect_input_output(t_shell *shell, int i)
+void	redirect_input_output(t_shell *shell, int i, bool last_cmd)
 {
 	if (shell->infile)
 	{
@@ -109,7 +109,7 @@ void	redirect_input_output(t_shell *shell, int i)
 		if (dup2(shell->outfile, STDOUT_FILENO) == -1)
 			error_message("Error setting outfile to STDOUT");
 	}
-	else
+	else if (!last_cmd)
 	{
 		if (dup2(shell->fd[i + 1][WRITE_END], STDOUT_FILENO) == -1)
 			error_message("Error setting pipe write end to STDOUT");
@@ -122,17 +122,16 @@ void	invalid_path(char **full_command, t_shell *shell, char *command)
 	child_error_message(shell, "minishell: command not found: ", command, 127);
 }
 
-void	execute_command(t_shell *shell, t_tree_node *node, int i)
+void	execute_command(t_shell *shell, t_tree_node *node, int i, bool cmd)
 {
 	char	**command;
 	char	*path;
 
-	fprintf(stderr, "PREPARE PIPES: %d i: %d\n", shell->pipe_nbr, i);
 	command = NULL;
 	path = NULL;
 	if (node->redir_list)
 		open_files(shell, node->redir_list);
-	redirect_input_output(shell, i);
+	redirect_input_output(shell, i, cmd);
 	if (node->cmd)
 	{
 		path = get_path(node->cmd, shell->envp);
@@ -140,7 +139,6 @@ void	execute_command(t_shell *shell, t_tree_node *node, int i)
 	}
 	if (!path)
 		invalid_path(command, shell, node->cmd);
-	fprintf(stderr, "PREPARE PIPES: %d i: %d\n", shell->pipe_nbr, i);
 	close_all_fds(shell);
 	execve(path, command, shell->envp);
 }
@@ -153,15 +151,15 @@ void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int 
 	{
 		shell->id[i + 1] = fork();
 		if (shell->id[i + 1] == -1)
-			error_message(" Failed to execute fork");
+			error_message("Failed to execute fork");
 		if (shell->id[i + 1] == 0)
-			execute_command(shell, r_node, i + 1);
+			execute_command(shell, r_node, i + 1, true);
 	}
 	shell->id[i] = fork();
 	if (shell->id[i] == -1)
-		error_message(" Failed to execute fork");
+		error_message("Failed to execute fork");
 	if (shell->id[i] == 0)
-		execute_command(shell, l_node, i);
+		execute_command(shell, l_node, i, false);
 }
 
 void	execute(t_shell *shell)
@@ -172,8 +170,8 @@ void	execute(t_shell *shell)
 	{
 		shell->id[0] = fork();
 		if (shell->id[0] == -1)
-			error_message(" Failed to execute fork");
+			error_message("Failed to execute fork");
 		if (shell->id[0] == 0)
-			execute_command(shell, shell->tree, 0);
+			execute_command(shell, shell->tree, 0, true);
 	}
 }

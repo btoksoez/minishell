@@ -5,26 +5,20 @@ void	reset(t_shell *shell)
 	shell->pipe_nbr = 0;
 	shell->infile = 0;
 	shell->outfile = 0;
-	close_all_fds(shell);
 
-	printf("\nOpen file descriptors after reset:\n");
-	for (int fd = 0; fd <= 1000; fd++)
-	{
-		int flags = fcntl(fd, F_GETFL);
-		if (flags != -1)
-			printf("File descriptor %d is open\n", fd);
-	}
-	printf("\n");
+	// printf("\nOpen file descriptors after reset:\n");
+	// for (int fd = 0; fd <= 1000; fd++)
+	// {
+	// 	int flags = fcntl(fd, F_GETFL);
+	// 	if (flags != -1)
+	// 		printf("File descriptor %d is open\n", fd);
+	// }
+	// printf("\n");
+
 	if (dup2(shell->std_fds[0], STDIN_FILENO) == -1)
-	{
-		perror("Failed to reset stdin");
-		exit(EXIT_FAILURE);
-	}
+		error_message("Failed to reset stdin");
 	if (dup2(shell->std_fds[1], STDOUT_FILENO) == -1)
-	{
-		perror("Failed to reset stdout");
-		exit(EXIT_FAILURE);
-	}
+		error_message("Failed to reset stdout");
 }
 
 void	prepare_to_execute(t_shell *shell)
@@ -56,11 +50,9 @@ void	wait_pids(int fds, t_shell *shell)
 	int	i;
 
 	i = 0;
-	while (fds > 0)
-	{
+	while (i < fds)
 		waitpid(shell->id[i++], NULL, 0);
-		fds--;
-	}
+
 	// waitpid(shell->id[i], &status, 0);
 	// return (status);						 //change to int
 }
@@ -73,7 +65,7 @@ void	loop(t_shell *shell)
 			break;
 		shell->tokens = NULL;
 		shell->status = 0;
-		shell->line = readline("minishell$ ");
+		shell->line = readline("-> minishell$ ");
 		if (!shell->line)
 			break;
 		if (*shell->line)
@@ -88,14 +80,19 @@ void	loop(t_shell *shell)
 		// expand(tokens);
 		if (!shell->tokens)
 			shell->status = 1; 								// search for the right status value
-		if (!shell->status)
-			shell->tree = parse_commandline(shell->tokens);
+		if (shell->status)
+		{
+			reset(shell);
+			continue;
+		}
+		shell->tree = parse_commandline(shell->tokens);
 		prepare_to_execute(shell);
 		execute(shell);
 		// print_tokens(shell->tokens);
 		// print_tree(shell->tree, 0);
+		close_all_fds(shell);
 		wait_pids(shell->pipe_nbr + 1, shell);
-		reset(shell);										//reset lists of tokens etc, but keep history
 		free(shell->line);
+		reset(shell);										//reset lists of tokens etc, but keep history
 	}
 }

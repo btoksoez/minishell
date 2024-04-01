@@ -98,6 +98,7 @@ extern volatile sig_atomic_t g_sig;
 void			init_shell(t_shell *shell, char **envp);
 void			copy_envp(t_shell *shell, char **envp);
 void			loop(t_shell *shell);
+void			wait_pids(int fds, t_shell *shell);
 
 /*--------------------------syntax checking-------------------------*/
 /*------------------------------------------------------------------*/
@@ -173,6 +174,5 @@ void			free_and_close_path(int fd, char **paths, char *path, char *path_cmd);
 void			print_tokens(t_tokens *head);
 void			print_spaces(int count);
 void			print_tree(t_tree_node *root, int level);
-
 
 #endif
