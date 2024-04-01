@@ -97,12 +97,14 @@ void	loop(t_shell *shell)
 		print_tree(shell->tree, 0);
 		// print_envp(shell);
 		// quick test of builtins
-		while (shell->tree)
-		{
-			if (shell->tree->builtin != NULL)
-				shell->tree->builtin(shell, shell->tree);
-			shell->tree = shell->tree->left;
-		}
+		if (shell->tree->builtin != NULL)
+			shell->tree->builtin(shell, shell->tree);
+		// while (shell->tree)
+		// {
+		// 	if (shell->tree->builtin != NULL)
+		// 		shell->tree->builtin(shell, shell->tree);
+		// 	shell->tree = shell->tree->left;
+		// }
 		// execute(shell->tree);
 		// reset()	//reset lists of tokens etc, but keep history
 		// free(shell->line);

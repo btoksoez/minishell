@@ -130,3 +130,26 @@ void    print_envp(t_shell *shell)
         i++;
     }
 }
+
+void print_path_test(void)
+{
+	char *full_path = "/home/btoksoez/Documents/minishell/sources";
+	char *rel_path = "/includes/";
+	char *wrong_path = "/wrong/path";
+	char *parent = "..";
+
+	printf("Result: \n");
+	printf("%s\n", extend_path(full_path));
+	printf("%s\n", extend_path(rel_path));
+	printf("%s\n", extend_path(wrong_path));
+	printf("%s\n", extend_path(parent));
+}
+
+void print_test_cd(t_shell *s)
+{
+	printf("ENVPS\n");
+	char cwd[1024];
+	getcwd(cwd, sizeof(cwd));
+	printf("getcwd: %s\n", cwd);
+	printf("PWD: %s\nOLDPWD: %s\n", s->envps->pwd, s->envps->oldpwd);
+}

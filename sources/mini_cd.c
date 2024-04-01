@@ -3,20 +3,35 @@
 /* with no args: change envp->pwd to envp->home
 with a given path: extend path to make it absolute then update pwd and olpwd
 if first argument is -: change to pwd to OLDPWD
-also implement ..?
+always needs to change both the "real" working directory of process with chdir
+and update the environemtn variables PWD and OLDPWD
 */
 
 /* not sure if this might be helpful later */
-void	change_directory(t_shell *s, char *new_cd)
+void	change_directory(t_shell *s)
 {
-	char *new_pwd;
+	char	*new_pwd;
+	char	*new_oldpwd;
+	char	cwd[1024];
 
+	if (!getcwd(cwd, sizeof(cwd)))
+	{
+		perror("get cwd error\n");
+		return ;
+	}
 	new_pwd = NULL;
+	new_oldpwd = NULL;
 	if (s->envps->pwd_index != -1)
 	{
 		free(s->envp[s->envps->pwd_index]);	//free old value
-		new_pwd = ft_strjoin("PWD=", new_cd);	//join new_cd and "PWD=" and '\0'
+		new_pwd = ft_strjoin("PWD=", cwd);	//join new_cd and "PWD=" and '\0'
 		s->envp[s->envps->pwd_index] = new_pwd;
+	}
+	if (s->envps->oldpwd_index != -1)
+	{
+		free(s->envp[s->envps->oldpwd_index]);	//free old value
+		new_oldpwd = ft_strjoin("OLDPWD=", s->envps->pwd);	//join pwd and "OLDPWD=" and '\0'
+		s->envp[s->envps->oldpwd_index] = new_oldpwd;
 	}
 }
 /* the struct is used to store info about the path (size, permissions etc.)
@@ -39,36 +54,35 @@ char	*extend_path(char *path)
 	if (!path)
 		return (error_message("no path given"), NULL);
 	extended_path = NULL;
-	if (is_valid_path(path))	//if it's a valid path already, just return it
-		return (path);
-	else
+	if (is_valid_path(path))
+			return (path);
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		if (getcwd(cwd, sizeof(cwd)) != NULL)
-		{
-			extended_path = ft_strjoin(cwd, path);
-			if (is_valid_path(extended_path))
-				return (extended_path);
-			free(extended_path);
-		}
+		if (ft_strnstr(path, cwd, ft_strlen(cwd)))
+			extended_path = path;
+		else
+			extended_path = ft_strjoin(cwd, path);	//join with given path to make it absolute path
+		if (is_valid_path(extended_path))
+			return (extended_path);
+		free(extended_path);
 	}
 	return (NULL);
 }
 
-int	mini_cd(t_shell *s, t_tree_node *tree)
+/* gets values of PWD, OLDPWD and HOME from envp */
+void	get_env_vars(t_shell *s)
 {
-	// char	*new_oldpwd;
-	char	*path;
-	char	*new_cd;
-	int		i;
+	int	i;
 
-	if (!tree || !s)
-		return (error_message("mini cd error"), 0);
 	i = 0;
-	path = tree->args->arg;	//set path to first argument given after cd
-	// go through environment variables
 	while (s->envp[i])
 	{
-		if (ft_strncmp(s->envp[i], "OLDPWD=", 7) == 0)
+		if (ft_strncmp(s->envp[i], "PWD=", 4) == 0)
+		{
+			s->envps->pwd_index = i;
+			s->envps->pwd = s->envp[i] + 4;
+		}
+		else if (ft_strncmp(s->envp[i], "OLDPWD=", 7) == 0)
 		{
 			s->envps->oldpwd_index = i;
 			s->envps->oldpwd = s->envp[i] + 7;
@@ -77,24 +91,41 @@ int	mini_cd(t_shell *s, t_tree_node *tree)
 			s->envps->home = s->envp[i] + 5;
 		i++;
 	}
-	printf("pwd: %s\nold: %s\nhome: %s\n", s->envps->pwd, s->envps->oldpwd, s->envps->home);
+}
+
+int	mini_cd(t_shell *s, t_tree_node *tree)
+{
+	char	*path;
+	char	*new_cd;
+
+	if (!tree || !s)
+		return (error_message("mini cd error"), 0);
+	path = NULL;
+	new_cd = NULL;
+	if (tree->args)
+		path = tree->args->arg;	//set path to first argument given after cd
+	get_env_vars(s);
 	if (!path)
-		new_cd = s->envps->home;	//no arguments, new_cd = home
+		new_cd = ft_strdup(s->envps->home);	//no arguments, new_cd = home
 	else if (ft_strncmp(path, "-", ft_strlen(path)) == 0)
-		new_cd = s->envps->oldpwd;	// "-", change PWD to OLDPWD
+		new_cd = ft_strdup(s->envps->oldpwd);	// "-", change PWD to OLDPWD
 	else
-		new_cd = extend_path(path);	//get full path
-	if (chdir(new_cd) == 0)
-		printf("Changed directory to: %s\n", new_cd);
-	else
-		perror("chdir: no such file or directory");	//need to change error message
-	printf("\nAfter:\n");
-	print_envp(s);	//not sure if it actually changes becasue here it's still like old ones; how to check?
-	//get current path
-		//shell->envp, somehow find PWD, OLDPWD, HOME
-	(void)tree;
-	// if (new_cd)
-	// 	free(new_cd);
+	{
+		if (extend_path(path))
+			new_cd = ft_strdup(extend_path(path));
+		else
+			return (error_message("no such file or directory: {path}"), 0);
+	}
+	// print_test_cd(s);
+	if (chdir(new_cd))	//changes directory of process
+	{
+		ft_putstr_fd("path not set", STDERR_FILENO);	//this protection shouldn't be necessary because we already check it in extend_path
+		return (0);
+	}
+	change_directory(s);	//modifies environment variables
+	// print_test_cd(s);
+	if (new_cd)
+		free(new_cd);
 	return (1);
 }
 

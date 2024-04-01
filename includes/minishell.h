@@ -193,5 +193,7 @@ void			print_tokens(t_tokens *head);
 void			print_spaces(int count);
 void			print_tree(t_tree_node *root, int level);
 void			print_envp(t_shell *shell);
+void			print_path_test(void);
+void			print_test_cd(t_shell *s);
 
 #endif
