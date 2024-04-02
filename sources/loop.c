@@ -48,6 +48,27 @@ void	wait_pids(int fds, t_shell *shell)
 	// return (status);						 //change to int
 }
 
+void	get_prompt(t_shell *shell)
+{
+	char	*exit_status;
+	char	*prompt;
+
+	if (shell->status)
+		exit_status = ft_strjoin(RED, "⇾ ");
+	else
+		exit_status = ft_strjoin(GREEN, "⇾ ");
+	exit_status= ft_strjoin(exit_status, RESET);
+
+	prompt = ft_strjoin(CYAN, "minishell");
+	prompt = ft_strjoin(prompt, RESET);
+
+	shell->line = ft_strjoin(exit_status, prompt);
+	shell->line = ft_strjoin(shell->line, "$ ");
+	shell->line = readline(shell->line);
+
+	shell->status = 0;
+}
+
 void	loop(t_shell *shell)
 {
 	while (true)
@@ -55,8 +76,7 @@ void	loop(t_shell *shell)
 		if (g_sig == 3)
 			break;
 		shell->tokens = NULL;
-		shell->status = 0;
-		shell->line = readline("-> minishell$ ");
+		get_prompt(shell);
 		if (!shell->line)
 			break;
 		if (*shell->line)
