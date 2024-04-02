@@ -6,13 +6,13 @@ char	*ft_strdup_delimiter_char(const char *s, char delimiter)
 	char	*dup;
 
 	i = 0;
-	while (s[i] != delimiter)
+	while (s[i] && s[i] != delimiter)
 		i++;
 	dup = malloc(sizeof(char) * (i + 1));
 	if (!dup)
 		return (NULL);
 	i = 0;
-	while (s[i] != delimiter)
+	while (s[i] && s[i] != delimiter)
 	{
 		((unsigned char *)dup)[i] = ((unsigned char *)s)[i];
 		i++;

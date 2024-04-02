@@ -130,7 +130,7 @@ void			exit_error_message(char *message, int exit_code);
 
 /*----------------------------tokenization--------------------------*/
 /*------------------------------------------------------------------*/
-t_tokens		*tokenize(t_shell *shell);
+t_tokens		*tokenize(char *line);
 t_tokens		*get_tokens(char *line);
 char			*handle_single_quotes(char *start, t_tokens *token);
 char			*handle_double_quotes(char *start, t_tokens *token);
@@ -155,6 +155,7 @@ void			add_redir_list(t_redir_list **head, t_token_type type, char *filename);
 void			add_arg(t_args **args, t_tokens *current);
 int				tokens_len(t_tokens *tokens_start, t_tokens *tokens_end);
 t_tree_node		*parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end);
+void			count_pipes(t_shell *shell);
 
 /*----------------------------expansion-----------------------------*/
 /*------------------------------------------------------------------*/
@@ -173,6 +174,7 @@ int				mini_pwd(t_shell *shell, t_tree_node *tree);
 int				mini_unset(t_shell *shell, t_tree_node *tree);
 char			*extend_path(char *path);
 int				is_valid_path(char *path);
+int				char_arr_len(char **arr);
 
 /*---------------------------execution------------------------------*/
 /*------------------------------------------------------------------*/

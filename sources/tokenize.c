@@ -15,11 +15,11 @@ char	*trim_line(char *line, char *set)
 	return (str);
 }
 
-void	count_pipes(t_tokens *tokens, t_shell *shell)
+void	count_pipes(t_shell *shell)
 {
 	t_tokens *current;
 
-	current = tokens;
+	current = shell->tokens;
 	while (current != NULL)
 	{
 		if (current->type == PIPE)
@@ -28,22 +28,21 @@ void	count_pipes(t_tokens *tokens, t_shell *shell)
 	}
 }
 
-t_tokens	*tokenize(t_shell *shell)
+t_tokens	*tokenize(char *line)
 {
 	t_tokens	*tokens = NULL;
 	char		*trimmed_line;
 
-	trimmed_line = trim_line(shell->line, WHITESPACE);
+	trimmed_line = trim_line(line, WHITESPACE);
 	if (!trimmed_line)
 		return (NULL);
 	if (check_syntax_errors(trimmed_line))
 		return (NULL);
 	tokens = get_tokens(trimmed_line);
 	free(trimmed_line);
-	count_pipes(tokens, shell);
 	return (tokens);
 }
-
+// something here doesn't work when there is a space before a ending quote
 t_tokens	*get_tokens(char *line)
 {
 	t_tokens	*head;
@@ -90,7 +89,7 @@ char	*handle_single_quotes(char *start, t_tokens *token)
 		return (error_message("token error: quotes have '\0' input"), NULL);
 	token->value = word;
 	token->type = WORD;
-	start += ft_strlen(word) + 1;
+	start += ft_strlen(word);
 	return (start);
 }
 

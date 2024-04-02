@@ -85,9 +85,10 @@ void	loop(t_shell *shell)
 			break ;
 		if (check_syntax_errors(shell->line))
 			continue ;
-		shell->tokens = tokenize(shell);
+		shell->tokens = tokenize(shell->line);
 		if (check_tokens(shell->tokens))
 			continue ;
+		count_pipes(shell);
 		expand(shell->tokens);
 		print_tokens(shell->tokens);
 		if (!shell->tokens)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 16:57:16 by andre-da          #+#    #+#             */
-/*   Updated: 2023/10/10 18:14:53 by andre-da         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:21:33 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	size_t	i;
 
 	i = 0;
-	while (src[i] && size > (i + 1))
+	while (src[i] && size > i)
 	{
 		dest[i] = src[i];
 		i++;
@@ -29,13 +29,13 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	return (i);
 }
 
-/* int	main(void)
-{
-	char	src[] = "Hello World!";
-	char	dest[] = "";
+// int	main(void)
+// {
+// 	char	src[] = "Hello World!";
+// 	char	dest[] = "";
 
-	size_t	result = ft_strlcpy(dest, src, 5);
-	printf("Lenght: %zu\n", result);
-	printf("String: %s\n", dest);
-	return (0);
-} */
+// 	size_t	result = ft_strlcpy(dest, src, 7);
+// 	printf("Lenght: %zu\n", result);
+// 	printf("String: %s\n", dest);
+// 	return (0);
+// }
