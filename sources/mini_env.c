@@ -2,8 +2,14 @@
 
 int	mini_env(t_shell *shell, t_tree_node *tree)
 {
-	//TODO
-	(void)shell;
+	int	i;
+
+	i = 0;
+	while (shell->envp[i])
+	{
+		ft_putendl_fd(shell->envp[i], STDOUT_FILENO);
+		i++;
+	}
 	(void)tree;
-	return (1);
+	return (EXIT_SUCCESS);
 }

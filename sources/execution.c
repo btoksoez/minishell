@@ -149,17 +149,27 @@ void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int 
 		execute_pipe(shell, r_node->left, r_node->right, i + 1);
 	else
 	{
-		shell->id[i + 1] = fork();
-		if (shell->id[i + 1] == -1)
-			error_message("Failed to execute fork");
-		if (shell->id[i + 1] == 0)
-			execute_command(shell, r_node, i + 1, true);
+		if (shell->tree->builtin != NULL)
+			shell->tree->builtin(shell, shell->tree);
+		else
+		{
+			shell->id[i + 1] = fork();
+			if (shell->id[i + 1] == -1)
+				error_message("Failed to execute fork");
+			if (shell->id[i + 1] == 0)
+				execute_command(shell, r_node, i + 1, true);
+		}
 	}
-	shell->id[i] = fork();
-	if (shell->id[i] == -1)
-		error_message("Failed to execute fork");
-	if (shell->id[i] == 0)
-		execute_command(shell, l_node, i, false);
+	if (shell->tree->builtin != NULL)
+			shell->tree->builtin(shell, shell->tree);
+	else
+	{
+		shell->id[i] = fork();
+		if (shell->id[i] == -1)
+			error_message("Failed to execute fork");
+		if (shell->id[i] == 0)
+			execute_command(shell, l_node, i, false);
+	}
 }
 
 void	execute(t_shell *shell)
@@ -168,10 +178,15 @@ void	execute(t_shell *shell)
 		execute_pipe(shell, shell->tree->left, shell->tree->right, 0);
 	else
 	{
-		shell->id[0] = fork();
-		if (shell->id[0] == -1)
-			error_message("Failed to execute fork");
-		if (shell->id[0] == 0)
-			execute_command(shell, shell->tree, 0, true);
+		if (shell->tree->builtin != NULL)
+			shell->tree->builtin(shell, shell->tree);
+		else
+		{
+			shell->id[0] = fork();
+			if (shell->id[0] == -1)
+				error_message("Failed to execute fork");
+			if (shell->id[0] == 0)
+				execute_command(shell, shell->tree, 0, true);
+		}
 	}
 }

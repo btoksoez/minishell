@@ -19,6 +19,21 @@ void	copy_envp(t_shell *shell, char **envp)
 	shell->envp[i] = NULL;
 }
 
+t_envps	*init_envps(void)
+{
+	t_envps	*envps;
+
+	envps = malloc(sizeof(t_envps));
+	if (!envps)
+		return (NULL);
+	envps->pwd = NULL;
+	envps->oldpwd = NULL;
+	envps->home = NULL;
+	envps->pwd_index = -1;
+	envps->oldpwd_index = -1;
+	return (envps);
+}
+
 void	init_shell(t_shell *shell, char **envp)
 {
 	if (!*envp || !envp)
@@ -38,4 +53,5 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->tree = NULL;
 	shell->std_fds[0] = dup(STDIN_FILENO);
 	shell->std_fds[1] = dup(STDOUT_FILENO);
+	shell->envps = init_envps();
 }

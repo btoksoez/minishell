@@ -69,9 +69,19 @@ typedef struct s_tokens
 	struct s_tokens		*next;
 }						t_tokens;
 
+typedef struct	s_envps
+{
+	char				*pwd;
+	char				*oldpwd;
+	char				*home;
+	int					pwd_index;
+	int					oldpwd_index;
+}						t_envps;
+
 typedef struct s_shell
 {
 	char				**envp;
+	t_envps				*envps;
 	pid_t				*id;
 	int					**fd;
 	char				*line;
