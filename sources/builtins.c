@@ -24,7 +24,7 @@ int		(*builtin_arr(char *str))(t_shell *shell, struct s_tree_node *tree)
 	i = 0;
 	while (i < 7)
 	{
-		if (!ft_strncmp(builtins[i][0], str, ft_strlen(builtins[i][0])))
+		if (!ft_strcmp(builtins[i][0], str))
 			return (builtins[i][1]);	//returns builtin pointer if str is equal to the builtcmd
 		i++;
 	}

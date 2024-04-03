@@ -101,8 +101,9 @@ void	redirect_input_output(t_shell *shell, int i, bool last_cmd)
 	}
 	else
 	{
-		if (dup2(shell->fd[i][READ_END], STDIN_FILENO) == -1)
-			error_message("Error setting pipe read end to STDIN");
+		if (read(shell->fd[i][READ_END], 0, 0) < 0)
+			if (dup2(shell->fd[i][READ_END], STDIN_FILENO) == -1)
+				error_message("Error setting pipe read end to STDIN");
 	}
 	if (shell->outfile)
 	{
@@ -141,6 +142,8 @@ void	execute_command(t_shell *shell, t_tree_node *node, int i, bool cmd)
 		invalid_path(command, shell, node->cmd);
 	close_all_fds(shell);
 	execve(path, command, shell->envp);
+	fprintf(stderr, "here\n");
+	child_error_message(shell, "pipex: command not found: ", command[0], 127);
 }
 
 void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int i)

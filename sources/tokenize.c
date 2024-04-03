@@ -41,6 +41,8 @@ t_tokens	*tokenize(t_shell *shell)
 	tokens = get_tokens(trimmed_line);
 	free(trimmed_line);
 	count_pipes(tokens, shell);
+	if (!tokens)
+		shell->status = 1; // change to the right value
 	return (tokens);
 }
 

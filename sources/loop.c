@@ -37,15 +37,23 @@ void	prepare_to_execute(t_shell *shell)
 
 void	wait_pids(int fds, t_shell *shell)
 {
-	// int	status;
+	t_tree_node	*current;
+	int	status;
 	int	i;
 
 	i = 0;
-	while (i < fds)
+	shell->status = 0;
+	while (i < fds - 1)
 		waitpid(shell->id[i++], NULL, 0);
-
-	// waitpid(shell->id[i], &status, 0);
-	// return (status);						 //change to int
+	current = shell->tree;
+	while (current)
+	{
+		if (shell->tree->builtin != NULL)
+			return ;
+		current = current->right;
+	}
+	waitpid(shell->id[i], &status, 0);
+	shell->status = WEXITSTATUS(status);
 }
 
 void	get_prompt(t_shell *shell)
@@ -65,16 +73,14 @@ void	get_prompt(t_shell *shell)
 	shell->line = ft_strjoin(exit_status, prompt);
 	shell->line = ft_strjoin(shell->line, "$ ");
 	shell->line = readline(shell->line);
-
-	shell->status = 0;
 }
 
 void	loop(t_shell *shell)
 {
 	while (true)
 	{
-		if (g_sig == 3)
-			break;
+		// if (g_sig == SIGQUIT)
+		// 	break;
 		shell->tokens = NULL;
 		get_prompt(shell);
 		if (!shell->line)
@@ -90,17 +96,15 @@ void	loop(t_shell *shell)
 			continue ;
 		// expand(tokens);
 		if (!shell->tokens)
-			shell->status = 1; 								// search for the right status value
-		if (shell->status)
 		{
 			reset(shell);
 			continue;
 		}
 		shell->tree = parse_commandline(shell->tokens);
-		prepare_to_execute(shell);
-		execute(shell);
 		// print_tokens(shell->tokens);
 		// print_tree(shell->tree, 0);
+		prepare_to_execute(shell);
+		execute(shell);
 		close_all_fds(shell);
 		wait_pids(shell->pipe_nbr + 1, shell);
 		free(shell->line);

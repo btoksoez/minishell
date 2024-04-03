@@ -29,6 +29,8 @@
 /*-------------------------------structs----------------------------*/
 /*------------------------------------------------------------------*/
 
+extern volatile sig_atomic_t g_sig;
+
 typedef enum e_tree_type
 {
 	PHANTOM,	//0 for phantom
@@ -106,8 +108,6 @@ typedef struct	s_tree_node
 	struct s_tree_node	*right;
 	struct s_redir_list	*redir_list;
 }						t_tree_node;
-
-extern volatile sig_atomic_t g_sig;
 
 /*----------------------------minishell-----------------------------*/
 /*------------------------------------------------------------------*/
