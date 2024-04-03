@@ -22,7 +22,7 @@ int	mini_echo(t_shell *shell, t_tree_node *cmd_node)
 	while (current)
 	{
 		ft_putstr_fd(current->arg, 1);
-		if (current->next)
+		if (current->next && current->next->quotes == 0)
 			ft_putchar_fd(' ', 1);
 		current = current->next;
 	}

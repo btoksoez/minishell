@@ -56,8 +56,11 @@ void	add_arg(t_args **args, t_tokens *current)
 	new_arg = (t_args *)malloc(sizeof(t_args));
 	if (!new_arg)
 		return (error_message("malloc error args"));
+	new_arg->quotes = 0;
 	new_arg->arg = current->value;
 	new_arg->next = NULL;
+	if (current->type == QUOTE)
+		new_arg->quotes = 1;	//will now identify arg as a quote or not
 	if (!*args)
 		*args = new_arg;
 	else

@@ -249,6 +249,7 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 	//for each arg
 	while (tree->args)
 	{
+		printf("args arg %s\n", tree->args->arg);
 		//get var
 		var = ft_strdup_delimiter_char(tree->args->arg, '=');
 		//check for equal sign
@@ -262,7 +263,9 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 		{
 			//get value
 			value = ft_strdup(ft_strchr(tree->args->arg, '=') + 1);
+			printf("Value %s\n", value);
 			value = strip_value(value);
+
 
 
 

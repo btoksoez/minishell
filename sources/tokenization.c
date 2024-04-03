@@ -10,6 +10,7 @@ char	*token_word(char *start, t_tokens *token, char *delimiter)
 	token->value = word;
 	token->type = WORD;
 	start += ft_strlen(word);
+	printf("Start: %s\n", start);
 	return (start);
 }
 
@@ -43,7 +44,7 @@ char	*token_envp(char *start, t_tokens *token)
 {
 	char	*word;
 
-	word = ft_strdup_delimiter_string(start, WHITESPACE);
+	word = ft_strdup_delimiter_string(start, WHITESPACE_QUOTES);
 	if (!word)
 		return (error_message("token error: envp whitespaces after $"), NULL);
 	token->value = word;
