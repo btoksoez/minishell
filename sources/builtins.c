@@ -30,4 +30,3 @@ int		(*builtin_arr(char *str))(t_shell *shell, struct s_tree_node *tree)
 	}
 	return (NULL);
 }
-

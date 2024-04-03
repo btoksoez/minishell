@@ -101,7 +101,7 @@ void	redirect_input_output(t_shell *shell, int i, bool last_cmd)
 	}
 	else
 	{
-		if (read(shell->fd[i][READ_END], 0, 0) < 0)
+		if (i != 0)
 			if (dup2(shell->fd[i][READ_END], STDIN_FILENO) == -1)
 				error_message("Error setting pipe read end to STDIN");
 	}
@@ -142,8 +142,7 @@ void	execute_command(t_shell *shell, t_tree_node *node, int i, bool cmd)
 		invalid_path(command, shell, node->cmd);
 	close_all_fds(shell);
 	execve(path, command, shell->envp);
-	fprintf(stderr, "here\n");
-	child_error_message(shell, "pipex: command not found: ", command[0], 127);
+	child_error_message(shell, "minishell: command not found: ", command[0], 127);
 }
 
 void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int i)
@@ -152,8 +151,8 @@ void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int 
 		execute_pipe(shell, r_node->left, r_node->right, i + 1);
 	else
 	{
-		if (shell->tree->builtin != NULL)
-			shell->tree->builtin(shell, shell->tree);
+		if (r_node->builtin != NULL)
+			r_node->builtin(shell, r_node);
 		else
 		{
 			shell->id[i + 1] = fork();
@@ -163,8 +162,8 @@ void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int 
 				execute_command(shell, r_node, i + 1, true);
 		}
 	}
-	if (shell->tree->builtin != NULL)
-			shell->tree->builtin(shell, shell->tree);
+	if (l_node->builtin != NULL)
+		l_node->builtin(shell, l_node);
 	else
 	{
 		shell->id[i] = fork();

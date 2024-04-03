@@ -9,6 +9,7 @@
 		"stdlib.h": "c",
 		"readline.h": "c",
 		"ioctl.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"__config": "c"
 	}
 }

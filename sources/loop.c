@@ -46,12 +46,10 @@ void	wait_pids(int fds, t_shell *shell)
 	while (i < fds - 1)
 		waitpid(shell->id[i++], NULL, 0);
 	current = shell->tree;
-	while (current)
-	{
-		if (shell->tree->builtin != NULL)
-			return ;
+	while (current && current->right)
 		current = current->right;
-	}
+	if (current->builtin != NULL)
+		return ;
 	waitpid(shell->id[i], &status, 0);
 	shell->status = WEXITSTATUS(status);
 }
