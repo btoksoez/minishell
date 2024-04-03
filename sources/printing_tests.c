@@ -12,6 +12,7 @@ void	print_tokens(t_tokens *head)
 		printf("+----------------------------------+\n");
 		printf("| Value: %-25s |\n", current->value);
 		printf("| Type: %-26d |\n", current->type);
+		printf("| Space: %-26d |\n", current->space);
 
 		if (current->previous != NULL)
 			printf("| Previous: Node %-4d (%-10s)|\n", index - 1, current->previous->value);

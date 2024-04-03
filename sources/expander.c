@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-char	*replace_env(char *str)
+char	*get_env(char *str)
 {
 	char *env_value;
 
@@ -81,7 +81,7 @@ char	*find_and_replace(char *org_str)
 			break;
 		}
 		str_env = ft_strdup_delimiter_string(++org_str, WHITESPACE_DOLLAR);	//malloc from start env until whitespace, dollar or end of org_str
-		new_str = ft_strjoin(str_before, replace_env(str_env));	//replaces env with its value
+		new_str = ft_strjoin(str_before, get_env(str_env));	//replaces env with its value
 		org_str += ft_strlen(str_env);
 		result = ft_strjoin(result, new_str);
 		free_strs(str_before, str_env, new_str);
