@@ -10,7 +10,8 @@ char	*token_word(char *start, t_tokens *token, char *delimiter)
 	token->value = word;
 	token->type = WORD;
 	start += ft_strlen(word);
-	printf("Start: %s\n", start);
+	if (ft_strchr(WHITESPACE, *start))
+		token->space = 1;
 	return (start);
 }
 
@@ -50,5 +51,7 @@ char	*token_envp(char *start, t_tokens *token)
 	token->value = word;
 	token->type = ENV_VAR;
 	start += ft_strlen(word);
+	if (ft_strchr(WHITESPACE, *start))
+		token->space = 1;
 	return (start);
 }

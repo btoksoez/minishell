@@ -91,6 +91,7 @@ t_tokens	*token_init(void)
 	new->next = NULL;
 	new->value = NULL;
 	new->type = 0;
+	new->space = 0;
 	return (new);
 }
 

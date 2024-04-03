@@ -81,8 +81,7 @@ char	*find_and_replace(char *org_str)
 			break;
 		}
 		str_env = ft_strdup_delimiter_string(++org_str, WHITESPACE_DOLLAR);	//malloc from start env until whitespace, dollar or end of org_str
-		char *replace = replace_env(str_env);
-		new_str = ft_strjoin(str_before, replace);	//replaces env with its value
+		new_str = ft_strjoin(str_before, replace_env(str_env));	//replaces env with its value
 		org_str += ft_strlen(str_env);
 		result = ft_strjoin(result, new_str);
 		free_strs(str_before, str_env, new_str);
@@ -102,7 +101,9 @@ void	expand(t_tokens *tokens)
 	{
 		if (current->type == 6)
 		{
+			printf("is type 6: %s\n", current->value);
 			result = find_and_replace(current->value);
+			printf("Result: %s\n", result);
 			current->value = result;
 		}
 		current = current->next;

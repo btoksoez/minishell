@@ -15,6 +15,7 @@
 # define WHITESPACE " \t\n\v\f\r"
 # define WHITESPACE_DOLLAR " \t\n\v\f\r$"
 # define WHITESPACE_QUOTES " \t\n\v\f\r\'\""
+# define WHITESPACE_Q_D " \t\n\v\f\r\'\"$"
 # define QUOTE_DELIMITER "$\""
 # define TRUE 1
 # define FALSE 0
@@ -41,13 +42,12 @@ typedef enum e_token_type
 	APPEND,		//3 for '>>'
 	HEREDOC,	//4 for '<<'
 	WORD,		//5 for args and commands
-	QUOTE,		//6 for words that were in quotes
-	ENV_VAR		//7 for environment variables
+	ENV_VAR		//6 for environment variables
 }	t_token_type;
 
 typedef struct	s_args
 {
-	int					quotes;
+	int					space;
 	char				*arg;
 	struct s_args		*next;
 }						t_args;
@@ -62,6 +62,7 @@ typedef struct	s_redir_list
 typedef struct s_tokens
 {
 	t_token_type		type;
+	int					space;
 	char				*value;
 	struct s_tokens		*previous;
 	struct s_tokens		*next;

@@ -71,7 +71,8 @@ t_tokens	*get_tokens(char *line)
 		else if (*line == '$' && !ft_strchr(WHITESPACE, *(line + 1)))
 			line = token_envp(line, current);
 		else
-			line = token_word(line, current, WHITESPACE_QUOTES);
+			line = token_word(line, current, WHITESPACE_Q_D);
+		printf("%s\n", line);
 		previous = current;
 		current = add_node_back(previous);
 	}
@@ -88,8 +89,10 @@ char	*handle_single_quotes(char *start, t_tokens *token)
 	if (!word)
 		return (error_message("token error: quotes have '\0' input"), NULL);
 	token->value = word;
-	token->type = QUOTE;	//will now add as quote type
+	token->type = WORD;
 	start += ft_strlen(word) + 1;
+	if (ft_strchr(WHITESPACE, *start))
+		token->space = 1;
 	return (start);
 }
 
@@ -106,7 +109,9 @@ char	*handle_double_quotes(char *start, t_tokens *token)
 	if (dollar && !ft_strchr(WHITESPACE, *(dollar + 1)))
 		token->type = ENV_VAR;
 	else
-		token->type = QUOTE;	//will now add as quote type
+		token->type = WORD;
 	start += ft_strlen(word) + 1;
+	if (ft_strchr(WHITESPACE, *start))
+		token->space = 1;
 	return (start);
 }
