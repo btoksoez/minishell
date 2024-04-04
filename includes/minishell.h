@@ -97,6 +97,7 @@ typedef struct s_shell
 	bool				here_doc;
 	int					pipe_nbr;
 	int					status;
+	int					builtin_status;
 	int					std_fds[2];
 	int					env_status;
 	struct s_tree_node	*tree;

@@ -52,6 +52,7 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->outfile = 0;
 	shell->pipe_nbr = 0;
 	shell->status= 0;
+	shell->builtin_status = 0;
 	shell->line = NULL;
 	shell->tree = NULL;
 	shell->std_fds[0] = dup(STDIN_FILENO);

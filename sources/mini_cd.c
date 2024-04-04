@@ -99,7 +99,7 @@ int	mini_cd(t_shell *s, t_tree_node *tree)
 	char	*new_cd;
 
 	if (!tree || !s)
-		return (error_message("mini cd error"), 0);
+		return (error_message("mini cd error"), EXIT_FAILURE);
 	path = NULL;
 	new_cd = NULL;
 	if (tree->args)
@@ -114,19 +114,19 @@ int	mini_cd(t_shell *s, t_tree_node *tree)
 		if (extend_path(path))
 			new_cd = ft_strdup(extend_path(path));
 		else
-			return (error_message("no such file or directory: {path}"), 0);
+			return (error_message("no such file or directory: {path}"), EXIT_FAILURE);
 	}
 	// print_test_cd(s);
 	if (chdir(new_cd))	//changes directory of process
 	{
 		ft_putstr_fd("path not set", STDERR_FILENO);	//this protection shouldn't be necessary because we already check it in extend_path
-		return (0);
+		return (EXIT_FAILURE);
 	}
 	change_directory(s);	//modifies environment variables
 	// print_test_cd(s);
 	if (new_cd)
 		free(new_cd);
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
 

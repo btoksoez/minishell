@@ -38,8 +38,8 @@ void	prepare_to_execute(t_shell *shell)
 void	wait_pids(int fds, t_shell *shell)
 {
 	t_tree_node	*current;
-	int	status;
-	int	i;
+	int			status;
+	int			i;
 
 	i = 0;
 	shell->status = 0;
@@ -49,7 +49,10 @@ void	wait_pids(int fds, t_shell *shell)
 	while (current && current->right)
 		current = current->right;
 	if (current->builtin != NULL)
+	{
+		shell->status = shell->builtin_status;
 		return ;
+	}
 	waitpid(shell->id[i], &status, 0);
 	shell->status = WEXITSTATUS(status);
 }
