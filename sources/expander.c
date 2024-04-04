@@ -4,6 +4,8 @@ char	*get_env(char *str)
 {
 	char *env_value;
 
+	if (*str == '?')
+		return ("$?");
 	env_value = getenv(str);
 	if (!env_value)
 		env_value = "";
@@ -101,9 +103,7 @@ void	expand(t_tokens *tokens)
 	{
 		if (current->type == 6)
 		{
-			printf("is type 6: %s\n", current->value);
 			result = find_and_replace(current->value);
-			printf("Result: %s\n", result);
 			current->value = result;
 		}
 		current = current->next;

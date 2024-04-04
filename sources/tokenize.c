@@ -30,7 +30,6 @@ void	count_pipes(t_shell *shell)
 
 t_tokens	*tokenize(t_shell *shell)
 {
-	t_tokens	*tokens = NULL;
 	char		*trimmed_line;
 
 	trimmed_line = trim_line(shell->line, WHITESPACE);
@@ -38,12 +37,12 @@ t_tokens	*tokenize(t_shell *shell)
 		return (NULL);
 	if (check_syntax_errors(trimmed_line))
 		return (NULL);
-	tokens = get_tokens(trimmed_line);
+	shell->tokens = get_tokens(trimmed_line);
 	free(trimmed_line);
-	if (!tokens)
-		shell->status = 1; // change to the right value
 	count_pipes(shell);
-	return (tokens);
+	if (!shell->tokens)
+		shell->status = 1; // change to the right value
+	return (shell->tokens);
 }
 // something here doesn't work when there is a space before a ending quote
 t_tokens	*get_tokens(char *line)
@@ -75,7 +74,6 @@ t_tokens	*get_tokens(char *line)
 			line = token_envp(line, current);
 		else
 			line = token_word(line, current, WHITESPACE_Q_D);
-		printf("%s\n", line);
 		previous = current;
 		current = add_node_back(previous);
 	}

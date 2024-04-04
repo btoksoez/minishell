@@ -6,7 +6,6 @@ void	clean_up(t_shell *shell)
 		free(shell->line);
 	close(shell->std_fds[0]);
 	close(shell->std_fds[1]);
-	printf("exit\n");					//just for test purposes
 	// free_tokens(shell->tokens);
 	// free_tree(shell->tree);
 	exit_error_message("exit", 0);

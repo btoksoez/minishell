@@ -240,7 +240,7 @@ char *add_double_quotes(char *str)
 	}
 	res[i + 1] = '\"';
 	res[i + 2] = '\0';
-	printf("With double quotes: %s\n", res);
+	// printf("With double quotes: %s\n", res);
 	return (res);
 }
 
@@ -293,10 +293,10 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 	//for each arg
 	while (tree->args)
 	{
-		printf("args arg %s\n", tree->args->arg);
+		// printf("args arg %s\n", tree->args->arg);
 		//get var
 		var = ft_strdup_delimiter_char(tree->args->arg, '=');
-		printf("Var: %s\n", var);
+		// printf("Var: %s\n", var);
 		//check for equal sign
 		if (ft_strlen(var) == ft_strlen(tree->args->arg))
 		{

@@ -138,10 +138,11 @@ void			signals(void);
 /*------------------------------------------------------------------*/
 void			error_message(char *message);
 void			exit_error_message(char *message, int exit_code);
+void			child_error_message(t_shell *shell, char *message, char *command, int exit_code);
 
 /*----------------------------tokenization--------------------------*/
 /*------------------------------------------------------------------*/
-t_tokens		*tokenize(char *line);
+t_tokens		*tokenize(t_shell *shell);
 t_tokens		*get_tokens(char *line);
 char			*handle_single_quotes(char *start, t_tokens *token);
 char			*handle_double_quotes(char *start, t_tokens *token);
@@ -172,10 +173,14 @@ void			count_pipes(t_shell *shell);
 /*------------------------------------------------------------------*/
 void			expand(t_tokens *tokens);
 
+/*------------------------------reset-------------------------------*/
+/*------------------------------------------------------------------*/
+void			reset(t_shell *shell);
+void			close_all_fds(t_shell *shell);
+
 /*----------------------------builtins------------------------------*/
 /*------------------------------------------------------------------*/
 int				(*builtin_arr(char *str))(t_shell *shell, struct s_tree_node *cmd_node);
-
 int				mini_cd(t_shell *shell, t_tree_node *tree);
 int				mini_echo(t_shell *shell, t_tree_node *cmd_node);
 int				mini_export(t_shell *shell, t_tree_node *tree);
@@ -193,8 +198,9 @@ void			execute(t_shell *shell);
 char			*get_path(char *cmd, char **envp);
 void			get_path_index(char **envp, int *index);
 void			free_and_close_path(int fd, char **paths, char *path, char *path_cmd);
+void			prepare_to_execute(t_shell *shell);
 
-/*----------------------------testing-------------------------------*/
+/*----------------------------freeing-------------------------------*/
 /*------------------------------------------------------------------*/
 void			free_tree(t_tree_node *node);
 void			free_tokens(t_tokens *head);

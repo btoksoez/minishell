@@ -98,11 +98,10 @@ void	redirect_input_output(t_shell *shell, int i, bool last_cmd)
 		if (dup2(shell->infile, STDIN_FILENO) == -1)
 			error_message("Error setting infile to STDIN");
 	}
-	else
+	else if (i != 0)
 	{
-		if (i != 0)
-			if (dup2(shell->fd[i][READ_END], STDIN_FILENO) == -1)
-				error_message("Error setting pipe read end to STDIN");
+		if (dup2(shell->fd[i][READ_END], STDIN_FILENO) == -1)
+			error_message("Error setting pipe read end to STDIN");
 	}
 	if (shell->outfile)
 	{
