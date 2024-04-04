@@ -63,7 +63,7 @@ void	get_prompt(t_shell *shell)
 		exit_status = ft_strjoin(RED, "⇾ ");
 	else
 		exit_status = ft_strjoin(GREEN, "⇾ ");
-	exit_status= ft_strjoin(exit_status, RESET);
+	exit_status = ft_strjoin(exit_status, RESET);
 
 	prompt = ft_strjoin(CYAN, "minishell");
 	prompt = ft_strjoin(prompt, RESET);
@@ -77,8 +77,8 @@ void	loop(t_shell *shell)
 {
 	while (true)
 	{
-		// if (g_sig == SIGQUIT)
-		// 	break;
+		if (g_sig == SIGQUIT)
+			break;
 		shell->tokens = NULL;
 		get_prompt(shell);
 		if (!shell->line)

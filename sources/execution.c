@@ -48,7 +48,6 @@ void	open_files(t_shell *shell, t_redir_list *file)
 			}
 			if (shell->infile < 0)
 				error_message("Failed to open infile");
-
 		}
 		else if (current->type == RE_OUTPUT || current->type == APPEND)
 		{

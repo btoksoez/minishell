@@ -34,9 +34,9 @@ void	close_all_fds(t_shell *shell)
 		close(shell->outfile);
 	while (i < childs)
 	{
-		if (shell->fd[i][WRITE_END] >= 0)
+		if (shell->fd[i][WRITE_END] > 0)
 			close(shell->fd[i][WRITE_END]);
-		if (shell->fd[i][READ_END] >= 0)
+		if (shell->fd[i][READ_END] > 0)
 			close(shell->fd[i][READ_END]);
 		i++;
 	}

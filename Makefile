@@ -9,7 +9,7 @@ RM = rm -rf
 
 SRC_DIR = sources
 OBJ_DIR = objects
-SRC = $(wildcard $(SRC_DIR)/*.c) #we will need to change this in the end
+SRC = $(wildcard $(SRC_DIR)/*.c)						 # we will need to change this in the end (do it on libft too)
 OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
 
 # Colours
