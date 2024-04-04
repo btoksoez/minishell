@@ -6,6 +6,8 @@ char	*get_env(char *str)
 
 	if (*str == '?')
 		return ("$?");
+	else if (*str == '$')
+		return ("$$");
 	env_value = getenv(str);
 	if (!env_value)
 		env_value = "";
@@ -96,16 +98,14 @@ replacing them by their value or by a empty string (\0\0) */
 void	expand(t_tokens *tokens)
 {
 	t_tokens	*current;
-	char		*result;
+	// char		*result;
 
 	current = tokens;
 	while (current)
 	{
 		if (current->type == 6)
-		{
-			result = find_and_replace(current->value);
-			current->value = result;
-		}
+			if (ft_strcmp(current->value, "$$"))
+				current->value = find_and_replace(current->value);
 		current = current->next;
 	}
 }

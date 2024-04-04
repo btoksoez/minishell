@@ -34,14 +34,28 @@ t_envps	*init_envps(void)
 	return (envps);
 }
 
+//add extract_user() function
+
 void	init_shell(t_shell *shell, char **envp)
 {
+	char	path[1024];
+
 	if (!*envp || !envp)
 	{
-		shell->env_status = FALSE;
-		/*TODO: which envps to init if no envp
-		we need PWD, OLDPWD, HOME, */
-
+		shell->envp = (char **)malloc(sizeof(char *) * 8);
+		if (!shell->envp)
+			exit_error_message("Envp memory allocation failed", 1);
+		if (getcwd(path, sizeof(path)) != NULL)
+		{
+			shell->envp[0] = extract_user();
+			shell->envp[1] = ft_strjoin("PWD=", path);
+			shell->envp[2] = ft_strjoin("OLDPWD=", path);
+			shell->envp[3] = ft_strdup("SHLVL=1");
+			shell->envp[4] = ft_strdup("_=/usr/bin/env");
+			shell->envp[5] = ft_strdup("TERM=xterm-256color");
+			shell->envp[6] = ft_strjoin("HOME=", path);
+			shell->envp[7] = NULL;
+		}
 	}
 	else
 	{

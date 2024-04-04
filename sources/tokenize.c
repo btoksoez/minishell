@@ -58,6 +58,7 @@ t_tokens	*get_tokens(char *line)
 		return (NULL);
 	while (*line != '\0')
 	{
+		printf("line: %s\n", line);
 		line = skip_whitespace(line);
 		if (*line == '\0')
 			break ;
@@ -70,6 +71,8 @@ t_tokens	*get_tokens(char *line)
 		else if ((*line == '>' && *(line + 1) == '>' && ft_strchr(WHITESPACE, *(line + 2)))
 			|| (*line == '<' && *(line + 1) == '<' && ft_strchr(WHITESPACE, *(line + 2))))
 			line = double_token(line, current);
+		else if (*line == '$' && ft_strchr(WHITESPACE, *(line + 1)))
+			line = token_dollar(line, current);
 		else if (*line == '$' && !ft_strchr(WHITESPACE, *(line + 1)))
 			line = token_envp(line, current);
 		else

@@ -15,7 +15,7 @@
 # define WHITESPACE " \t\n\v\f\r"
 # define WHITESPACE_DOLLAR " \t\n\v\f\r$"
 # define WHITESPACE_QUOTES " \t\n\v\f\r\'\""
-# define WHITESPACE_Q_D " \t\n\v\f\r\'\"$"
+# define WHITESPACE_Q_D " \t\n\v\f\r\'\"$?"
 # define QUOTE_DELIMITER "$\""
 # define TRUE 1
 # define FALSE 0
@@ -158,6 +158,7 @@ char			*ft_strdup_delimiter_string(const char *s, char *delimiter);
 char			*skip_whitespace_and_empty_quotes(char *line);
 char			*skip_whitespace(char *line);
 int				args_len(t_args *args);
+char			*token_dollar(char *start, t_tokens *token);
 
 /*----------------------------parsing-------------------------------*/
 /*------------------------------------------------------------------*/
