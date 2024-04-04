@@ -10,6 +10,8 @@ char	*token_word(char *start, t_tokens *token, char *delimiter)
 	token->value = word;
 	token->type = WORD;
 	start += ft_strlen(word);
+	if (ft_strchr(WHITESPACE, *start))
+		token->space = 1;
 	return (start);
 }
 
@@ -43,26 +45,13 @@ char	*token_envp(char *start, t_tokens *token)
 {
 	char	*word;
 
-	word = ft_strdup_delimiter_string(++start, WHITESPACE);
+	word = ft_strdup_delimiter_string(start, WHITESPACE_QUOTES);
 	if (!word)
 		return (error_message("token error: envp whitespaces after $"), NULL);
 	token->value = word;
 	token->type = ENV_VAR;
 	start += ft_strlen(word);
+	if (ft_strchr(WHITESPACE, *start))
+		token->space = 1;
 	return (start);
-}
-
-void	free_tokens(t_tokens *head)
-{
-	t_tokens *current = head;
-	t_tokens *next_node;
-
-	while (current != NULL)
-	{
-		next_node = current->next;
-		if (current->value != NULL)
-			free(current->value);
-		free(current);
-		current = next_node;
-	}
 }

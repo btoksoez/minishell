@@ -15,11 +15,11 @@ char	*trim_line(char *line, char *set)
 	return (str);
 }
 
-void	count_pipes(t_tokens *tokens, t_shell *shell)
+void	count_pipes(t_shell *shell)
 {
 	t_tokens *current;
 
-	current = tokens;
+	current = shell->tokens;
 	while (current != NULL)
 	{
 		if (current->type == PIPE)
@@ -40,12 +40,12 @@ t_tokens	*tokenize(t_shell *shell)
 		return (NULL);
 	tokens = get_tokens(trimmed_line);
 	free(trimmed_line);
-	count_pipes(tokens, shell);
 	if (!tokens)
 		shell->status = 1; // change to the right value
+	count_pipes(shell);
 	return (tokens);
 }
-
+// something here doesn't work when there is a space before a ending quote
 t_tokens	*get_tokens(char *line)
 {
 	t_tokens	*head;
@@ -59,13 +59,13 @@ t_tokens	*get_tokens(char *line)
 		return (NULL);
 	while (*line != '\0')
 	{
-		line = skip_whitespace_and_empty_quotes(line);
+		line = skip_whitespace(line);
 		if (*line == '\0')
 			break ;
 		if (*line == '\'')
 			line = handle_single_quotes(line, current);
 		else if (*line == '\"')
-			line = handle_double_quotes(line, &current);
+			line = handle_double_quotes(line, current);
 		else if (ft_strchr(SINGLE_TOKENS, *line) && ft_strchr(WHITESPACE, *(line + 1)))
 			line = single_token(line, current);
 		else if ((*line == '>' && *(line + 1) == '>' && ft_strchr(WHITESPACE, *(line + 2)))
@@ -74,7 +74,8 @@ t_tokens	*get_tokens(char *line)
 		else if (*line == '$' && !ft_strchr(WHITESPACE, *(line + 1)))
 			line = token_envp(line, current);
 		else
-			line = token_word(line, current, WHITESPACE);
+			line = token_word(line, current, WHITESPACE_Q_D);
+		printf("%s\n", line);
 		previous = current;
 		current = add_node_back(previous);
 	}
@@ -93,37 +94,27 @@ char	*handle_single_quotes(char *start, t_tokens *token)
 	token->value = word;
 	token->type = WORD;
 	start += ft_strlen(word) + 1;
+	if (ft_strchr(WHITESPACE, *start))
+		token->space = 1;
 	return (start);
 }
 
-/* skip beginning quote, stdup everything inside,
-create node for each word and each envp,
-set pointer to current to last node created */
-char	*handle_double_quotes(char *start, t_tokens **current)
+char	*handle_double_quotes(char *start, t_tokens *token)
 {
-	t_tokens	*previous;
-	char		*line;
+	char		*word;
+	char		*dollar;
 
-	start++;
-	char *new_start = ft_strchr(start, '\"') + 1;
-	if (*start == '\"')
-		return (new_start);
-	line = ft_strdup_delimiter_char(start, '\"');
-	if (!line || *line == 0)
-		return (error_message("double quotes"), NULL);
-	while (*line != '\0')
-	{
-		if (*line == '$' && !ft_strchr(WHITESPACE, *(line + 1)))
-			line = token_envp(line, *current);
-		else if (*line == '$')
-			line = token_word(line, *current, "\"");
-		else
-			line = token_word(line, *current, QUOTE_DELIMITER);
-		previous = *current;
-		*current = add_node_back(previous);
-	}
-	free(*current);
-	previous->next = NULL;
-	*current = previous;
-	return (new_start);
+	word = ft_strdup_delimiter_char(++start, '\"');
+	if (!word)
+		return (error_message("token error: quotes have '\0' input"), NULL);
+	token->value = word;
+	dollar = ft_strchr(word, '$');
+	if (dollar && !ft_strchr(WHITESPACE, *(dollar + 1)))
+		token->type = ENV_VAR;
+	else
+		token->type = WORD;
+	start += ft_strlen(word) + 1;
+	if (ft_strchr(WHITESPACE, *start))
+		token->space = 1;
+	return (start);
 }

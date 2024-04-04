@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:13:05 by andre-da          #+#    #+#             */
-/*   Updated: 2024/03/14 00:23:20 by andrealbuqu      ###   ########.fr       */
+/*   Updated: 2024/04/01 14:53:48 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,7 @@ int		ft_print_unumber(int nbr, int i);
 int		ft_print_hexnumber(int nbr, int i, char c);
 int		ft_print_hex_pnumber(long nbr, int i);
 int		ft_print_address(void	*address, int i);
+size_t	ft_stringlen(const char *s);
+int		ft_strequ(const char *s1, const char *s2);
 
 #endif

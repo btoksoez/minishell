@@ -2,8 +2,8 @@
 
 int	mini_exit(t_shell *shell, t_tree_node *tree)
 {
-	//TODO
-	(void)shell;
 	(void)tree;
-	return (1);
+	//maybe add 
+	clean_up(shell);
+	return (EXIT_SUCCESS);
 }

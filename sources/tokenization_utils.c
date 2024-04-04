@@ -6,13 +6,13 @@ char	*ft_strdup_delimiter_char(const char *s, char delimiter)
 	char	*dup;
 
 	i = 0;
-	while (s[i] != delimiter)
+	while (s[i] && s[i] != delimiter)
 		i++;
 	dup = malloc(sizeof(char) * (i + 1));
 	if (!dup)
 		return (NULL);
 	i = 0;
-	while (s[i] != delimiter)
+	while (s[i] && s[i] != delimiter)
 	{
 		((unsigned char *)dup)[i] = ((unsigned char *)s)[i];
 		i++;
@@ -27,13 +27,13 @@ char	*ft_strdup_delimiter_string(const char *s, char *delimiter)
 	char	*dup;
 
 	i = 0;
-	while (!ft_strchr(delimiter, s[i]))
+	while (!ft_strchr(delimiter, s[i]) && s[i])
 		i++;
 	dup = malloc(sizeof(char) * (i + 1));
 	if (dup == NULL)
 		return (NULL);
 	i = 0;
-	while (!ft_strchr(delimiter, s[i]))
+	while (s[i] && !ft_strchr(delimiter, s[i]))
 	{
 		((unsigned char *)dup)[i] = ((unsigned char *)s)[i];
 		i++;
@@ -91,6 +91,7 @@ t_tokens	*token_init(void)
 	new->next = NULL;
 	new->value = NULL;
 	new->type = 0;
+	new->space = 0;
 	return (new);
 }
 
@@ -104,6 +105,20 @@ int	tokens_len(t_tokens *tokens_start, t_tokens *tokens_end)
 	while (current != tokens_end && current->next)
 	{
 		current = current->next;
+		len++;
+	}
+	return (len);
+}
+int	args_len(t_args *args)
+{
+	int	len;
+
+	len = 0;
+	if (!args)
+		return (len);
+	while (args)
+	{
+		args = args->next;
 		len++;
 	}
 	return (len);

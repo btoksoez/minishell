@@ -12,6 +12,7 @@ void	print_tokens(t_tokens *head)
 		printf("+----------------------------------+\n");
 		printf("| Value: %-25s |\n", current->value);
 		printf("| Type: %-26d |\n", current->type);
+		printf("| Space: %-26d |\n", current->space);
 
 		if (current->previous != NULL)
 			printf("| Previous: Node %-4d (%-10s)|\n", index - 1, current->previous->value);
@@ -88,6 +89,8 @@ void print_tree(t_tree_node *root, int level)
     t_args *args = root->args;
     print_indent(level);
     printf("Arguments:\n");
+    if (args == NULL)
+        printf("(null)\n");
     while (args != NULL) {
         print_indent(level);
         printf("%s\n", args->arg);
@@ -98,6 +101,8 @@ void print_tree(t_tree_node *root, int level)
     t_redir_list *redir = root->redir_list;
     print_indent(level);
     printf("Redirection List:\n");
+    if (redir == NULL)
+        printf("(null)\n");
     while (redir != NULL) {
         print_indent(level);
         printf("Type: %d, File: %s\n", redir->type, redir->file);
@@ -112,4 +117,40 @@ void print_tree(t_tree_node *root, int level)
     printf("Right subtree:\n");
     print_tree(root->right, level + 1);
 	printf("\n");
+}
+
+void    print_envp(t_shell *shell)
+{
+    char **envp;
+
+    envp = shell->envp;
+    int i = 0;
+    while (envp[i])
+    {
+        printf("%s\n", envp[i]);
+        i++;
+    }
+}
+
+void print_path_test(void)
+{
+	char *full_path = "/home/btoksoez/Documents/minishell/sources";
+	char *rel_path = "/includes/";
+	char *wrong_path = "/wrong/path";
+	char *parent = "..";
+
+	printf("Result: \n");
+	printf("%s\n", extend_path(full_path));
+	printf("%s\n", extend_path(rel_path));
+	printf("%s\n", extend_path(wrong_path));
+	printf("%s\n", extend_path(parent));
+}
+
+void print_test_cd(t_shell *s)
+{
+	printf("ENVPS\n");
+	char cwd[1024];
+	getcwd(cwd, sizeof(cwd));
+	printf("getcwd: %s\n", cwd);
+	printf("PWD: %s\nOLDPWD: %s\n", s->envps->pwd, s->envps->oldpwd);
 }

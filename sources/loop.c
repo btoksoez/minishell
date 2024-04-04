@@ -12,28 +12,28 @@ void	reset(t_shell *shell)
 		error_message("Failed to reset stdout");
 }
 
-void	prepare_to_execute(t_shell *shell)
-{
-	int	i;
+// void	prepare_to_execute(t_shell *shell)
+// {
+// 	int	i;
 
-	shell->id = (pid_t *)malloc(sizeof(pid_t) * (shell->pipe_nbr + 2));
-	if (!(shell->id))
-		error_message("Pid Memory allocation failed");
-	shell->fd = (int **)malloc(sizeof(int *) * (shell->pipe_nbr + 2));
-	if (!(shell->fd))
-		error_message("Fds Memory allocation failed");
-	i = 0;
-	while (i < shell->pipe_nbr + 1)
-	{
-		shell->fd[i] = (int *)malloc(sizeof(int) * 2);
-		if (!(shell->fd[i]))
-			error_message("Fds Memory allocation failed");
-		if (pipe(shell->fd[i]) == -1)
-			error_message("Failed to create the pipe");
-		i++;
-	}
-	shell->fd[i] = NULL;
-}
+// 	shell->id = (pid_t *)malloc(sizeof(pid_t) * (shell->pipe_nbr + 2));
+// 	if (!(shell->id))
+// 		error_message("Pid Memory allocation failed");
+// 	shell->fd = (int **)malloc(sizeof(int *) * (shell->pipe_nbr + 2));
+// 	if (!(shell->fd))
+// 		error_message("Fds Memory allocation failed");
+// 	i = 0;
+// 	while (i < shell->pipe_nbr + 1)
+// 	{
+// 		shell->fd[i] = (int *)malloc(sizeof(int) * 2);
+// 		if (!(shell->fd[i]))
+// 			error_message("Fds Memory allocation failed");
+// 		if (pipe(shell->fd[i]) == -1)
+// 			error_message("Failed to create the pipe");
+// 		i++;
+// 	}
+// 	shell->fd[i] = NULL;
+// }
 
 void	wait_pids(int fds, t_shell *shell)
 {
@@ -75,6 +75,9 @@ void	get_prompt(t_shell *shell)
 
 void	loop(t_shell *shell)
 {
+	int			status;
+
+	status = 0;
 	while (true)
 	{
 		if (g_sig == SIGQUIT)
@@ -89,10 +92,11 @@ void	loop(t_shell *shell)
 			break ;
 		if (check_syntax_errors(shell->line))
 			continue ;
-		shell->tokens = tokenize(shell);
+		shell->tokens = tokenize(shell->line);
 		if (check_tokens(shell->tokens))
 			continue ;
-		// expand(tokens);
+		expand(shell->tokens);
+		print_tokens(shell->tokens);
 		if (!shell->tokens)
 		{
 			reset(shell);
