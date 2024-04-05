@@ -174,6 +174,7 @@ void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int 
 
 void	execute(t_shell *shell)
 {
+	prepare_to_execute(shell);
 	if (shell->tree->type == PIPE_TREE)
 		execute_pipe(shell, shell->tree->left, shell->tree->right, 0);
 	else

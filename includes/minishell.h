@@ -203,6 +203,7 @@ void			prepare_to_execute(t_shell *shell);
 
 /*----------------------------freeing-------------------------------*/
 /*------------------------------------------------------------------*/
+void			free_all(t_shell *shell);
 void			free_tree(t_tree_node *node);
 void			free_tokens(t_tokens *head);
 void			free_args(t_args *args);

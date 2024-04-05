@@ -24,7 +24,7 @@ void	sigint_handler(int sig)
 	g_sig = sig;
 	if (sig == SIGINT)
 	{
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_redisplay();
@@ -36,30 +36,10 @@ void	sigint_handler(int sig)
 void	signals(void)
 {
 	struct sigaction	sa;
-	struct sigaction	sb;
 
 	sa.sa_handler = sigint_handler;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
-	sb.sa_handler = sigint_handler;
-	sb.sa_flags = 0;
-	sigemptyset(&sb.sa_mask);
-	sigaction(SIGQUIT, &sb, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 }
-
-// void	handle_ctrl_c(int a)
-// {
-// 	(void)a;
-// 	g_sig = 1;
-// 	// rl_replace_line("", 0);
-// 	write(1, "\n", 1);
-// 	rl_on_new_line();
-// 	rl_redisplay();
-// }
-
-// void	signals(void)
-// {
-// 	signal(SIGINT, handle_ctrl_c);
-// 	signal(SIGQUIT, SIG_IGN);
-// }

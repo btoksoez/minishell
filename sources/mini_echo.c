@@ -10,7 +10,7 @@ int	mini_echo(t_shell *shell, t_tree_node *cmd_node)
 	if (!cmd_node || !cmd_node->args)
 	{
 		ft_putchar_fd('\n', 1);
-		return (EXIT_FAILURE);
+		return (EXIT_SUCCESS);
 	}
 	nl_flag = 1;
 	current = cmd_node->args;

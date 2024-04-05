@@ -55,6 +55,7 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->builtin_status = 0;
 	shell->line = NULL;
 	shell->tree = NULL;
+	shell->tokens = NULL;
 	shell->std_fds[0] = dup(STDIN_FILENO);
 	shell->std_fds[1] = dup(STDOUT_FILENO);
 	shell->envps = init_envps();
