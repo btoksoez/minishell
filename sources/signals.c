@@ -1,8 +1,5 @@
 #include "../includes/minishell.h"
 
-
-volatile sig_atomic_t g_sig = 0;
-
 /*
 when not in heredoc:
 [works] ctrl + c: display new prompt (has to work always, even if line not empty)
@@ -19,6 +16,7 @@ when in heredoc:
 volatile = value may change unexpectedly, so compiler should not optimize its accesses
 sig_atomic_t: special type to guarantee access to it
 extern: declared in .h file, but defined here */
+volatile sig_atomic_t g_sig = 0;
 
 /* sets g_sig and depending on sig code, makes new prompt*/
 void	sigint_handler(int sig)
