@@ -45,9 +45,9 @@ void	free_args(t_args *args)
 	{
 		temp = current;
 		current = current->next;
-		// if (temp->arg)			// I believe in the case of $? we dont alloc memory and we do for i.e hello
-		// 	free(temp->arg);
-		// free(temp);
+		if (temp->arg)
+			free(temp->arg);
+		free(temp);
 	}
 }
 
@@ -63,8 +63,8 @@ void	free_tree(t_tree_node *node)
 		free_redir_list(node->redir_list);
 	if (node->args)
 		free_args(node->args);
-	// if (node->cmd)
-	// 	free(node->cmd);
+	if (node->cmd)
+		free(node->cmd);
 	free(node);
 }
 
