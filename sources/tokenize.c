@@ -41,7 +41,7 @@ t_tokens	*tokenize(t_shell *shell)
 	free(trimmed_line);
 	count_pipes(shell);
 	if (!shell->tokens)
-		shell->status = 1; // change to the right value
+		shell->status = 0;
 	return (shell->tokens);
 }
 // something here doesn't work when there is a space before a ending quote

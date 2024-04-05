@@ -150,7 +150,7 @@ void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int 
 	else
 	{
 		if (r_node->builtin != NULL)
-			r_node->builtin(shell, r_node);
+			shell->builtin_status = r_node->builtin(shell, r_node);
 		else
 		{
 			shell->id[i + 1] = fork();
@@ -161,7 +161,7 @@ void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int 
 		}
 	}
 	if (l_node->builtin != NULL)
-		l_node->builtin(shell, l_node);
+		shell->builtin_status = l_node->builtin(shell, l_node);
 	else
 	{
 		shell->id[i] = fork();
@@ -179,7 +179,7 @@ void	execute(t_shell *shell)
 	else
 	{
 		if (shell->tree->builtin != NULL)
-			shell->tree->builtin(shell, shell->tree);
+			shell->builtin_status = shell->tree->builtin(shell, shell->tree);
 		else
 		{
 			shell->id[0] = fork();
