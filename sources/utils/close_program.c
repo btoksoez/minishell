@@ -2,12 +2,10 @@
 
 void	clean_up(t_shell *shell)
 {
-	// if (shell->line)
-	// 	free(shell->line);
-	// close(shell->std_fds[0]);
-	// close(shell->std_fds[1]);
-	// free_tokens(shell->tokens);
-	// free_tree(shell->tree);
+	close(shell->std_fds[0]);
+	close(shell->std_fds[1]);
+	free_all(shell);
+	// close_all_fds(shell);
 	exit_error_message("exit", shell->status);
 }
 

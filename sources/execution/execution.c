@@ -172,6 +172,29 @@ void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int 
 	}
 }
 
+void	prepare_to_execute(t_shell *shell)
+{
+	int	i;
+
+	shell->id = (pid_t *)malloc(sizeof(pid_t) * (shell->pipe_nbr + 2));
+	if (!(shell->id))
+		error_message("Pid Memory allocation failed");
+	shell->fd = (int **)malloc(sizeof(int *) * (shell->pipe_nbr + 2));
+	if (!(shell->fd))
+		error_message("Fds Memory allocation failed");
+	i = 0;
+	while (i < shell->pipe_nbr + 1)
+	{
+		shell->fd[i] = (int *)malloc(sizeof(int) * 2);
+		if (!(shell->fd[i]))
+			error_message("Fds Memory allocation failed");
+		if (pipe(shell->fd[i]) == -1)
+			error_message("Failed to create the pipe");
+		i++;
+	}
+	shell->fd[i] = NULL;
+}
+
 void	execute(t_shell *shell)
 {
 	prepare_to_execute(shell);
