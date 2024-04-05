@@ -5,11 +5,13 @@ void	reset(t_shell *shell)
 	shell->pipe_nbr = 0;
 	shell->infile = 0;
 	shell->outfile = 0;
+	shell->tokens = NULL;
 
 	if (dup2(shell->std_fds[0], STDIN_FILENO) == -1)
 		error_message("Failed to reset stdin");
 	if (dup2(shell->std_fds[1], STDOUT_FILENO) == -1)
 		error_message("Failed to reset stdout");
+	free_all(shell);
 }
 
 void	prepare_to_execute(t_shell *shell)
@@ -60,29 +62,34 @@ void	wait_pids(int fds, t_shell *shell)
 void	get_prompt(t_shell *shell)
 {
 	char	*exit_status;
+	char	*program_name;
+	char	*tmp;
 	char	*prompt;
 
 	if (shell->status)
-		exit_status = ft_strjoin(RED, "⇾ ");
+		tmp = ft_strjoin(RED, "⇾ ");
 	else
-		exit_status = ft_strjoin(GREEN, "⇾ ");
-	exit_status = ft_strjoin(exit_status, RESET);
+		tmp = ft_strjoin(GREEN, "⇾ ");
+	exit_status = ft_strjoin(tmp, RESET);
+	free(tmp);
 
-	prompt = ft_strjoin(CYAN, "minishell");
-	prompt = ft_strjoin(prompt, RESET);
+	tmp = ft_strjoin(CYAN, "minishell");
+	program_name = ft_strjoin(tmp, RESET);
+	free(tmp);
 
-	shell->line = ft_strjoin(exit_status, prompt);
-	shell->line = ft_strjoin(shell->line, "$ ");
-	shell->line = readline(shell->line);
+	tmp = ft_strjoin(exit_status, program_name);
+	prompt = ft_strjoin(tmp, "$ ");
+	shell->line = readline(prompt);
+	free(exit_status);
+	free(program_name);
+	free(prompt);
+	free(tmp);
 }
 
 void	loop(t_shell *shell)
 {
 	while (true)
 	{
-		if (g_sig == SIGQUIT)
-			break;
-		shell->tokens = NULL;
 		get_prompt(shell);
 		if (!shell->line)
 			break;
@@ -98,18 +105,11 @@ void	loop(t_shell *shell)
 		// print_tokens(shell->tokens);
 		expand(shell->tokens);
 		if (!shell->tokens)
-		{
-			reset(shell);
 			continue;
-		}
 		shell->tree = parse_commandline(shell->tokens);
-		// print_tokens(shell->tokens);
-		// print_tree(shell->tree, 0);
-		prepare_to_execute(shell);
 		execute(shell);
 		close_all_fds(shell);
 		wait_pids(shell->pipe_nbr + 1, shell);
-		free(shell->line);
 		reset(shell);										//reset lists of tokens etc, but keep history
 	}
 }

@@ -64,3 +64,30 @@ when in heredoc:
 volatile = value may change unexpectedly, so compiler should not optimize its accesses
 sig_atomic_t: special type to guarantee access to it
 extern: declared in .h file, but defined here */
+volatile sig_atomic_t g_sig = 0;
+
+/* sets g_sig and depending on sig code, makes new prompt*/
+void	sigint_handler(int sig)
+{
+	g_sig = sig;
+	if (sig == SIGINT)
+	{
+		rl_replace_line("", 0);
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	return ;
+}
+
+/* receives signals and calls sigint handler with a certain int sig */
+void	signals(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = sigint_handler;
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+}
