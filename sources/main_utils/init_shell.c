@@ -67,8 +67,9 @@ void	init_shell(t_shell *shell, char **envp)
 	}
 	shell->infile = 0;
 	shell->outfile = 0;
+	shell->here_doc = 0;
 	shell->pipe_nbr = 0;
-	shell->status= 0;
+	shell->status = 0;
 	shell->builtin_status = 0;
 	shell->line = NULL;
 	shell->tree = NULL;

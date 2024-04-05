@@ -4,8 +4,8 @@ void	clean_up(t_shell *shell)
 {
 	close(shell->std_fds[0]);
 	close(shell->std_fds[1]);
+	close_all_fds(shell);
 	free_all(shell);
-	// close_all_fds(shell);
 	exit_error_message("exit", shell->status);
 }
 

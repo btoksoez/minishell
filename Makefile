@@ -45,7 +45,7 @@ fclean: clean
 	@echo "$(RED)$@$(RESET) $(NAME) $(GREEN)[OK]$(RESET)"
 
 run: all
-	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=ignore_readline.supp ./minishell
+	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes --suppressions=ignore_readline.supp ./minishell
 
 re: fclean all
 
