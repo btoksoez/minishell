@@ -99,7 +99,6 @@ typedef struct s_shell
 	int					status;
 	int					builtin_status;
 	int					std_fds[2];
-	int					env_status;
 	struct s_tree_node	*tree;
 	t_tokens			*tokens;
 }						t_shell;
@@ -182,7 +181,7 @@ void			free_strs(char *s1, char *s2, char *s3);
 /*------------------------------reset-------------------------------*/
 /*------------------------------------------------------------------*/
 void			reset(t_shell *shell);
-void			close_all_fds(t_shell *shell);
+void			close_all_fds(t_shell *shell, bool in_out);
 
 /*----------------------------builtins------------------------------*/
 /*------------------------------------------------------------------*/

@@ -138,7 +138,7 @@ void	execute_command(t_shell *shell, t_tree_node *node, int i, bool cmd)
 	}
 	if (!path)
 		invalid_path(command, shell, node->cmd);
-	close_all_fds(shell);
+	close_all_fds(shell, true);
 	execve(path, command, shell->envp);
 	child_error_message(shell, "minishell: command not found: ", command[0], 127);
 }

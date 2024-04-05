@@ -2,10 +2,17 @@
 
 void	clean_up(t_shell *shell)
 {
-	close(shell->std_fds[0]);
-	close(shell->std_fds[1]);
-	close_all_fds(shell);
+	int i;
+
+	close_all_fds(shell, true);
 	free_all(shell);
+	if (shell->envps)
+		free(shell->envps);
+	i = 0;
+	while (shell->envp[i])
+		free(shell->envp[i++]);
+	if (shell->envp)
+		free(shell->envp);
 	exit_error_message("exit", shell->status);
 }
 
@@ -20,7 +27,7 @@ void	exit_error_message(char *message, int exit_code)
 	exit (exit_code);
 }
 
-void	close_all_fds(t_shell *shell)
+void	close_all_fds(t_shell *shell, bool in_out)
 {
 	int	childs;
 	int	i;
@@ -39,6 +46,11 @@ void	close_all_fds(t_shell *shell)
 			close(shell->fd[i][READ_END]);
 		i++;
 	}
+	if (in_out)
+	{
+		close(shell->std_fds[0]);
+		close(shell->std_fds[1]);
+	}
 	if (shell->here_doc)
 		unlink("here_doc");
 }
@@ -53,6 +65,6 @@ void	child_error_message(t_shell *shell, char *str, char *cmd, int code)
 	}
 	else
 		ft_putchar_fd('\n', 2);
-	close_all_fds(shell);
+	close_all_fds(shell, true);
 	exit (code);
 }

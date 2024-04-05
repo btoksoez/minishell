@@ -11,19 +11,11 @@ void	free_all(t_shell *shell)
 		free(shell->fd);
 	if (shell->id)
 		free(shell->id);
-	if (shell->line)
-		free(shell->line);
 	if (shell->tokens)
 		free_tokens(shell->tokens);
 	if (shell->tree)
 		free_tree(shell->tree);
-	if (shell->envps)
-		free(shell->envps);
-	i = 0;
-	while (shell->envp[i])
-		free(shell->envp[i++]);
-	if (shell->envp)
-		free(shell->envp);
+	free(shell->line);
 }
 
 void	free_redir_list(t_redir_list *redir_list)

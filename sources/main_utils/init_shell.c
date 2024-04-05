@@ -61,10 +61,7 @@ void	init_shell(t_shell *shell, char **envp)
 	if (!*envp || !envp)
 		init_missing_env(shell);
 	else
-	{
 		copy_envp(shell, envp);
-		shell->env_status = TRUE;
-	}
 	shell->infile = 0;
 	shell->outfile = 0;
 	shell->here_doc = 0;

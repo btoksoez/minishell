@@ -6,7 +6,6 @@ void	reset(t_shell *shell)
 	shell->infile = 0;
 	shell->outfile = 0;
 	shell->tokens = NULL;
-
 	if (dup2(shell->std_fds[0], STDIN_FILENO) == -1)
 		error_message("Failed to reset stdin");
 	if (dup2(shell->std_fds[1], STDOUT_FILENO) == -1)
@@ -82,7 +81,7 @@ void	loop(t_shell *shell)
 			continue;
 		shell->tree = parse_commandline(shell->tokens);
 		execute(shell);
-		close_all_fds(shell);
+		close_all_fds(shell, false);
 		wait_pids(shell->pipe_nbr + 1, shell);
 		reset(shell);
 	}
