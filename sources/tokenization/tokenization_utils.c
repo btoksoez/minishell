@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*ft_strdup_delimiter_char(const char *s, char delimiter)
 {

@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*token_word(char *start, t_tokens *token, char *delimiter)
 {

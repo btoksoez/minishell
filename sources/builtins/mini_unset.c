@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /* accepts one argument, remove it in envp
 if no args, error message and return */

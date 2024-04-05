@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /* take all args as input and write to STDOUT (with space in between)
 if first arg is -n, then don't write newline */

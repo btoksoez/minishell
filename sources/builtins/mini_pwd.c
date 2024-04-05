@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	mini_pwd(t_shell *s, t_tree_node *tree)
 {

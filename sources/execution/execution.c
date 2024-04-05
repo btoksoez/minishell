@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	init_heredoc(char *limiter, t_shell *shell)
 {

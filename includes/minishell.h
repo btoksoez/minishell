@@ -36,21 +36,21 @@ extern volatile sig_atomic_t g_sig;
 
 typedef enum e_tree_type
 {
-	PHANTOM,	//0 for phantom
-	PIPE_TREE,	//1 for pipe
-	CMD,		//2 for command
-	BUILTIN		//3 for builtins
+	PHANTOM,			//0 for phantom
+	PIPE_TREE,			//1 for pipe
+	CMD,				//2 for command
+	BUILTIN				//3 for builtins
 }	t_tree_type;
 
 typedef enum e_token_type
 {
-	PIPE,		//0 for pipes
-	RE_INPUT,	//1 for '<'
-	RE_OUTPUT,	//2 for '>'
-	APPEND,		//3 for '>>'
-	HEREDOC,	//4 for '<<'
-	WORD,		//5 for args and commands
-	ENV_VAR		//6 for environment variables
+	PIPE,				//0 for pipes
+	RE_INPUT,			//1 for '<'
+	RE_OUTPUT,			//2 for '>'
+	APPEND,				//3 for '>>'
+	HEREDOC,			//4 for '<<'
+	WORD,				//5 for args and commands
+	ENV_VAR				//6 for environment variables
 }	t_token_type;
 
 typedef struct	s_args

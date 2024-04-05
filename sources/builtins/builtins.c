@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /* go through array of builtins and return function pointer if exists, else NULL
 later in execution can be executed with

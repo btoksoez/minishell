@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /* with no args: change envp->pwd to envp->home
 with a given path: extend path to make it absolute then update pwd and olpwd

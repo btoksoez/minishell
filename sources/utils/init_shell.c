@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	copy_envp(t_shell *shell, char **envp)
 {

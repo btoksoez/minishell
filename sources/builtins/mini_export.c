@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /* if no args: show all env, (but sorted?)
 for each arg:

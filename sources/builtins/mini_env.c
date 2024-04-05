@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	mini_env(t_shell *shell, t_tree_node *tree)
 {
