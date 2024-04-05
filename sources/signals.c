@@ -22,7 +22,11 @@ volatile sig_atomic_t g_sig = 0;
 void	sigint_handler(int sig)
 {
 	g_sig = sig;
+<<<<<<< HEAD
 	if (sig == SIGINT)
+=======
+	if (sig == 2)
+>>>>>>> b5aacb4 (haven't changed anything)
 	{
 		rl_replace_line("", 0);
 		write(1, "\n", 1);
