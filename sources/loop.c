@@ -103,12 +103,13 @@ void	loop(t_shell *shell)
 		if (check_tokens(shell->tokens))
 			continue ;
 		expand(shell->tokens);
+		print_tokens(shell->tokens);
 		if (!shell->tokens)
 			continue;
 		shell->tree = parse_commandline(shell->tokens);
 		execute(shell);
 		close_all_fds(shell);
 		wait_pids(shell->pipe_nbr + 1, shell);
-		reset(shell);										//reset lists of tokens etc, but keep history
+		reset(shell);
 	}
 }

@@ -12,8 +12,8 @@ void	free_all(t_shell *shell)
 	if (shell->id)
 		free(shell->id);
 	free(shell->line);
-	// free_tokens(shell->tokens);
-	// free_tree(shell->tree);
+	free_tokens(shell->tokens);
+	free_tree(shell->tree);
 }
 
 void	free_redir_list(t_redir_list *redir_list)
@@ -21,6 +21,8 @@ void	free_redir_list(t_redir_list *redir_list)
 	t_redir_list	*current;
 	t_redir_list	*temp;
 
+	if (!redir_list)
+		return;
 	current = redir_list;
 	while (current != NULL)
 	{
@@ -36,25 +38,33 @@ void	free_args(t_args *args)
 	t_args *current;
 	t_args *temp;
 
+	if (!args)
+		return;
 	current = args;
 	while (current != NULL)
 	{
 		temp = current;
 		current = current->next;
-		free(temp->arg);
-		free(temp);
+		// if (temp->arg)			// I believe in the case of $? we dont alloc memory and we do for i.e hello
+		// 	free(temp->arg);
+		// free(temp);
 	}
 }
 
 void	free_tree(t_tree_node *node)
 {
-	if (node == NULL)
+	if (!node)
 		return;
-	free_tree(node->left);
-	free_tree(node->right);
-	free_redir_list(node->redir_list);
-	free_args(node->args);
-	free(node->cmd);
+	if (node->left)
+		free_tree(node->left);
+	if (node->right)
+		free_tree(node->right);
+	if (node->redir_list)
+		free_redir_list(node->redir_list);
+	if (node->args)
+		free_args(node->args);
+	// if (node->cmd)
+	// 	free(node->cmd);
 	free(node);
 }
 
@@ -63,6 +73,8 @@ void	free_tokens(t_tokens *head)
 	t_tokens *current;
 	t_tokens *next_node;
 
+	if (!head)
+		return;
 	current = head;
 	while (current != NULL)
 	{

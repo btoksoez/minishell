@@ -41,7 +41,6 @@ void	init_shell(t_shell *shell, char **envp)
 		shell->env_status = FALSE;
 		/*TODO: which envps to init if no envp
 		we need PWD, OLDPWD, HOME, */
-
 	}
 	else
 	{
