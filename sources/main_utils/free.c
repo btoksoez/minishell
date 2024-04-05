@@ -17,6 +17,13 @@ void	free_all(t_shell *shell)
 		free_tokens(shell->tokens);
 	if (shell->tree)
 		free_tree(shell->tree);
+	if (shell->envps)
+		free(shell->envps);
+	i = 0;
+	while (shell->envp[i])
+		free(shell->envp[i++]);
+	if (shell->envp)
+		free(shell->envp);
 }
 
 void	free_redir_list(t_redir_list *redir_list)

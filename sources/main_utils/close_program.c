@@ -54,6 +54,5 @@ void	child_error_message(t_shell *shell, char *str, char *cmd, int code)
 	else
 		ft_putchar_fd('\n', 2);
 	close_all_fds(shell);
-	// free_all(shell);
 	exit (code);
 }

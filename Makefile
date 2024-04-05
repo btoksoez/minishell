@@ -7,7 +7,7 @@ CC = cc
 COMPRESS = ar rcs
 RM = rm -rf
 
-SRC_DIR = sources/builtins sources/execution sources/parsing sources/signals sources/tokenization sources/utils sources
+SRC_DIR = sources/3.builtins sources/4.execution sources/1.parsing sources/5.signals sources/2.tokenization sources/main_utils sources
 OBJ_DIR = objects
 SRC = $(wildcard $(foreach dir,$(SRC_DIR),$(dir)/*.c)) #need to remove wildcards (also in libft)
 OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
