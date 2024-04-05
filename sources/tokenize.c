@@ -70,6 +70,8 @@ t_tokens	*get_tokens(char *line)
 		else if ((*line == '>' && *(line + 1) == '>' && ft_strchr(WHITESPACE, *(line + 2)))
 			|| (*line == '<' && *(line + 1) == '<' && ft_strchr(WHITESPACE, *(line + 2))))
 			line = double_token(line, current);
+		else if (*line == '$' && ft_strchr(WHITESPACE, *(line + 1)))
+			line = token_dollar(line, current);
 		else if (*line == '$' && !ft_strchr(WHITESPACE, *(line + 1)))
 			line = token_envp(line, current);
 		else

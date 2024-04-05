@@ -2,12 +2,11 @@
 
 bool	check_tokens(t_tokens *tokens)
 {
-	t_tokens *current;
+	t_tokens	*current;
 
 	current = tokens;
 	while (current)
 	{
-		//check if after redirection is a word
 		if (current->type >= RE_INPUT && current->type <= HEREDOC)
 		{
 			if (!current->next)
