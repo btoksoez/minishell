@@ -2,9 +2,9 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <signal.h>
 # include <sys/stat.h>
 # include <dirent.h>
 # include <sys/ioctl.h>
@@ -133,6 +133,7 @@ bool			check_tokens(t_tokens *tokens);
 /*--------------------------syntax checking-------------------------*/
 /*------------------------------------------------------------------*/
 void			signals(void);
+void			sigint_handler(int sig);
 
 /*--------------------------close program---------------------------*/
 /*------------------------------------------------------------------*/
@@ -173,7 +174,10 @@ void			count_pipes(t_shell *shell);
 /*----------------------------expansion-----------------------------*/
 /*------------------------------------------------------------------*/
 void			expand(t_tokens *tokens);
-
+char			*get_env(char *str);
+char			*find_env(char *str);
+char			*ft_strdup_until(char *s);
+void			free_strs(char *s1, char *s2, char *s3);
 /*------------------------------reset-------------------------------*/
 /*------------------------------------------------------------------*/
 void			reset(t_shell *shell);

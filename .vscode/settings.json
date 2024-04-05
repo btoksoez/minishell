@@ -10,6 +10,8 @@
 		"readline.h": "c",
 		"ioctl.h": "c",
 		"libft.h": "c",
-		"__config": "c"
+		"__config": "c",
+		"signal.h": "c",
+		"history.h": "c"
 	}
 }

@@ -85,14 +85,14 @@ void	loop(t_shell *shell)
 			break;
 		if (*shell->line)
 			add_history(shell->line);
-		if (ft_strcmp(shell->line, "exit") == 0)
-			break ;
+		// if (ft_strcmp(shell->line, "exit") == 0)
+		// 	break ;
 		if (check_syntax_errors(shell->line))
 			continue ;
 		shell->tokens = tokenize(shell);
 		if (check_tokens(shell->tokens))
 			continue ;
-		print_tokens(shell->tokens);
+		// print_tokens(shell->tokens);
 		expand(shell->tokens);
 		if (!shell->tokens)
 		{
@@ -100,7 +100,7 @@ void	loop(t_shell *shell)
 			continue;
 		}
 		shell->tree = parse_commandline(shell->tokens);
-		print_tokens(shell->tokens);
+		// print_tokens(shell->tokens);
 		// print_tree(shell->tree, 0);
 		prepare_to_execute(shell);
 		execute(shell);

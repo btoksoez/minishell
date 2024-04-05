@@ -9,7 +9,7 @@ RM = rm -rf
 
 SRC_DIR = sources
 OBJ_DIR = objects
-SRC = $(wildcard $(SRC_DIR)/*.c)						 # we will need to change this in the end (do it on libft too)
+SRC = $(wildcard $(SRC_DIR)/*.c) #we will need to change this in the end
 OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
 
 # Colours
@@ -45,8 +45,5 @@ fclean: clean
 	@echo "$(RED)$@$(RESET) $(NAME) $(GREEN)[OK]$(RESET)"
 
 re: fclean all
-
-run: all
-	 valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=ignore_readline.supp ./minishell
 
 .PHONY: all clean fclean re

@@ -58,7 +58,6 @@ t_tokens	*get_tokens(char *line)
 		return (NULL);
 	while (*line != '\0')
 	{
-		printf("line: %s\n", line);
 		line = skip_whitespace(line);
 		if (*line == '\0')
 			break ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 13:27:31 by andre-da          #+#    #+#             */
-/*   Updated: 2023/10/10 19:47:34 by andre-da         ###   ########.fr       */
+/*   Updated: 2024/04/05 11:26:36 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	ft_atoi(const char *nptr)
 	return (result * sign);
 }
 
-/* int	main(void)
+int	main(void)
 {
-	printf("%d\n", ft_atoi("-1234"));
+	printf("%d\n", ft_atoi("0"));
 	return (0);
-} */
+}
