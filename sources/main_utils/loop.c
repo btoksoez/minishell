@@ -75,6 +75,7 @@ void	loop(t_shell *shell)
 			continue ;
 		shell->tokens = tokenize(shell);
 		if (check_tokens(shell->tokens))
+			//we need to free here
 			continue ;
 		expand(shell->tokens);
 		if (!shell->tokens)

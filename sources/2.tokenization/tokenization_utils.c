@@ -123,3 +123,25 @@ int	args_len(t_args *args)
 	}
 	return (len);
 }
+
+void	del_token(t_tokens **head, t_tokens *node)
+{
+	if (*head == NULL || node == NULL)
+		return;
+
+	if (*head == node)
+	{
+		*head = node->next;
+		if (*head)
+			(*head)->previous = NULL;
+		free(node->value);
+		free(node);
+		return;
+	}
+	if (node->previous)
+		node->previous->next = node->next;
+	if (node->next)
+		node->next->previous = node->previous;
+	free(node->value);
+	free(node);
+}

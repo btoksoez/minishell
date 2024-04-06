@@ -15,7 +15,7 @@
 # define WHITESPACE " \t\n\v\f\r"
 # define WHITESPACE_DOLLAR " \t\n\v\f\r$"
 # define WHITESPACE_QUOTES " \t\n\v\f\r\'\""
-# define WHITESPACE_Q_D " \t\n\v\f\r\'\"$?"
+# define WHITESPACE_Q_D " \t\n\v\f\r\'\"$?<>|"
 # define QUOTE_DELIMITER "$\""
 # define TRUE 1
 # define FALSE 0
@@ -149,7 +149,6 @@ char			*handle_single_quotes(char *start, t_tokens *token);
 char			*handle_double_quotes(char *start, t_tokens *token);
 char			*token_word(char *start, t_tokens *token, char *delimiter);
 char			*single_token(char *start, t_tokens *token);
-char			*double_token(char *start, t_tokens *token);
 char			*token_envp(char *start, t_tokens *token);
 void			free_tokens(t_tokens *head);
 t_tokens		*add_node_back(t_tokens *previous);
@@ -160,6 +159,7 @@ char			*skip_whitespace_and_empty_quotes(char *line);
 char			*skip_whitespace(char *line);
 int				args_len(t_args *args);
 char			*token_dollar(char *start, t_tokens *token);
+void			del_token(t_tokens **head, t_tokens *node);
 
 /*----------------------------parsing-------------------------------*/
 /*------------------------------------------------------------------*/

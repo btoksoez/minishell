@@ -28,6 +28,31 @@ void	count_pipes(t_shell *shell)
 	}
 }
 
+void	pre_parse_tokens(t_tokens *tokens)
+{
+	//if < and + 1 <: <<
+	//if > and + 1 >: >>
+	t_tokens	*current;
+
+	if (!tokens)
+		return (error_message("tokens error"));
+	current = tokens;
+	while (current->next)
+	{
+		if (current->type == RE_INPUT && current->next->type == RE_INPUT)
+		{
+			current->type = HEREDOC;
+			del_token(&tokens, current->next);
+		}
+		else if (current->type == RE_OUTPUT && current->next->type == RE_OUTPUT)
+		{
+			current->type = APPEND;
+			del_token(&tokens, current->next);
+		}
+		current = current->next;
+	}
+}
+
 t_tokens	*tokenize(t_shell *shell)
 {
 	char		*trimmed_line;
@@ -38,6 +63,7 @@ t_tokens	*tokenize(t_shell *shell)
 	if (check_syntax_errors(trimmed_line))
 		return (NULL);
 	shell->tokens = get_tokens(trimmed_line);
+	pre_parse_tokens(shell->tokens);
 	free(trimmed_line);
 	count_pipes(shell);
 	if (!shell->tokens)
@@ -65,11 +91,8 @@ t_tokens	*get_tokens(char *line)
 			line = handle_single_quotes(line, current);
 		else if (*line == '\"')
 			line = handle_double_quotes(line, current);
-		else if (ft_strchr(SINGLE_TOKENS, *line) && ft_strchr(WHITESPACE, *(line + 1)))
+		else if (ft_strchr(SINGLE_TOKENS, *line))
 			line = single_token(line, current);
-		else if ((*line == '>' && *(line + 1) == '>' && ft_strchr(WHITESPACE, *(line + 2)))
-			|| (*line == '<' && *(line + 1) == '<' && ft_strchr(WHITESPACE, *(line + 2))))
-			line = double_token(line, current);
 		else if (*line == '$' && ft_strchr(WHITESPACE, *(line + 1)))
 			line = token_dollar(line, current);
 		else if (*line == '$' && !ft_strchr(WHITESPACE, *(line + 1)))
