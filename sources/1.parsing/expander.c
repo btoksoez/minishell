@@ -19,7 +19,7 @@ char	*find_and_replace(char *org_str)
 			result = ft_strjoin(result, str_before);
 			break ;
 		}
-		str_env = ft_strdup_delimiter_string(++org_str, WHITESPACE_DOLLAR);
+		str_env = ft_strdup_delimiter_string(++org_str, WHITESPACE_DOLLAR_SINGLE);
 		new_str = ft_strjoin(str_before, get_env(str_env));
 		org_str += ft_strlen(str_env);
 		result = ft_strjoin(result, new_str);

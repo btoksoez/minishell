@@ -77,7 +77,9 @@ void	loop(t_shell *shell)
 		if (check_tokens(shell->tokens))
 			//we need to free here
 			continue ;
+		print_tokens(shell->tokens);
 		expand(shell->tokens);
+		print_tokens(shell->tokens);
 		if (!shell->tokens)
 			continue;
 		shell->tree = parse_commandline(shell->tokens);

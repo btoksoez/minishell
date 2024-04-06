@@ -14,6 +14,7 @@
 # define SINGLE_TOKENS "<>|"
 # define WHITESPACE " \t\n\v\f\r"
 # define WHITESPACE_DOLLAR " \t\n\v\f\r$"
+# define WHITESPACE_DOLLAR_SINGLE " \t\n\v\f\r$\'"
 # define WHITESPACE_QUOTES " \t\n\v\f\r\'\""
 # define WHITESPACE_Q_D " \t\n\v\f\r\'\"$?<>|"
 # define QUOTE_DELIMITER "$\""
