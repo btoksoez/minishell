@@ -21,7 +21,7 @@ volatile sig_atomic_t g_sig = 0;
 /* sets g_sig and depending on sig code, makes new prompt*/
 void	sigint_handler(int sig)
 {
-	g_sig = sig;
+	// g_sig = sig;
 	if (sig == SIGINT)
 	{
 		rl_replace_line("", 0);
@@ -33,13 +33,20 @@ void	sigint_handler(int sig)
 }
 
 /* receives signals and calls sigint handler with a certain int sig */
+
 void	signals(void)
 {
-	struct sigaction	sa;
-
-	sa.sa_handler = sigint_handler;
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sigint_handler);
 }
+
+// void	signals(void)
+// {
+// 	struct sigaction	sa;
+
+// 	sa.sa_handler = sigint_handler;
+// 	sa.sa_flags = 0;
+// 	sigemptyset(&sa.sa_mask);
+// 	sigaction(SIGINT, &sa, NULL);
+// 	sigaction(SIGQUIT, &sa, NULL);
+// }
