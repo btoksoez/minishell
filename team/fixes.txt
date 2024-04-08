@@ -4,11 +4,11 @@ $?
 correct: int i.e 0
 output:  minishell: command not found: $? (merge with Benian)
 
-echo $USER | cat -e
+echo $USER | cat -e (FIXED)
 correct: andre-da$
 output:  andre-da
 
-echo $USER | echo $USER | cat -e
+echo $USER | echo $USER | cat (FIXED) (but wrong exit status)
 correct: andre-da
 output:  andre-da
          andre-da
@@ -29,7 +29,7 @@ correct: executes heredoc then error msg
 bash: dhuhskjdsjks: No such file or directory
 output:  bash: dhuhskjdsjks: No such file or directory
 
-SHLVL
+Change the SHLVL
 
 Heredoc (change the structure to not create a file)
 
@@ -38,18 +38,29 @@ correct: > 1
          > 2
          > 3
          Leaves the here_doc
-output:  Goes nuts
+output: pipe pipe heredoc> 1
+        pipe pipe heredoc> 2
+        pipe pipe heredoc> 3
+        pipe pipe heredoc> 1
+        pipe pipe heredoc> 2
+        pipe pipe heredoc> 3
+        pipe pipe heredoc> 1
+
 
 unset PATH
 correct: works with /usr/bin/cmd & /bin/cmd
 output:  minishell: command not found: cmd
 
 echo hello | echo hello
-valgrind waitpids not executed
+- valgrind waitpids not executed (giving weird message)
 
 < Makefile cat | cat -e | cat > out
-valgrind open fds
+valgrind fds still open
 
 echo ?
 correct: ?
 output:  infinite loop
+
+Give the correct exit codes to children
+
+Add Signals to children
