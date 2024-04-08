@@ -117,7 +117,30 @@ void	add_env(t_shell *s, char *var)
 	s->envp = new_envp;
 }
 
-void	replace_env(t_shell *s, char *var, char *value)
+void	append_env(char *s, char *var, char *value)
+{
+	char	*current_value;
+	char	*append_value;
+	char	*new_value;
+
+	current_value = NULL;
+	append_value = ft_strdup(ft_strchr(value, '=') + 1);
+	if (ft_strchr(s, '='))
+	{
+		current_value = ft_strdup(ft_strchr(s, '=') + 1);
+		new_value = ft_strjoin(current_value, append_value);
+	}
+	else
+		new_value = append_value;
+	free(s);
+	s = ft_strjoin(var, new_value);
+	if (current_value)
+		free(current_value);
+	free(append_value);
+	free(new_value);
+}
+
+void	replace_env(t_shell *s, char *var, char *value, int append)
 {
 	int		i;
 	size_t	var_len;
@@ -130,95 +153,17 @@ void	replace_env(t_shell *s, char *var, char *value)
 	{
 		if (ft_strncmp(s->envp[i], var, var_len) == 0)
 		{
-			free(s->envp[i]);
-			s->envp[i] = value;
+			if (append)
+				append_env(s->envp[i], var, value);
+			else
+			{
+				free(s->envp[i]);
+				s->envp[i] = value;
+			}
 		}
 		i++;
 	}
 }
-
-// char *concatenate_values(t_tokens *head)
-// {
-//     if (!head)
-// 		return NULL;
-
-//     // Calculate the total length of the concatenated string
-//     int total_length = 0;
-//     t_tokens *current = head;
-//     while (current)
-// 	{
-//         total_length += ft_strlen(current->value);
-//         current = current->next;
-//     }
-//     // Allocate memory for the concatenated string
-//     char *result = (char *)malloc((total_length + 1) * sizeof(char));
-//     if (!result)
-//         return (NULL);
-
-//     // Concatenate the values into the result string
-//     current = head;
-//     int index = 0;
-//     while (current)
-// 	{
-//         ft_strlcpy(result + index, current->value, ft_strlen(current->value));  // Copy value to result string
-//         index += ft_strlen(current->value);  // Move the index
-//         current = current->next;  // Move to the next node
-//     }
-//     result[index] = '\0';  // Null-terminate the result string
-
-//     return result;
-// }
-
-
-// char *strip_value(char *str)
-// {
-// 	t_tokens	*v_tokens;
-// 	char		*res;
-// 	int			j;
-// 	// char	*start;
-// 	// char	*before;
-// 	// char	*after;
-
-// 	if (!str)
-// 		return (NULL);
-// 	char *test = str;
-// 	res = (char *)malloc(sizeof(char) * (ft_strlen(str) * 2 + 1));
-// 	if (!res)
-// 		return (NULL);
-// 	j = 0;
-// 	//put space before and after ', before and after "" and before $
-// 	add_spaces(str, res, j);
-// 	printf("str: %s\nres: %s\n", test, res);
-// 	//later put all tokens into one string without space
-// 	v_tokens = tokenize(res);
-// 	expand(v_tokens);
-// 	printf("\n\n\nVALUES: \n");
-// 	print_tokens(v_tokens);
-// 	res = concatenate_values(v_tokens);
-// 	printf("Result: %s\n", res);
-
-	// start = str;
-	// res = NULL;
-	// while (*str)
-	// {
-	// 	if (*str == '\'')
-	// 	{
-	// 		before = ft_strdup_delimiter_char(start, '\'');
-	// 		after = ft_strdup_delimiter_char(++str, '\'');
-	// 		res = ft_strjoin(before, after);
-	// 		str = ft_strchr(str, '\'') + 1;
-	// 	}
-	// 	if (*str == '\"')
-	// 	{
-
-	// 	}
-
-	// }
-	//check for single quotes in value string, remove them
-	//check for $ and $ + 1, replace by env/empty string
-			//put double quotes around whole string
-// 	return (NULL);
-// }
 
 /* not sure if this is needed */
 char *add_double_quotes(char *str)
@@ -270,6 +215,36 @@ char **copy_env(char **envp)
 	copy[len] = NULL;
 	return (copy);
 }
+/* return 1 & export error if wrong, else 0 */
+int	check_var(char *var)
+{
+	int	i;
+
+	i = 0;
+	if (ft_isdigit(var[0]))
+		return (export_error(var));
+	if (var[0] == '=')
+		return (export_error(var));
+	while (var[i] && var[i] != '=')
+	{
+		if (check_valid_identifier(var[i]))
+			return (export_error(var));
+		i++;
+	}
+	return (EXIT_SUCCESS);
+}
+
+void	check_append(char *var, int *flag_append)
+{
+	int	len;
+
+	len = ft_strlen(var);
+	if (len > 0 && var[len - 1] == '+')
+	{
+		*flag_append = 1;
+		var[len - 1] = '\0';
+	}
+}
 
 int	mini_export(t_shell *s, t_tree_node *tree)
 {
@@ -277,9 +252,11 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 	char	*value;
 	char	**copy;
 	char	*new_var;
+	int		flag_append;
 
 	var = NULL;
 	value = NULL;
+	flag_append = 0;
 	if (!s->envp)
 		return (EXIT_FAILURE);
 	copy = copy_env(s->envp);
@@ -296,7 +273,15 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 		// printf("args arg %s\n", tree->args->arg);
 		//get var
 		var = ft_strdup_delimiter_char(tree->args->arg, '=');
-		// printf("Var: %s\n", var);
+		//check var
+		if (ft_strlen(var) != ft_strlen(tree->args->arg))
+			check_append(var, &flag_append);
+		if (check_var(var))
+		{
+			if (tree->args)
+				tree->args = tree->args->next;
+			continue;
+		}
 		//check for equal sign
 		if (ft_strlen(var) == ft_strlen(tree->args->arg))
 		{
@@ -321,13 +306,13 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 				if (tree->args)
 					value = ft_strjoin(value, tree->args->arg);
 			}
-			value = add_double_quotes(value);
+			// value = add_double_quotes(value);
 			new_var = ft_strjoin(var, "=");
 			value = ft_strjoin(new_var, value);
 			free(new_var);
 			//check if var in s->envp already, if yes replace, else add
 			if (is_inenvp(s->envp, var))
-				replace_env(s, var, value);
+				replace_env(s, var, value, flag_append);
 			else
 				add_env(s, value);
 		}

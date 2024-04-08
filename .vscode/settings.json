@@ -12,6 +12,7 @@
 		"libft.h": "c",
 		"__config": "c",
 		"signal.h": "c",
-		"history.h": "c"
+		"history.h": "c",
+		"sstream": "c"
 	}
 }

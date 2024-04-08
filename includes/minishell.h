@@ -197,6 +197,8 @@ int				mini_unset(t_shell *shell, t_tree_node *tree);
 char			*extend_path(char *path);
 int				is_valid_path(char *path);
 int				char_arr_len(char **arr);
+int				export_error(char *c);
+int				check_valid_identifier(char c);
 
 /*---------------------------execution------------------------------*/
 /*------------------------------------------------------------------*/
