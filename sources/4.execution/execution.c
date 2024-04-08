@@ -47,7 +47,7 @@ void	open_files(t_shell *shell, t_redir_list *file)
 				shell->infile = open("here_doc", O_RDONLY);
 			}
 			if (shell->infile < 0)
-				error_message("Failed to open infile");
+				child_error_message(shell, "zsh: no such file or directory: ", file->file, 127);
 		}
 		else if (current->type == RE_OUTPUT || current->type == APPEND)
 		{
@@ -128,6 +128,7 @@ void	execute_command(t_shell *shell, t_tree_node *node, int i, bool cmd)
 
 	command = NULL;
 	path = NULL;
+
 	if (node->redir_list)
 		open_files(shell, node->redir_list);
 	redirect_input_output(shell, i, cmd);
@@ -135,6 +136,12 @@ void	execute_command(t_shell *shell, t_tree_node *node, int i, bool cmd)
 	{
 		path = get_path(node->cmd, shell->envp);
 		command = get_full_cmd(node);
+	}
+	if (ft_strncmp(node->cmd, "./", 2) == 0)
+	{
+		path = node->cmd + 2;
+		execve(path, command, shell->envp);
+		child_error_message(shell, "minishell: no such file or directory: ", command[0], 127);
 	}
 	if (!path)
 		invalid_path(command, shell, node->cmd);

@@ -14,6 +14,7 @@ void	get_path_index(char **envp, int *index)
 		}
 		i++;
 	}
+	*index = -1;
 }
 
 char	*get_path(char *cmd, char **envp)
@@ -25,6 +26,8 @@ char	*get_path(char *cmd, char **envp)
 	int		i;
 
 	get_path_index(envp, &i);
+	if (i == -1)
+		return (NULL);
 	paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (paths[i])

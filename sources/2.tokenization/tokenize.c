@@ -35,7 +35,7 @@ void	pre_parse_tokens(t_tokens *tokens)
 	t_tokens	*current;
 
 	if (!tokens)
-		return (error_message("tokens error"));
+		return ;
 	current = tokens;
 	while (current->next)
 	{
