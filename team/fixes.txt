@@ -1,0 +1,55 @@
+Tests to fix:
+
+$?
+correct: int i.e 0
+output:  minishell: command not found: $? (merge with Benian)
+
+echo $USER | cat -e
+correct: andre-da$
+output:  andre-da
+
+echo $USER | echo $USER | cat -e
+correct: andre-da
+output:  andre-da
+         andre-da
+
+ls | exit 3
+correct: doesnt exit, doesnt execute ls, exit status is 3
+output:  exits with status 3
+
+exit 3 | ls
+correct: doesnt exit, executes ls, exit status is 0
+output:  exits, executes ls, exit status is 3
+
+cat < dhuhskjdsjks << ola
+correct: executes heredoc then error msg
+> sdjk
+> sdjk
+> ola
+bash: dhuhskjdsjks: No such file or directory
+output:  bash: dhuhskjdsjks: No such file or directory
+
+SHLVL
+
+Heredoc (change the structure to not create a file)
+
+cat << 1 | << 2 | << 3
+correct: > 1
+         > 2
+         > 3
+         Leaves the here_doc
+output:  Goes nuts
+
+unset PATH
+correct: works with /usr/bin/cmd & /bin/cmd
+output:  minishell: command not found: cmd
+
+echo hello | echo hello
+valgrind waitpids not executed
+
+< Makefile cat | cat -e | cat > out
+valgrind open fds
+
+echo ?
+correct: ?
+output:  infinite loop

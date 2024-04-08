@@ -63,3 +63,9 @@ void	free_and_close_path(int fd, char **paths, char *path, char *path_cmd)
 		free(path_cmd);
 	}
 }
+
+void	invalid_path(char **full_command, t_shell *shell, char *command)
+{
+	ft_freematrix(full_command);
+	child_error_message(shell, "minishell: command not found: ", command, 127);
+}
