@@ -117,29 +117,38 @@ void	add_env(t_shell *s, char *var)
 	s->envp = new_envp;
 }
 
-void	append_env(char *s, char *var, char *value)
+void	append_env(char **s, char *var, char *value)
 {
 	char	*current_value;
 	char	*append_value;
 	char	*new_value;
+	char	*new_var;
 
 	current_value = NULL;
 	append_value = ft_strdup(ft_strchr(value, '=') + 1);
-	if (ft_strchr(s, '='))
+	if (ft_strchr(*s, '='))
 	{
-		current_value = ft_strdup(ft_strchr(s, '=') + 1);
+		current_value = ft_strdup(ft_strchr(*s, '=') + 1);
 		new_value = ft_strjoin(current_value, append_value);
 	}
 	else
-		new_value = append_value;
-	free(s);
-	s = ft_strjoin(var, new_value);
-	if (current_value)
+		new_value = ft_strdup(append_value);
+	free(*s);
+	new_var = ft_strjoin(var, "=");
+	*s = ft_strjoin(new_var, new_value);
+	printf("current_value: %s\nappend_value: %s\nnew_value: %s\nnew_var: %s\ns: %s\n", current_value, append_value, new_value, new_var, *s);
+	if (current_value != NULL)
+	{
+		printf("hi\n");
 		free(current_value);
+	}
 	free(append_value);
 	free(new_value);
+	free(var);
+	free(new_var);
 }
 
+/* if append flag, it should find var*/
 void	replace_env(t_shell *s, char *var, char *value, int append)
 {
 	int		i;
@@ -154,7 +163,7 @@ void	replace_env(t_shell *s, char *var, char *value, int append)
 		if (ft_strncmp(s->envp[i], var, var_len) == 0)
 		{
 			if (append)
-				append_env(s->envp[i], var, value);
+				append_env(&s->envp[i], var, value);
 			else
 			{
 				free(s->envp[i]);
@@ -253,9 +262,11 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 	char	**copy;
 	char	*new_var;
 	int		flag_append;
+	int		return_value;
 
 	var = NULL;
 	value = NULL;
+	return_value = 0;
 	flag_append = 0;
 	if (!s->envp)
 		return (EXIT_FAILURE);
@@ -280,6 +291,7 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 		{
 			if (tree->args)
 				tree->args = tree->args->next;
+			return_value = 1;
 			continue;
 		}
 		//check for equal sign
@@ -320,5 +332,5 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 			tree->args = tree->args->next;
 	}
 	ft_freematrix(copy);
-	return (1);
+	return (return_value);
 }

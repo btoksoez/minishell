@@ -48,5 +48,5 @@ int	mini_unset(t_shell *s, t_tree_node *tree)
 		}
 		tree->args = tree->args->next;
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }
