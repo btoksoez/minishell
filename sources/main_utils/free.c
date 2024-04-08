@@ -30,7 +30,6 @@ void	free_redir_list(t_redir_list *redir_list)
 	{
 		temp = current;
 		current = current->next;
-		free(temp->file);
 		free(temp);
 	}
 }
@@ -41,14 +40,12 @@ void	free_args(t_args *args)
 	t_args *temp;
 
 	if (!args)
-		return;
+		return ;
 	current = args;
 	while (current != NULL)
 	{
 		temp = current;
 		current = current->next;
-		if (temp->arg)
-			free(temp->arg);
 		free(temp);
 	}
 }
@@ -65,8 +62,6 @@ void	free_tree(t_tree_node *node)
 		free_redir_list(node->redir_list);
 	if (node->args)
 		free_args(node->args);
-	if (node->cmd)
-		free(node->cmd);
 	free(node);
 }
 

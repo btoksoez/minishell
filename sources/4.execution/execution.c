@@ -128,7 +128,6 @@ void	execute_command(t_shell *shell, t_tree_node *node, int i, bool cmd)
 
 	command = NULL;
 	path = NULL;
-
 	if (node->redir_list)
 		open_files(shell, node->redir_list);
 	redirect_input_output(shell, i, cmd);

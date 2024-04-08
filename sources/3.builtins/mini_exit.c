@@ -17,7 +17,7 @@ int	mini_exit(t_shell *shell, t_tree_node *tree)
 	if (!tree->args)
 	{
 		shell->status = 0;
-		clean_up(shell);
+		clean_up(shell, true);
 	}
 	if (tree->args->next)
 	{
@@ -30,10 +30,9 @@ int	mini_exit(t_shell *shell, t_tree_node *tree)
 		ft_putstr_fd(tree->args->arg, STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		shell->status = 2;
-		clean_up(shell);
+		clean_up(shell, true);
 	}
 	shell->status = ft_atoi(tree->args->arg) % 256;
-	clean_up(shell);
-
+	clean_up(shell, true);
 	return (0);
 }

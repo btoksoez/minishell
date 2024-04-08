@@ -11,7 +11,7 @@ int	main(int argc, char *argv[], char *envp[])
 	fprintf(stderr, "\n"); // temporary (for easy to undestand tests)
 	init_shell(&shell, envp);
 	loop(&shell);
-	clean_up(&shell);
+	clean_up(&shell, true);
 	fprintf(stderr, "\n"); // temporary (for easy to undestand tests)
 	return (0);
 }

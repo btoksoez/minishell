@@ -7,11 +7,11 @@ void	print_tokens(t_tokens *head)
 
 	while (current != NULL)
 	{
-		printf("+----------------------------------+\n");
-		printf("| Node %d                           |\n", index);
-		printf("+----------------------------------+\n");
-		printf("| Value: %-25s |\n", current->value);
-		printf("| Type: %-26d |\n", current->type);
+		fprintf(stderr, "+----------------------------------+\n");
+		fprintf(stderr, "| Node %d                           |\n", index);
+		fprintf(stderr, "+----------------------------------+\n");
+		fprintf(stderr, "| Value: %-25s |\n", current->value);
+		fprintf(stderr, "| Type: %-26d |\n", current->type);
 		printf("| Space: %-26d |\n", current->space);
 
 		if (current->previous != NULL)

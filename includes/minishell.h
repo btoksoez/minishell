@@ -128,7 +128,7 @@ t_envps			*init_envps(void);
 bool			check_syntax_errors(char *line);
 bool			check_quotation_marks(char *line);
 bool			check_pipes(char *line);
-void			clean_up(t_shell *shell);
+void			clean_up(t_shell *shell, bool print_msg);
 bool			check_tokens(t_tokens *tokens);
 
 /*--------------------------syntax checking-------------------------*/

@@ -16,13 +16,13 @@ char	*find_and_replace(char *org_str)
 		org_str = find_env(org_str);
 		if (!org_str)
 		{
-			result = ft_strjoin(result, str_before);
+			result = ft_strjoin_free(result, str_before);
 			break ;
 		}
 		str_env = ft_strdup_delimiter_string(++org_str, WHITESPACE_DOLLAR_SINGLE);
 		new_str = ft_strjoin(str_before, get_env(str_env));
 		org_str += ft_strlen(str_env);
-		result = ft_strjoin(result, new_str);
+		result = ft_strjoin_free(result, new_str);
 		free_strs(str_before, str_env, new_str);
 	}
 	return (result);
@@ -33,13 +33,18 @@ replacing them by their value or by a empty string (\0\0) */
 void	expand(t_tokens *tokens)
 {
 	t_tokens	*current;
+	char		*temp;
 
 	current = tokens;
 	while (current)
 	{
 		if (current->type == 6)
 			if (ft_strcmp(current->value, "$$"))
-				current->value = find_and_replace(current->value);
+			{
+				temp = current->value;
+				current->value = find_and_replace(temp);
+				free(temp);
+			}
 		current = current->next;
 	}
 }

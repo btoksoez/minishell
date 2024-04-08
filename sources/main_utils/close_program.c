@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	clean_up(t_shell *shell)
+void	clean_up(t_shell *shell, bool print_msg)
 {
 	int i;
 
@@ -13,7 +13,8 @@ void	clean_up(t_shell *shell)
 		free(shell->envp[i++]);
 	if (shell->envp)
 		free(shell->envp);
-	exit_error_message("exit", shell->status);
+	if (print_msg)
+		exit_error_message("exit", shell->status);
 }
 
 void	error_message(char *message)
@@ -59,12 +60,9 @@ void	child_error_message(t_shell *shell, char *str, char *cmd, int code)
 {
 	ft_putstr_fd(str, 2);
 	if (cmd)
-	{
 		ft_putendl_fd(cmd, 2);
-		free(cmd);
-	}
 	else
 		ft_putchar_fd('\n', 2);
-	close_all_fds(shell, true);
+	clean_up(shell, false);
 	exit (code);
 }
