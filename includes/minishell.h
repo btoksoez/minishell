@@ -96,6 +96,7 @@ typedef struct s_shell
 	int					infile;
 	int					outfile;
 	bool				here_doc;
+	int					fds_heredoc[2];
 	int					pipe_nbr;
 	int					status;
 	int					builtin_status;
@@ -194,6 +195,7 @@ void			start_execution(t_shell *shell, t_tree_node *node, int i, bool last_cmd);
 void			execute_command(t_shell *shell, t_tree_node *node);
 void			redirect_input_output(t_shell *shell, int i, bool last_cmd);
 char			**get_full_cmd(t_tree_node *node);
+char			*check_path(char *cmd, char **envp);
 char			*get_path(char *cmd, char **envp);
 void			get_path_index(char **envp, int *index);
 void			free_and_close_path(int fd, char **paths, char *path, char *path_cmd);

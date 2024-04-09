@@ -9,7 +9,7 @@ void	execute_command(t_shell *shell, t_tree_node *node)
 	path = NULL;
 	if (node->cmd)
 	{
-		path = get_path(node->cmd, shell->envp);
+		path = check_path(node->cmd, shell->envp);
 		command = get_full_cmd(node);
 	}
 	if (ft_strncmp(node->cmd, "./", 2) == 0)

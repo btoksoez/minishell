@@ -91,4 +91,6 @@ void	reset_fds(t_shell *shell)
 		error_message("Failed to reset stdin");
 	if (dup2(shell->std_fds[1], STDOUT_FILENO) == -1)
 		error_message("Failed to reset stdout");
+	if (shell->fds_heredoc[READ_END])
+		close(shell->fds_heredoc[READ_END]);
 }
