@@ -22,7 +22,7 @@ int	mini_exit(t_shell *shell, t_tree_node *tree)
 	if (tree->args->next)
 	{
 		shell->status = 1;
-		return (error_message("minishell: exit: too many arguments"), EXIT_FAILURE);
+		return (error_message("minishell: exit: too many arguments", NULL), EXIT_FAILURE);
 	}
 	if (!is_digit_string(tree->args->arg))
 	{

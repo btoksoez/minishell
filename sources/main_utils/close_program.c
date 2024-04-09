@@ -17,9 +17,13 @@ void	clean_up(t_shell *shell, bool print_msg)
 		exit_error_message("exit", shell->status);
 }
 
-void	error_message(char *message)
+void	error_message(char *message, char *cmd)
 {
-	ft_putendl_fd(message, STDERR_FILENO);
+	ft_putstr_fd(message, STDERR_FILENO);
+	if (cmd)
+		ft_putendl_fd(cmd, STDERR_FILENO);
+	else
+		ft_putchar_fd('\n', 2);
 }
 
 void	exit_error_message(char *message, int exit_code)
@@ -58,11 +62,11 @@ void	close_all_fds(t_shell *shell, bool in_out)
 
 void	child_error_message(t_shell *shell, char *str, char *cmd, int code)
 {
-	ft_putstr_fd(str, 2);
+	ft_putstr_fd(str, STDERR_FILENO);
 	if (cmd)
-		ft_putendl_fd(cmd, 2);
+		ft_putendl_fd(cmd, STDERR_FILENO);
 	else
-		ft_putchar_fd('\n', 2);
+		ft_putchar_fd('\n', STDERR_FILENO);
 	clean_up(shell, false);
 	exit (code);
 }

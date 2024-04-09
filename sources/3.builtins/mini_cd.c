@@ -52,7 +52,7 @@ char	*extend_path(char *path)
 	char	cwd[1024];
 
 	if (!path)
-		return (error_message("no path given"), NULL);
+		return (error_message("no path given", NULL), NULL);
 	extended_path = NULL;
 	if (is_valid_path(path))
 			return (path);
@@ -99,7 +99,7 @@ int	mini_cd(t_shell *s, t_tree_node *tree)
 	char	*new_cd;
 
 	if (!tree || !s)
-		return (error_message("mini cd error"), EXIT_FAILURE);
+		return (error_message("mini cd error", NULL), EXIT_FAILURE);
 	path = NULL;
 	new_cd = NULL;
 	if (tree->args)
@@ -114,7 +114,7 @@ int	mini_cd(t_shell *s, t_tree_node *tree)
 		if (extend_path(path))
 			new_cd = ft_strdup(extend_path(path));
 		else
-			return (error_message("no such file or directory: {path}"), EXIT_FAILURE);
+			return (error_message("no such file or directory: {path}", NULL), EXIT_FAILURE);
 	}
 	// print_test_cd(s);
 	if (chdir(new_cd))	//changes directory of process

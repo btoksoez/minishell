@@ -16,7 +16,7 @@ bool	check_quotation_marks(char *line)
 		line++;
 	}
 	if (n_double % 2 != 0 || n_single % 2 != 0)
-		return (error_message("parse error: unclosed quote"), true);
+		return (error_message("parse error: unclosed quote", NULL), true);
 	return (false);
 }
 
@@ -31,9 +31,9 @@ bool	check_pipes(char *line)
 	while (*first_pipe == ' ')
 		first_pipe++;
 	if (*first_pipe == '|')
-		return (error_message("parse error: near `||'"), true);
+		return (error_message("parse error: near `||'", NULL), true);
 	if (ft_strncmp(line, "|", 1) == 0 || line[ft_strlen(line) - 1] == '|')
-		return (error_message("parse error: near `|'"), true);
+		return (error_message("parse error: near `|'", NULL), true);
 	return (false);
 }
 
@@ -54,9 +54,9 @@ bool	check_redirection(char *line)
 				line++;
 		}
 		if (ft_strncmp(line, "<>", 2) == 0)
-			return (error_message("parse error: near `>'"), true);
+			return (error_message("parse error: near `>'", NULL), true);
 		if (ft_strncmp(line, "><", 2) == 0)
-			return (error_message("parse error: near `<'"), true);
+			return (error_message("parse error: near `<'", NULL), true);
 		line++;
 	}
 	return (false);

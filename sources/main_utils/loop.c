@@ -61,6 +61,13 @@ void	wait_pids(int fds, t_shell *shell)
 
 	i = 0;
 	shell->status = 0;
+	current = shell->tree;
+	while (current && current->right)
+	{
+		current = current->right;
+		if (current->builtin != NULL)
+			return ;
+	}
 	while (i < fds - 1)
 		waitpid(shell->id[i++], NULL, 0);
 	current = shell->tree;
@@ -88,9 +95,9 @@ void	reset_fds(t_shell *shell)
 	shell->infile = 0;
 	shell->outfile = 0;
 	if (dup2(shell->std_fds[0], STDIN_FILENO) == -1)
-		error_message("Failed to reset stdin");
+		error_message("Failed to reset stdin", NULL);
 	if (dup2(shell->std_fds[1], STDOUT_FILENO) == -1)
-		error_message("Failed to reset stdout");
+		error_message("Failed to reset stdout", NULL);
 	if (shell->fds_heredoc[READ_END])
 		close(shell->fds_heredoc[READ_END]);
 }

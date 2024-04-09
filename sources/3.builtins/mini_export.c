@@ -100,11 +100,11 @@ void	add_env(t_shell *s, char *var)
 	int		i;
 
 	if (!var || !s->envp)
-		return (error_message("add_env error"));
+		return (error_message("add_env error", NULL));
 	len = char_arr_len(s->envp);
 	new_envp = (char **)malloc(sizeof(char *) * (len + 2));
 	if (!new_envp)
-		return (error_message("add_env malloc"));
+		return (error_message("add_env malloc", NULL));
 	i = 0;
 	while (i < len)
 	{

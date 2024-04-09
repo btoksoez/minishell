@@ -10,7 +10,7 @@ char	*check_path(char *cmd, char **envp)
 	else if (!*(envp) || !envp || ft_strcmp(*envp, "VALGRIND_LIB=/usr/libexec/valgrind") == 0)
 		path = ft_strjoin("/usr/bin/", cmd);
 	else
-		get_path(cmd, envp);
+		path = get_path(cmd, envp);
 	return (path);
 }
 

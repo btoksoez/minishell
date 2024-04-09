@@ -200,7 +200,7 @@ char			*get_path(char *cmd, char **envp);
 void			get_path_index(char **envp, int *index);
 void			free_and_close_path(int fd, char **paths, char *path, char *path_cmd);
 void			invalid_path(char **full_command, t_shell *shell, char *command);
-void			open_files(t_shell *shell, t_redir_list *file);
+bool			open_files(t_shell *shell, t_redir_list *file);
 void			init_heredoc(char *limiter, t_shell *shell);
 
 /*--------------------------------------freeing-----------------------------------------*/
@@ -224,7 +224,7 @@ void			sigint_handler(int sig);
 
 /*------------------------------------close program-------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
-void			error_message(char *message);
+void			error_message(char *message, char *cmd);
 void			exit_error_message(char *message, int exit_code);
 void			child_error_message(t_shell *shell, char *message, char *command, int exit_code);
 

@@ -71,7 +71,7 @@ t_tokens	*add_node_back(t_tokens *previous)
 
 	new = (t_tokens *)malloc(sizeof(t_tokens));
 	if (!new)
-		return (error_message("malloc error: add token"), NULL);
+		return (error_message("malloc error: add token", NULL), NULL);
 	new->previous = previous;
 	new->next = NULL;
 	previous->next = new;
@@ -86,7 +86,7 @@ t_tokens	*token_init(void)
 
 	new = (t_tokens *)malloc(sizeof(t_tokens));
 	if (!new)
-		return (error_message("malloc error: token init"), NULL);
+		return (error_message("malloc error: token init", NULL), NULL);
 	new->previous = NULL;
 	new->next = NULL;
 	new->value = NULL;

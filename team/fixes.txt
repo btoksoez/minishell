@@ -1,4 +1,4 @@
-TESTS TO FIXE:
+TESTS TO FIX:
 
 1. Change the SHLVL
 
@@ -14,14 +14,6 @@ output:  exits with status 3
 correct: doesnt exit, executes ls, exit status is 0
 output:  exits, executes ls, exit status is 3
 
-5. cat < dhuhskjdsjks << ola
-correct: executes heredoc then error msg
-> sdjk
-> sdjk
-> ola
-bash: dhuhskjdsjks: No such file or directory
-output:  bash: dhuhskjdsjks: No such file or directory
-
 6. cat << 1 | << 2 | << 3
 correct: > 1
          > 2
@@ -35,9 +27,6 @@ output: pipe pipe heredoc> 1
         pipe pipe heredoc> 3
         pipe pipe heredoc> 1
 
-8. echo hello | echo hello
-- valgrind waitpids not executed (giving weird message)
-
 9. < Makefile cat | cat -e | cat > out
 valgrind fds still open
 
@@ -49,7 +38,8 @@ output:  infinite loop
 
 12. Add Signals to children
 
-13. env -i ls
+(IN PROGRESS)
+13. env -i ls 
 correct: executes ls
 output:  prints all envps
 
@@ -61,7 +51,7 @@ FIXED TESTS:
 correct: andre-da$
 output:  andre-da
 
-(FIXED) (but wrong exit status)
+(FIXED) (STILL HAS WRONG EXIT STATUS)
 - echo $USER | echo $USER | cat
 correct: andre-da
 output:  andre-da
@@ -74,3 +64,16 @@ output:  andre-da
 unset PATH
 correct: works with /usr/bin/cmd & /bin/cmd
 output:  minishell: command not found: cmd
+
+(FIXED)
+echo hello | echo hello
+- valgrind waitpids not executed (giving weird message)
+
+(FIXED) (STILL HAD LEAKS)
+cat < dhuhskjdsjks << ola
+correct: executes heredoc then error msg
+> sdjk
+> sdjk
+> ola
+bash: dhuhskjdsjks: No such file or directory
+output:  bash: dhuhskjdsjks: No such file or directory
