@@ -97,6 +97,10 @@ t_tokens	*get_tokens(char *line)
 			line = token_dollar(line, current);
 		else if (*line == '$' && !ft_strchr(WHITESPACE, *(line + 1)))
 			line = token_envp(line, current);
+		else if (*line == '?' && !ft_strchr(WHITESPACE, *(line + 1)))
+			line = token_word(line, current, WHITESPACE_Q_D_N);
+		else if (*line == '?' && ft_strchr(WHITESPACE, *(line + 1)))
+			line = token_qm(line, current);
 		else
 			line = token_word(line, current, WHITESPACE_Q_D);
 		previous = current;

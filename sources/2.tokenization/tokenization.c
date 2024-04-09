@@ -15,6 +15,21 @@ char	*token_word(char *start, t_tokens *token, char *delimiter)
 	return (start);
 }
 
+char	*token_qm(char *start, t_tokens *token)
+{
+	char	*word;
+
+	word = ft_strdup("\n");
+	if (!word)
+		return (error_message("token error: no word"), NULL);
+	token->value = word;
+	token->type = WORD;
+	start += ft_strlen(word);
+	if (ft_strchr(WHITESPACE, *start))
+		token->space = 1;
+	return (start);
+}
+
 char	*token_dollar(char *start, t_tokens *token)
 {
 	char	*word;

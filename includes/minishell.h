@@ -17,6 +17,7 @@
 # define WHITESPACE_DOLLAR_SINGLE " \t\n\v\f\r$\'"
 # define WHITESPACE_QUOTES " \t\n\v\f\r\'\""
 # define WHITESPACE_Q_D " \t\n\v\f\r\'\"$?<>|"
+# define WHITESPACE_Q_D_N " \t\n\v\f\r\'\"$<>|"
 # define QUOTE_DELIMITER "$\""
 # define TRUE 1
 # define FALSE 0
@@ -160,6 +161,7 @@ char			*skip_whitespace(char *line);
 int				args_len(t_args *args);
 char			*token_dollar(char *start, t_tokens *token);
 void			del_token(t_tokens **head, t_tokens *node);
+char			*token_qm(char *start, t_tokens *token);
 
 /*--------------------------------------expansion---------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
