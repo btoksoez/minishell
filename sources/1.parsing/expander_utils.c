@@ -1,11 +1,11 @@
 #include "../../includes/minishell.h"
 
-char	*get_env(char *str)
+char	*get_env(t_shell *shell, char *str)
 {
 	char	*env_value;
 
 	if (*str == '?')
-		return ("$?");
+		return (ft_itoa(shell->status));
 	else if (*str == '$')
 		return ("$$");
 	env_value = getenv(str);

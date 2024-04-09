@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-char	*find_and_replace(char *org_str)
+char	*find_and_replace(t_shell *shell, char *org_str)
 {
 	char		*new_str;
 	char		*str_before;
@@ -20,7 +20,7 @@ char	*find_and_replace(char *org_str)
 			break ;
 		}
 		str_env = ft_strdup_delimiter_string(++org_str, WHITESPACE_DOLLAR_SINGLE);
-		new_str = ft_strjoin(str_before, get_env(str_env));
+		new_str = ft_strjoin(str_before, get_env(shell, str_env));
 		org_str += ft_strlen(str_env);
 		result = ft_strjoin_free(result, new_str);
 		free_strs(str_before, str_env, new_str);
@@ -30,19 +30,19 @@ char	*find_and_replace(char *org_str)
 
 /* expands environment variables in the token list,
 replacing them by their value or by a empty string (\0\0) */
-void	expand(t_tokens *tokens)
+void	expand(t_shell *shell)
 {
 	t_tokens	*current;
 	char		*temp;
 
-	current = tokens;
+	current = shell->tokens;
 	while (current)
 	{
-		if (current->type == 6)
+		if (current->type == 6 || (current->type == 6 && current->previous && current->previous->type != HEREDOC))
 			if (ft_strcmp(current->value, "$$"))
 			{
 				temp = current->value;
-				current->value = find_and_replace(temp);
+				current->value = find_and_replace(shell, temp);
 				free(temp);
 			}
 		current = current->next;

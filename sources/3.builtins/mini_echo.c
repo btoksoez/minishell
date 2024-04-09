@@ -21,12 +21,7 @@ int	mini_echo(t_shell *shell, t_tree_node *cmd_node)
 	}
 	while (current)
 	{
-		if (ft_strncmp(current->arg, "$?", 2) == 0)
-			ft_printf("%d", shell->status);
-		else if (ft_strncmp(current->arg, "$$", 2) == 0)
-			ft_printf("%d", shell->status);
-		else
-			ft_putstr_fd(current->arg, 1);
+		ft_putstr_fd(current->arg, 1);
 		if (current->next && current->space)
 			ft_putchar_fd(' ', 1);
 		current = current->next;

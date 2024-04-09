@@ -136,7 +136,6 @@ void	append_env(char **s, char *var, char *value)
 	free(*s);
 	new_var = ft_strjoin(var, "=");
 	*s = ft_strjoin(new_var, new_value);
-	printf("current_value: %s\nappend_value: %s\nnew_value: %s\nnew_var: %s\ns: %s\n", current_value, append_value, new_value, new_var, *s);
 	if (current_value != NULL)
 	{
 		printf("hi\n");
@@ -230,6 +229,8 @@ int	check_var(char *var)
 	int	i;
 
 	i = 0;
+	if (*var == 0)
+		return (export_error("="));
 	if (ft_isdigit(var[0]))
 		return (export_error(var));
 	if (var[0] == '=')

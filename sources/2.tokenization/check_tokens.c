@@ -4,6 +4,8 @@ bool	check_tokens(t_tokens *tokens)
 {
 	t_tokens	*current;
 
+	if (!tokens)
+		return (false);
 	current = tokens;
 	while (current)
 	{

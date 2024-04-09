@@ -2,21 +2,22 @@
 
 bool	check_quotation_marks(char *line)
 {
-	int	n_double;
-	int	n_single;
-
-	n_double = 0;
-	n_single = 0;
 	while (*line)
 	{
 		if (*line == '\"')
-			n_double++;
+		{
+			line = ft_strchr(line + 1, '\"');
+			if (!line)
+				return (error_message("parse error: unclosed quote"), true);
+		}
 		else if (*line == '\'')
-			n_single++;
+		{
+			line = ft_strchr(line + 1, '\'');
+			if (!line)
+				return (error_message("parse error: unclosed quote"), true);
+		}
 		line++;
 	}
-	if (n_double % 2 != 0 || n_single % 2 != 0)
-		return (error_message("parse error: unclosed quote"), true);
 	return (false);
 }
 

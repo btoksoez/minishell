@@ -163,11 +163,12 @@ void			del_token(t_tokens **head, t_tokens *node);
 
 /*--------------------------------------expansion---------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
-void			expand(t_tokens *tokens);
-char			*get_env(char *str);
+void			expand(t_shell *shell);
+char			*get_env(t_shell *shell, char *str);
 char			*find_env(char *str);
 char			*ft_strdup_until(char *s);
 void			free_strs(char *s1, char *s2, char *s3);
+char			*find_and_replace(t_shell *shell, char *org_str);
 
 /*--------------------------------------builtins----------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
