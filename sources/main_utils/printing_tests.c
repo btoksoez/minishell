@@ -1,18 +1,5 @@
 #include "../../includes/minishell.h"
 
-void print_envps(t_shell *shell)
-{
-    if (shell == NULL || shell->envps == NULL) {
-        printf("Environment variables are not initialized.\n");
-        return;
-    }
-
-    printf("PWD: %s\n", shell->envps->pwd);
-    printf("OLDPWD: %s\n", shell->envps->oldpwd);
-    printf("HOME: %s\n", shell->envps->home);
-    printf("PWD Index: %d\n", shell->envps->pwd_index);
-    printf("OLDPWD Index: %d\n", shell->envps->oldpwd_index);
-}
 
 void	print_tokens(t_tokens *head)
 {
@@ -146,25 +133,3 @@ void    print_envp(t_shell *shell)
     }
 }
 
-void print_path_test(void)
-{
-	char *full_path = "/home/btoksoez/Documents/minishell/sources";
-	char *rel_path = "/includes/";
-	char *wrong_path = "/wrong/path";
-	char *parent = "..";
-
-	printf("Result: \n");
-	printf("%s\n", extend_path(full_path));
-	printf("%s\n", extend_path(rel_path));
-	printf("%s\n", extend_path(wrong_path));
-	printf("%s\n", extend_path(parent));
-}
-
-void print_test_cd(t_shell *s)
-{
-	printf("ENVPS\n");
-	char cwd[1024];
-	getcwd(cwd, sizeof(cwd));
-	printf("getcwd: %s\n", cwd);
-	printf("PWD: %s\nOLDPWD: %s\n", s->envps->pwd, s->envps->oldpwd);
-}

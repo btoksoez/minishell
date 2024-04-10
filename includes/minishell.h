@@ -90,7 +90,8 @@ typedef struct	s_envps
 typedef struct s_shell
 {
 	char				**envp;
-	t_envps				*envps;
+	char				*pwd;
+	char				*oldpwd;
 	pid_t				*id;
 	int					**fd;
 	char				*line;
@@ -188,6 +189,7 @@ int				is_valid_path(char *path);
 int				char_arr_len(char **arr);
 int				export_error(char *c);
 int				check_valid_identifier(char c);
+void			get_env_vars(t_shell *s);
 
 /*-------------------------------------execution----------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
