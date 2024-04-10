@@ -9,12 +9,12 @@ void	loop(t_shell *shell)
 			break;
 		if (*shell->line)
 			add_history(shell->line);
-		if (check_syntax_errors(shell->line))
-			continue ;
 		shell->tokens = tokenize(shell);
 		if (check_tokens(shell->tokens))
-			//we need to free here
+		{
+			shell->status = 2;
 			continue ;
+		}
 		expand(shell);
 		if (!shell->tokens)
 			continue;

@@ -61,7 +61,10 @@ t_tokens	*tokenize(t_shell *shell)
 	if (!trimmed_line)
 		return (NULL);
 	if (check_syntax_errors(trimmed_line))
+	{
+		shell->status = 2;
 		return (NULL);
+	}
 	shell->tokens = get_tokens(trimmed_line);
 	pre_parse_tokens(shell->tokens);
 	free(trimmed_line);

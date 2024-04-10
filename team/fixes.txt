@@ -9,8 +9,9 @@ valgrind fds still open
 
 12. Add Signals to children
 
-⇾ minishell$ 4>
-syntax error near `\n'
+13.  minishell$ djd | echo hello
+hello
+⇾ minishell$ minishell: command not found: djd
 
 
 FIXED TESTS:
@@ -24,6 +25,9 @@ correct: executes heredoc then error msg
 bash: dhuhskjdsjks: No such file or directory
 output:  bash: dhuhskjdsjks: No such file or directory
 
+(FIXED)
+minishell$ 4>
+syntax error near `\n'
 
 (FIXED)
 - echo $USER | echo $USER | cat
