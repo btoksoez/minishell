@@ -36,9 +36,9 @@ int	mini_exit(t_shell *shell, t_tree_node *tree)
 		ft_putstr_fd("exit\nminishell: exit: ", STDERR_FILENO);
 		ft_putstr_fd(tree->args->arg, STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-		shell->status = 255;
-		if (exit_flag)
-			clean_up(shell, 0);
+		shell->status = 2;
+		return (shell->status);
+
 	}
 	if (tree->args->next)
 	{

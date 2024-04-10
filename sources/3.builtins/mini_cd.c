@@ -30,6 +30,7 @@ void	change_directory(t_shell *s)
 	if (s->envps->oldpwd_index != -1)
 	{
 		free(s->envp[s->envps->oldpwd_index]);	//free old value
+		printf("pwd: %s\n", s->envps->pwd);
 		new_oldpwd = ft_strjoin("OLDPWD=", s->envps->pwd);	//join pwd and "OLDPWD=" and '\0'
 		s->envp[s->envps->oldpwd_index] = new_oldpwd;
 	}
@@ -93,6 +94,21 @@ void	get_env_vars(t_shell *s)
 	}
 }
 
+// char	*find_path_ret(char *str, t_tools *tools)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (tools->envp[i])
+// 	{
+// 		if (!ft_strncmp(tools->envp[i], str, ft_strlen(str)))
+// 			return (ft_substr(tools->envp[i], ft_strlen(str),
+// 					ft_strlen(tools->envp[i]) - ft_strlen(str)));
+// 		i++;
+// 	}
+// 	return (NULL);
+// }
+
 int	mini_cd(t_shell *s, t_tree_node *tree)
 {
 	char	*path;
@@ -105,6 +121,7 @@ int	mini_cd(t_shell *s, t_tree_node *tree)
 	if (tree->args)
 		path = tree->args->arg;	//set path to first argument given after cd
 	get_env_vars(s);
+	print_envps(s);
 	if (!path)
 		new_cd = ft_strdup(s->envps->home);	//no arguments, new_cd = home
 	else if (ft_strncmp(path, "-", ft_strlen(path)) == 0)

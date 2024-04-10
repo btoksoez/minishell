@@ -1,5 +1,19 @@
 #include "../../includes/minishell.h"
 
+void print_envps(t_shell *shell)
+{
+    if (shell == NULL || shell->envps == NULL) {
+        printf("Environment variables are not initialized.\n");
+        return;
+    }
+
+    printf("PWD: %s\n", shell->envps->pwd);
+    printf("OLDPWD: %s\n", shell->envps->oldpwd);
+    printf("HOME: %s\n", shell->envps->home);
+    printf("PWD Index: %d\n", shell->envps->pwd_index);
+    printf("OLDPWD Index: %d\n", shell->envps->oldpwd_index);
+}
+
 void	print_tokens(t_tokens *head)
 {
 	t_tokens	*current = head;
