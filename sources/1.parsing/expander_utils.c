@@ -1,5 +1,24 @@
 #include "../../includes/minishell.h"
 
+char	*get_env_shell(t_shell *s, char *str)
+{
+	int		i;
+	int		var_len;
+
+	i = 0;
+	var_len = ft_strlen(str);
+	while (s->envp[i])
+	{
+		if (ft_strncmp(s->envp[i], str, var_len) == 0)
+		{
+			if (s->envp[i][var_len] == '=')
+				return (ft_strdup(ft_strchr(s->envp[i], '=') + 1));
+		}
+		i++;
+	}
+	return (NULL);
+}
+
 char	*get_env(t_shell *shell, char *str)
 {
 	char	*env_value;
@@ -8,7 +27,7 @@ char	*get_env(t_shell *shell, char *str)
 		return (ft_itoa(shell->status));
 	else if (*str == '$')
 		return ("$$");
-	env_value = getenv(str);
+	env_value = get_env_shell(shell, str);
 	if (!env_value)
 		env_value = "";
 	return (env_value);
