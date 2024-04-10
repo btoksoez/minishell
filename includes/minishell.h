@@ -100,7 +100,7 @@ typedef struct s_shell
 	int					fds_heredoc[2];
 	int					pipe_nbr;
 	int					status;
-	int					builtin_status;
+	int					builtins;
 	int					std_fds[2];
 	struct s_tree_node	*tree;
 	t_tokens			*tokens;
@@ -130,12 +130,12 @@ t_envps			*init_envps(void);
 
 /*--------------------------------------parsing-----------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
-t_tree_node		*parse_commandline(t_tokens *tokens_start);
+t_tree_node		*parse_commandline(t_tokens *tokens_start, t_shell *shell);
 t_tree_node		*add_ast_node(void);
 void			add_redir_list(t_redir_list **head, t_token_type type, char *filename);
 void			add_arg(t_args **args, t_tokens *current);
 int				tokens_len(t_tokens *tokens_start, t_tokens *tokens_end);
-t_tree_node		*parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end);
+t_tree_node		*parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end, t_shell *shell);
 void			count_pipes(t_shell *shell);
 bool			check_syntax_errors(char *line);
 bool			check_quotation_marks(char *line);

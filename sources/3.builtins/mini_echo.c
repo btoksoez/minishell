@@ -28,7 +28,6 @@ int	mini_echo(t_shell *shell, t_tree_node *cmd_node)
 	}
 	if (nl_flag)
 		ft_putchar_fd('\n', 1);
-	(void)shell;
-	shell->builtin_status = 0;
+	shell->status = 0;
 	return (EXIT_SUCCESS);
 }

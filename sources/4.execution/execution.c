@@ -15,8 +15,9 @@ void	execute_command(t_shell *shell, t_tree_node *node)
 	if (ft_strncmp(node->cmd, "./", 2) == 0)
 	{
 		path = node->cmd + 2;
+		close_all_fds(shell, true);
 		execve(path, command, shell->envp);
-		child_error_message(shell, "minishell: no such file or directory: ", command[0], 127);
+		child_error_message(shell, "minishell: no such file or directory: ", command[0], 126);
 	}
 	if (!path)
 		invalid_path(command, shell, node->cmd);
@@ -36,7 +37,7 @@ void	start_execution(t_shell *shell, t_tree_node *node, int i, bool last_cmd)
 	{
 		redirect_input_output(shell, i, last_cmd);
 		if (node->builtin != NULL)
-			shell->builtin_status = node->builtin(shell, node);
+			shell->status = node->builtin(shell, node);
 		else
 		{
 			shell->id[i] = fork();

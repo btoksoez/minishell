@@ -74,7 +74,7 @@ void	add_arg(t_args **args, t_tokens *current)
 }
 
 
-t_tree_node	*parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end)
+t_tree_node	*parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end, t_shell *shell)
 {
 	//tokens_end will either point to the pipe or to NULL (end of tokens)
 	t_tree_node	*cmd_node;
@@ -98,7 +98,10 @@ t_tree_node	*parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end)
 		{
 			cmd_node->builtin = builtin_arr(current->value);	//will be null if current->value is not a builtin cmd
 			if (cmd_node->builtin != NULL)
+			{
+				shell->builtins++;
 				cmd_node->type = BUILTIN;
+			}
 			else
 			{
 				cmd_node->type = CMD;
@@ -113,7 +116,7 @@ t_tree_node	*parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end)
 	return (cmd_node);
 }
 
-t_tree_node	*parse_commandline(t_tokens *tokens_start)
+t_tree_node	*parse_commandline(t_tokens *tokens_start, t_shell *shell)
 {
 	t_tree_node	*ast_head;
 	t_tokens	*current;
@@ -125,12 +128,12 @@ t_tree_node	*parse_commandline(t_tokens *tokens_start)
 		{
 			ast_head = add_ast_node();
 			ast_head->type = PIPE_TREE;
-			ast_head->right = parse_commandline(current->next);
-			ast_head->left = parse_cmd(tokens_start, current);
+			ast_head->right = parse_commandline(current->next, shell);
+			ast_head->left = parse_cmd(tokens_start, current, shell);
 			return (ast_head);
 		}
 		current = current->next;
 	}
-	ast_head = parse_cmd(tokens_start, current->next);
+	ast_head = parse_cmd(tokens_start, current->next, shell);
 	return (ast_head);
 }

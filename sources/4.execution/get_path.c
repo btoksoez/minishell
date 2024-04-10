@@ -81,5 +81,7 @@ void	free_and_close_path(int fd, char **paths, char *path, char *path_cmd)
 void	invalid_path(char **full_command, t_shell *shell, char *command)
 {
 	ft_freematrix(full_command);
+	if (ft_strncmp(command, "/", 1) == 0)
+		child_error_message(shell, "minishell: Is a directory: ", command, 126);
 	child_error_message(shell, "minishell: command not found: ", command, 127);
 }

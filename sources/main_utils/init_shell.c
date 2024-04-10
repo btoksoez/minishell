@@ -67,7 +67,7 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->here_doc = 0;
 	shell->pipe_nbr = 0;
 	shell->status = 0;
-	shell->builtin_status = 0;
+	shell->builtins = 0;
 	shell->line = NULL;
 	shell->tree = NULL;
 	shell->tokens = NULL;

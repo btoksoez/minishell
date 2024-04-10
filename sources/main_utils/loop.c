@@ -18,7 +18,7 @@ void	loop(t_shell *shell)
 		expand(shell);
 		if (!shell->tokens)
 			continue;
-		shell->tree = parse_commandline(shell->tokens);
+		shell->tree = parse_commandline(shell->tokens, shell);
 		execute(shell);
 		close_all_fds(shell, false);
 		wait_pids(shell->pipe_nbr + 1, shell);
@@ -60,7 +60,6 @@ void	wait_pids(int fds, t_shell *shell)
 	int			i;
 
 	i = 0;
-	shell->status = 0;
 	current = shell->tree;
 	while (current && current->right)
 	{
@@ -68,17 +67,15 @@ void	wait_pids(int fds, t_shell *shell)
 		if (current->builtin != NULL)
 			return ;
 	}
-	while (i < fds - 1)
+	while (i < (fds - 1) - shell->builtins - 1)
 		waitpid(shell->id[i++], NULL, 0);
 	current = shell->tree;
 	while (current && current->right)
 		current = current->right;
 	if (current->builtin != NULL)
-	{
-		shell->status = shell->builtin_status;
 		return ;
-	}
-	waitpid(shell->id[i], &status, 0);
+	shell->status = 0;
+	waitpid(shell->id[shell->pipe_nbr], &status, 0);
 	shell->status = WEXITSTATUS(status);
 }
 
@@ -86,6 +83,7 @@ void	reset(t_shell *shell)
 {
 	free_all(shell);
 	shell->pipe_nbr = 0;
+	shell->builtins = 0;
 	shell->tokens = NULL;
 	reset_fds(shell);
 }

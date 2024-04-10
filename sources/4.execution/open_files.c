@@ -42,7 +42,7 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 			else if (current->type == HEREDOC)
 			{
 				if (pipe(shell->fds_heredoc) == -1)
-					error_message("Failed to set here_doc pipes", NULL);
+					return (false);
 				init_heredoc(current->file, shell);
 				shell->infile = shell->fds_heredoc[READ_END];
 			}
@@ -59,7 +59,7 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 			else if (current->type == APPEND)
 				shell->outfile = open(current->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 			if (shell->outfile < 0)
-				error_message("Failed to open outfile", NULL);
+				return (false);
 		}
 		current = current->next;
 	}
