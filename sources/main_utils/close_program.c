@@ -56,8 +56,6 @@ void	close_all_fds(t_shell *shell, bool in_out)
 		close(shell->std_fds[0]);
 		close(shell->std_fds[1]);
 	}
-	if (shell->here_doc)
-		unlink("here_doc");
 }
 
 void	child_error_message(t_shell *shell, char *str, char *cmd, int code)

@@ -51,11 +51,11 @@ void	start_execution(t_shell *shell, t_tree_node *node, int i, bool last_cmd)
 
 void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int i)
 {
+	start_execution(shell, l_node, i, false);
 	if (r_node->type == PIPE_TREE)
 		execute_pipe(shell, r_node->left, r_node->right, i + 1);
 	else
 		start_execution(shell, r_node, i + 1, true);
-	start_execution(shell, l_node, i, false);
 }
 
 void	prepare_to_execute(t_shell *shell)
