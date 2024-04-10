@@ -127,8 +127,7 @@ int	args_len(t_args *args)
 void	del_token(t_tokens **head, t_tokens *node)
 {
 	if (*head == NULL || node == NULL)
-		return;
-
+		return ;
 	if (*head == node)
 	{
 		*head = node->next;
@@ -136,7 +135,7 @@ void	del_token(t_tokens **head, t_tokens *node)
 			(*head)->previous = NULL;
 		free(node->value);
 		free(node);
-		return;
+		return ;
 	}
 	if (node->previous)
 		node->previous->next = node->next;

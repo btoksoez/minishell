@@ -30,14 +30,12 @@ void	count_pipes(t_shell *shell)
 
 void	pre_parse_tokens(t_tokens *tokens)
 {
-	//if < and + 1 <: <<
-	//if > and + 1 >: >>
 	t_tokens	*current;
 
 	if (!tokens)
 		return ;
 	current = tokens;
-	while (current->next)
+	while (current && current->next)
 	{
 		if (current->type == RE_INPUT && current->next->type == RE_INPUT)
 		{

@@ -1,5 +1,24 @@
 #include "../../includes/minishell.h"
 
+static void	increase_shlvl(t_shell *s)
+{
+	int	i;
+	int	temp;
+
+	i = 0;
+	temp = 0;
+	while (s->envp[i])
+	{
+		if (!ft_strncmp(s->envp[i], "SHLVL=", 6))
+		{
+			temp = ft_atoi(ft_strchr(s->envp[i], '=') + 1);
+			free(s->envp[i]);
+			s->envp[i] = ft_strjoin("SHLVL=", ft_itoa(temp + 1));
+		}
+		i++;
+	}
+}
+
 void	execute_command(t_shell *shell, t_tree_node *node)
 {
 	char	**command;
@@ -15,6 +34,8 @@ void	execute_command(t_shell *shell, t_tree_node *node)
 	if (ft_strncmp(node->cmd, "./", 2) == 0)
 	{
 		path = node->cmd + 2;
+		if (ft_strcmp(path, "minishell") == 0)
+			increase_shlvl(shell);
 		close_all_fds(shell, true);
 		execve(path, command, shell->envp);
 		child_error_message(shell, "minishell: no such file or directory: ", command[0], 126);

@@ -17,6 +17,7 @@ void	copy_envp(t_shell *shell, char **envp)
 		shell->envp[i] = ft_strdup(envp[i]);
 		i++;
 	}
+	//add shlvl += 1
 	shell->envp[i] = NULL;
 }
 
