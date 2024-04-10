@@ -16,7 +16,7 @@ void	remove_entry_from_envp(char ***envp, int entry_index)
 	while ((*envp)[len])
 		len++;
 	if (entry_index >= len || entry_index < 0)
-		return (error_message("remove entry error"));
+		return (error_message("remove entry error", NULL));
 	new_envp = malloc(sizeof(char *) * len);
 	while (j < len - 1)
     {

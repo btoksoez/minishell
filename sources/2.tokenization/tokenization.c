@@ -6,7 +6,7 @@ char	*token_word(char *start, t_tokens *token, char *delimiter)
 
 	word = ft_strdup_delimiter_string(start, delimiter);
 	if (!word)
-		return (error_message("token error: no word"), NULL);
+		return (error_message("token error: no word", NULL), NULL);
 	token->value = word;
 	token->type = WORD;
 	start += ft_strlen(word);
@@ -21,7 +21,7 @@ char	*token_qm(char *start, t_tokens *token)
 
 	word = ft_strdup("\n");
 	if (!word)
-		return (error_message("token error: no word"), NULL);
+		return (error_message("token error: no word", NULL), NULL);
 	token->value = word;
 	token->type = WORD;
 	start += ft_strlen(word);
@@ -36,7 +36,7 @@ char	*token_dollar(char *start, t_tokens *token)
 
 	word = ft_strdup_delimiter_string(start, WHITESPACE);
 	if (!word)
-		return (error_message("token error: no word"), NULL);
+		return (error_message("token error: no word", NULL), NULL);
 	token->value = word;
 	token->type = WORD;
 	start += ft_strlen(word);
@@ -54,7 +54,7 @@ char	*single_token(char *start, t_tokens *token)
 	else if (*start == '|')
 		token->type = PIPE;
 	else
-		return (error_message("token error: no single token"), NULL);
+		return (error_message("token error: no single token", NULL), NULL);
 	start++;
 	return (start);
 }
@@ -66,7 +66,7 @@ char	*double_token(char *start, t_tokens *token)
 	else if (*start == '>' && *(start + 1) == '>')
 		token->type = APPEND;
 	else
-		return (error_message("token error: no double token"), NULL);
+		return (error_message("token error: no double token", NULL), NULL);
 	start += 2;
 	return (start);
 }
@@ -82,7 +82,7 @@ char	*token_envp(char *start, t_tokens *token)
 	else
 		word = ft_strdup_delimiter_string(start, WHITESPACE_QUOTES);
 	if (!word)
-		return (error_message("token error: envp whitespaces after $"), NULL);
+		return (error_message("token error: envp whitespaces after $", NULL), NULL);
 	token->value = word;
 	token->type = ENV_VAR;
 	start += ft_strlen(word);

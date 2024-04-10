@@ -115,7 +115,7 @@ char	*handle_single_quotes(char *start, t_tokens *token)
 
 	word = ft_strdup_delimiter_char(++start, '\'');
 	if (!word)
-		return (error_message("token error: quotes have '\0' input"), NULL);
+		return (error_message("token error: quotes have '\0' input", NULL), NULL);
 	token->value = word;
 	token->type = WORD;
 	start += ft_strlen(word) + 1;
@@ -131,7 +131,7 @@ char	*handle_double_quotes(char *start, t_tokens *token)
 
 	word = ft_strdup_delimiter_char(++start, '\"');
 	if (!word)
-		return (error_message("token error: quotes have '\0' input"), NULL);
+		return (error_message("token error: quotes have '\0' input", NULL), NULL);
 	token->value = word;
 	dollar = ft_strchr(word, '$');
 	if (dollar && !ft_strchr(WHITESPACE, *(dollar + 1)))

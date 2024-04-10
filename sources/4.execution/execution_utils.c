@@ -16,7 +16,7 @@ char	**get_full_cmd(t_tree_node *node)
 	}
 	command = (char **)malloc(sizeof(char *) * (arg_nbr + 2));
 	if (!command)
-		error_message("Memory allocation Failed");
+		error_message("Memory allocation Failed", NULL);
 	command[0] = ft_strdup(node->cmd);
 	i = 1;
 	current = node->args;
@@ -34,21 +34,21 @@ void	redirect_input_output(t_shell *shell, int i, bool last_cmd)
 	if (shell->infile)
 	{
 		if (dup2(shell->infile, STDIN_FILENO) == -1)
-			error_message("Error setting infile to STDIN");
+			error_message("Error setting infile to STDIN", NULL);
 	}
 	else if (i != 0)
 	{
 		if (dup2(shell->fd[i][READ_END], STDIN_FILENO) == -1)
-			error_message("Error setting pipe read end to STDIN");
+			error_message("Error setting pipe read end to STDIN", NULL);
 	}
 	if (shell->outfile)
 	{
 		if (dup2(shell->outfile, STDOUT_FILENO) == -1)
-			error_message("Error setting outfile to STDOUT");
+			error_message("Error setting outfile to STDOUT", NULL);
 	}
 	else if (!last_cmd)
 	{
 		if (dup2(shell->fd[i + 1][WRITE_END], STDOUT_FILENO) == -1)
-			error_message("Error setting pipe write end to STDOUT");
+			error_message("Error setting pipe write end to STDOUT", NULL);
 	}
 }

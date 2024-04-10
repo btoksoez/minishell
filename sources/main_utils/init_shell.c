@@ -73,5 +73,7 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->tokens = NULL;
 	shell->std_fds[0] = dup(STDIN_FILENO);
 	shell->std_fds[1] = dup(STDOUT_FILENO);
+	shell->fds_heredoc[0] = 0;
+	shell->fds_heredoc[1] = 0;
 	shell->envps = init_envps();
 }

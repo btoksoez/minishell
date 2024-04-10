@@ -6,7 +6,7 @@ t_tree_node	*add_ast_node(void)
 
 	new_node = (t_tree_node *)malloc(sizeof(t_tree_node));
 	if (!new_node)
-		return (error_message("malloc error: adding cmd node"), NULL);
+		return (error_message("malloc error: adding cmd node", NULL), NULL);
 	new_node->type = PHANTOM;
 	new_node->cmd = NULL;
 	new_node->right = NULL;
@@ -25,9 +25,9 @@ void	add_redir_list(t_redir_list **head, t_token_type type, char *filename)
 	current = NULL;
 	new = (t_redir_list *)malloc(sizeof(t_redir_list));
 	if (!new)
-		return (error_message("malloc error redir list"));
+		return (error_message("malloc error redir list", NULL));
 	if (!filename)
-		return (error_message("not a valid file"));	//might have to handle this as proper error
+		return (error_message("not a valid file", NULL));	//might have to handle this as proper error
 	new->type = type;
 	new->file = filename;
 	new->next = NULL;
@@ -55,8 +55,11 @@ void	add_arg(t_args **args, t_tokens *current)
 	cur_arg = NULL;
 	new_arg = (t_args *)malloc(sizeof(t_args));
 	if (!new_arg)
-		return (error_message("malloc error args"));
+		return (error_message("malloc error args", NULL));
+	// if (current->value != NULL)
 	new_arg->arg = current->value;
+	// else
+	// 	new_arg->arg = NULL;
 	new_arg->next = NULL;
 	new_arg->space = current->space;
 	if (!*args)

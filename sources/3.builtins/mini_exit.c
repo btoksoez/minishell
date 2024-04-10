@@ -43,7 +43,7 @@ int	mini_exit(t_shell *shell, t_tree_node *tree)
 	if (tree->args->next)
 	{
 		shell->status = 1;
-		return (error_message("exit\nminishell: exit: too many arguments"), EXIT_FAILURE);
+		return (error_message("exit\nminishell: exit: too many arguments", NULL), EXIT_FAILURE);
 	}
 	shell->status = (sign * ft_atoi(tree->args->arg)) % 256;
 	if (exit_flag)

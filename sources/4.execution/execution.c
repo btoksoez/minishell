@@ -9,7 +9,7 @@ void	execute_command(t_shell *shell, t_tree_node *node)
 	path = NULL;
 	if (node->cmd)
 	{
-		path = get_path(node->cmd, shell->envp);
+		path = check_path(node->cmd, shell->envp);
 		command = get_full_cmd(node);
 	}
 	if (ft_strncmp(node->cmd, "./", 2) == 0)
@@ -27,18 +27,24 @@ void	execute_command(t_shell *shell, t_tree_node *node)
 
 void	start_execution(t_shell *shell, t_tree_node *node, int i, bool last_cmd)
 {
+	int success;
+
+	success = 1;
 	if (node->redir_list)
-		open_files(shell, node->redir_list);
-	redirect_input_output(shell, i, last_cmd);
-	if (node->builtin != NULL)
-		shell->builtin_status = node->builtin(shell, node);
-	else
+		success = open_files(shell, node->redir_list);
+	if (success)
 	{
-		shell->id[i] = fork();
-		if (shell->id[i] == -1)
-			error_message("Failed to execute fork");
-		if (shell->id[i] == 0)
-			execute_command(shell, node);
+		redirect_input_output(shell, i, last_cmd);
+		if (node->builtin != NULL)
+			shell->builtin_status = node->builtin(shell, node);
+		else
+		{
+			shell->id[i] = fork();
+			if (shell->id[i] == -1)
+				error_message("Failed to execute fork", NULL);
+			if (shell->id[i] == 0)
+				execute_command(shell, node);
+		}
 	}
 	reset_fds(shell);
 }
@@ -58,18 +64,18 @@ void	prepare_to_execute(t_shell *shell)
 
 	shell->id = (pid_t *)malloc(sizeof(pid_t) * (shell->pipe_nbr + 2));
 	if (!(shell->id))
-		error_message("Pid Memory allocation failed");
+		error_message("Pid Memory allocation failed", NULL);
 	shell->fd = (int **)malloc(sizeof(int *) * (shell->pipe_nbr + 2));
 	if (!(shell->fd))
-		error_message("Fds Memory allocation failed");
+		error_message("Fds Memory allocation failed", NULL);
 	i = 0;
 	while (i < shell->pipe_nbr + 1)
 	{
 		shell->fd[i] = (int *)malloc(sizeof(int) * 2);
 		if (!(shell->fd[i]))
-			error_message("Fds Memory allocation failed");
+			error_message("Fds Memory allocation failed", NULL);
 		if (pipe(shell->fd[i]) == -1)
-			error_message("Failed to create the pipe");
+			error_message("Failed to create the pipe", NULL);
 		i++;
 	}
 	shell->fd[i] = NULL;
