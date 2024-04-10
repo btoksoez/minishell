@@ -7,10 +7,10 @@ CC = cc
 COMPRESS = ar rcs
 RM = rm -rf
 
-SRC_DIR = sources
+SRC_DIR = sources/3.builtins sources/4.execution sources/1.parsing sources/5.signals sources/2.tokenization sources/main_utils sources
 OBJ_DIR = objects
-SRC = $(wildcard $(SRC_DIR)/*.c) #we will need to change this in the end
-OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
+SRC = $(wildcard $(foreach dir,$(SRC_DIR),$(dir)/*.c)) #need to remove wildcards (also in libft)
+OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 
 # Colours
 GREEN = \033[1;32m
@@ -43,6 +43,9 @@ fclean: clean
 	@$(RM) $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
 	@echo "$(RED)$@$(RESET) $(NAME) $(GREEN)[OK]$(RESET)"
+
+run: all
+	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes --suppressions=ignore_readline.supp ./minishell
 
 re: fclean all
 
