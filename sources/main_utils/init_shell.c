@@ -1,5 +1,26 @@
 #include "../../includes/minishell.h"
 
+int	env_exists(t_shell *s, char *env)
+{
+	int	i;
+
+	i = 0;
+	while (s->envp[i])
+	{
+		if (!ft_strncmp(s->envp[i], env, ft_strlen(env)))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+/*if the important ones are missing */
+void	add_missing_env(t_shell *s)
+{
+	if (!env_exists(s, "PWD="))
+		add_env(s, ft_strjoin("PWD=", getcwd(NULL, 0)));
+}
+
 void	copy_envp(t_shell *shell, char **envp)
 {
 	int	len;
@@ -17,25 +38,12 @@ void	copy_envp(t_shell *shell, char **envp)
 		shell->envp[i] = ft_strdup(envp[i]);
 		i++;
 	}
-	//add shlvl += 1
 	shell->envp[i] = NULL;
+	add_missing_env(shell);
+	increase_shlvl(shell);
 }
 
-t_envps	*init_envps(void)
-{
-	t_envps	*envps;
-
-	envps = malloc(sizeof(t_envps));
-	if (!envps)
-		return (NULL);
-	envps->pwd = NULL;
-	envps->oldpwd = NULL;
-	envps->home = NULL;
-	envps->pwd_index = -1;
-	envps->oldpwd_index = -1;
-	return (envps);
-}
-
+/* if all envs are unset */
 void	init_missing_env(t_shell *shell)
 {
 	char	path[1024];
@@ -48,10 +56,11 @@ void	init_missing_env(t_shell *shell)
 		shell->envp[0] = ft_strjoin("HOME=", path);
 		shell->envp[1] = ft_strjoin("PWD=", path);
 		shell->envp[2] = ft_strjoin("OLDPWD=", path);
-		shell->envp[3] = ft_strdup("SHLVL=1");
+		shell->envp[3] = ft_strdup("SHLVL=0");
 		shell->envp[4] = ft_strdup("_=/usr/bin/env");
 		shell->envp[5] = ft_strdup("TERM=xterm-256color");
 		shell->envp[6] = NULL;
+		increase_shlvl(shell);
 	}
 }
 

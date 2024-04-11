@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-static void	increase_shlvl(t_shell *s)
+void	increase_shlvl(t_shell *s)
 {
 	int	i;
 	int	temp;
@@ -34,8 +34,6 @@ void	execute_command(t_shell *shell, t_tree_node *node)
 	if (ft_strncmp(node->cmd, "./", 2) == 0)
 	{
 		path = node->cmd + 2;
-		if (ft_strcmp(path, "minishell") == 0)
-			increase_shlvl(shell);
 		close_all_fds(shell, true);
 		execve(path, command, shell->envp);
 		child_error_message(shell, "minishell: no such file or directory: ", command[0], 126);

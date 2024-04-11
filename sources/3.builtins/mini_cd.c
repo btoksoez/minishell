@@ -97,14 +97,12 @@ int	specific_path(t_shell *s, char *str)
 
 int	mini_cd(t_shell *s, t_tree_node *tree)
 {
-	char	*path;
 	int		ret;
 
 	if (!tree || !s)
 		return (error_message("mini cd error", NULL), EXIT_FAILURE);
-	path = NULL;
 	ret = 0;
-	// get_env_vars(s);
+	add_missing_env(s);
 	if (args_len(tree->args) > 1)
 		return (ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO), EXIT_FAILURE);
 	if (!tree->args)

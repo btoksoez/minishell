@@ -128,6 +128,8 @@ void			get_prompt(t_shell *shell);
 void			loop(t_shell *shell);
 void			wait_pids(int fds, t_shell *shell);
 t_envps			*init_envps(void);
+void			increase_shlvl(t_shell *s);
+void			add_missing_env(t_shell *s);
 
 /*--------------------------------------parsing-----------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
@@ -190,6 +192,7 @@ int				char_arr_len(char **arr);
 int				export_error(char *c);
 int				check_valid_identifier(char c);
 void			get_env_vars(t_shell *s);
+void			add_env(t_shell *s, char *var);
 
 /*-------------------------------------execution----------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
