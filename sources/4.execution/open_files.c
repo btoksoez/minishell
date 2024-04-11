@@ -30,7 +30,7 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 {
 	t_redir_list	*current;
 	char			*error_file;
-	
+
 	current = file;
 	error_file = NULL;
 	while (current != NULL)

@@ -2,11 +2,7 @@
 
 void	free_all(t_shell *shell)
 {
-	int	i;
-
-	i = 0;
-	while (shell->fd[i])
-		free(shell->fd[i++]);
+	free_fd(shell);
 	if (shell->fd)
 		free(shell->fd);
 	if (shell->id)
@@ -15,8 +11,31 @@ void	free_all(t_shell *shell)
 		free_tokens(shell->tokens);
 	if (shell->tree)
 		free_tree(shell->tree);
-	free(shell->line);
+	if (shell->line)
+		free(shell->line);
+	if (shell->pwd)
+		free(shell->pwd);
+	if (shell->oldpwd)
+		free(shell->oldpwd);
 }
+
+void free_fd(t_shell *shell)
+{
+	int	i;
+
+	if (shell->fd)
+	{
+		i = 0;
+		while (shell->fd[i])
+		{
+			free(shell->fd[i]);
+			i++;
+		}
+		free(shell->fd);
+		shell->fd = NULL;
+	}
+}
+
 
 void	free_redir_list(t_redir_list *redir_list)
 {

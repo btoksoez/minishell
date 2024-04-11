@@ -4,16 +4,20 @@ void	increase_shlvl(t_shell *s)
 {
 	int	i;
 	int	temp;
+	char	*temp_nbr;
 
 	i = 0;
 	temp = 0;
+	temp_nbr = NULL;
 	while (s->envp[i])
 	{
 		if (!ft_strncmp(s->envp[i], "SHLVL=", 6))
 		{
 			temp = ft_atoi(ft_strchr(s->envp[i], '=') + 1);
 			free(s->envp[i]);
-			s->envp[i] = ft_strjoin("SHLVL=", ft_itoa(temp + 1));
+			temp_nbr = ft_itoa(temp + 1);
+			s->envp[i] = ft_strjoin("SHLVL=", temp_nbr);
+			free(temp_nbr);
 		}
 		i++;
 	}
@@ -56,14 +60,22 @@ void	start_execution(t_shell *shell, t_tree_node *node, int i, bool last_cmd)
 	{
 		redirect_input_output(shell, i, last_cmd);
 		if (node->builtin != NULL)
+		{
+			signals(IGN);
 			shell->status = node->builtin(shell, node);
+		}
 		else
 		{
 			shell->id[i] = fork();
 			if (shell->id[i] == -1)
 				error_message("Failed to execute fork", NULL);
 			if (shell->id[i] == 0)
+			{
+				signals(CHILD);
 				execute_command(shell, node);
+			}
+			else
+				signals(IGN);
 		}
 	}
 	reset_fds(shell);

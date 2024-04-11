@@ -5,8 +5,9 @@ void	loop(t_shell *shell)
 	while (true)
 	{
 		get_prompt(shell);
+		signals(MAIN);
 		if (!shell->line)
-			break;
+			break;	//this determines what ctrl + d does
 		if (*shell->line)
 			add_history(shell->line);
 		shell->tokens = tokenize(shell);

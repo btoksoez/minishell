@@ -1,52 +1,48 @@
 #include "../../includes/minishell.h"
 
-/*
-when not in heredoc:
-[works] ctrl + c: display new prompt (has to work always, even if line not empty)
-[works] ctrl + d: exit shell gracefully (cleaning + freeing) (only when line empty)
-[yes] ctrl + /: delete current line
+ volatile sig_atomic_t g_sig = 0;
 
-when in heredoc:
-[should work] ctrl + c: stop heredoc without saving (display new prompt, has to work also when line not empty)
-[need to implement] ctrl + d: same as EOF (only when pressed on empty line); however we implement EOF, we just need to check for g_sig == 3 too
-[need to check] ctrl + /: nothing
-*/
-
-/* global variable to store signal;
-volatile = value may change unexpectedly, so compiler should not optimize its accesses
-sig_atomic_t: special type to guarantee access to it
-extern: declared in .h file, but defined here */
-volatile sig_atomic_t g_sig = 0;
-
-/* sets g_sig and depending on sig code, makes new prompt*/
+/* replaces line but doesn't show new prompt */
 void	sigint_handler(int sig)
 {
+	(void)sig;
+	rl_replace_line("", 0);
+	write(1, "\n", 1);
+	rl_on_new_line();
+
+}
+
+/* replaces line and shows prompt (is called if no prompt printed yet)*/
+void	sigint_handler_prompt(int sig)
+{
+	(void)sig;
+	rl_replace_line("", 0);
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+void	child_handler(int sig)
+{
 	// g_sig = sig;
-	if (sig == SIGINT)
-	{
-		// rl_replace_line("", 0);
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	return ;
+	// ft_putnbr_fd(g_sig, 2);
+	kill(getpid(), sig);
 }
 
 /* receives signals and calls sigint handler with a certain int sig */
-
-void	signals(void)
+void	signals(int n)
 {
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sigint_handler);
+
+	signal(SIGQUIT, SIG_IGN);	//ignore sigquit
+	if (n == MAIN)
+		signal(SIGINT, sigint_handler);
+	else if (n == MAIN_PROMPT)
+		signal(SIGINT, sigint_handler_prompt);
+	else if (n == CHILD)
+	{
+		signal(SIGINT, child_handler);
+		signal(SIGQUIT, child_handler);
+	}
+	else if (n == IGN)
+		signal(SIGINT, SIG_IGN);
 }
-
-// void	signals(void)
-// {
-// 	struct sigaction	sa;
-
-// 	sa.sa_handler = sigint_handler;
-// 	sa.sa_flags = 0;
-// 	sigemptyset(&sa.sa_mask);
-// 	sigaction(SIGINT, &sa, NULL);
-// 	sigaction(SIGQUIT, &sa, NULL);
-// }

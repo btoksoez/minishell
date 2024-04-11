@@ -7,7 +7,7 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	if (argc != 1)
 		exit_error_message("Invalid number of arguments", 1);
-	signals();
+	signals(MAIN_PROMPT);
 	fprintf(stderr, "\n"); // temporary (for easy to undestand tests)
 	init_shell(&shell, envp);
 	loop(&shell);
