@@ -77,6 +77,7 @@ t_tokens	*add_node_back(t_tokens *previous)
 	previous->next = new;
 	new->value = NULL;
 	new->type = 0;
+	new->space = 0;
 	return (new);
 }
 
