@@ -1,7 +1,5 @@
 #include "../../includes/minishell.h"
 
- volatile sig_atomic_t g_sig = 0;
-
 /* replaces line but doesn't show new prompt */
 void	sigint_handler(int sig)
 {
@@ -9,7 +7,6 @@ void	sigint_handler(int sig)
 	rl_replace_line("", 0);
 	write(1, "\n", 1);
 	rl_on_new_line();
-
 }
 
 /* replaces line and shows prompt (is called if no prompt printed yet)*/
@@ -22,12 +19,10 @@ void	sigint_handler_prompt(int sig)
 	rl_redisplay();
 }
 
-void	child_handler(int sig)
+void	heredoc_handler(int sig)
 {
-	// g_sig = sig;
-	// ft_putnbr_fd(g_sig, 2);
-	// g_sig = 1;
 	(void)sig;
+	exit(130);
 }
 
 /* receives signals and calls sigint handler with a certain int sig */
@@ -44,6 +39,8 @@ void	signals(int n)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 	}
+	else if (n == HERE)
+		signal(SIGINT, heredoc_handler);
 	else if (n == IGN)
 		signal(SIGINT, SIG_IGN);
 }

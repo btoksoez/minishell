@@ -1,29 +1,42 @@
 #include "../../includes/minishell.h"
 
-void	init_heredoc(char *limiter, t_shell *shell)
+bool	init_heredoc(char *limiter, t_shell *shell)
 {
 	char	*line;
 	int		pipe_nbr;
+	pid_t	id;
+	int		status;
 
-	shell->here_doc = true;
-	while (true)
+	id = fork();
+	if (id == 0)
 	{
-		pipe_nbr = shell->pipe_nbr;
-		while (pipe_nbr-- > 0)
-			ft_putstr_fd("pipe ", 1);
-		ft_putstr_fd("heredoc> ", 1);
-		line = get_next_line(INPUT);
-		if (!line)
-			break ;
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
-		if (ft_strcmp(line, limiter) == 0)
-			break ;
-		ft_putendl_fd(line, shell->fds_heredoc[WRITE_END]);
+		shell->here_doc = true;
+		signals(HERE);
+		while (true)
+		{
+			pipe_nbr = shell->pipe_nbr;
+			while (pipe_nbr-- > 0)
+				ft_putstr_fd("pipe ", 1);
+			line = readline("heredoc> ");
+			if (!line)
+				break ;
+			if (line[ft_strlen(line) - 1] == '\n')
+				line[ft_strlen(line) - 1] = '\0';
+			if (ft_strcmp(line, limiter) == 0)
+				break ;
+			ft_putendl_fd(line, shell->fds_heredoc[WRITE_END]);
+			free(line);
+		}
+		close(shell->fds_heredoc[WRITE_END]);
 		free(line);
 	}
+	signals(MAIN);
 	close(shell->fds_heredoc[WRITE_END]);
-	free(line);
+	waitpid(id, &status, 0);
+	shell->status = WEXITSTATUS(status);
+	if (shell->status == 130)
+		return (false);
+	return (true);
 }
 
 bool	open_files(t_shell *shell, t_redir_list *file)
@@ -43,7 +56,8 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 			{
 				if (pipe(shell->fds_heredoc) == -1)
 					return (false);
-				init_heredoc(current->file, shell);
+				if (!init_heredoc(current->file, shell))
+					return (false);
 				shell->infile = shell->fds_heredoc[READ_END];
 			}
 			if (shell->infile < 0)
