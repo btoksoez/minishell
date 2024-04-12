@@ -9,10 +9,7 @@ valgrind fds still open
 
 12. Add Signals to children
 
-13.  minishell$ djd | echo hello
-hello
-⇾ minishell$ minishell: command not found: djd
-
+14. builtin?
 
 FIXED TESTS:
 
@@ -24,6 +21,11 @@ correct: executes heredoc then error msg
 > ola
 bash: dhuhskjdsjks: No such file or directory
 output:  bash: dhuhskjdsjks: No such file or directory
+
+(FIXED)
+minishell$ djd | echo hello
+hello
+⇾ minishell$ minishell: command not found: djd
 
 (FIXED)
 minishell$ 4>

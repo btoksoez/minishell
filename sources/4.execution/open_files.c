@@ -7,11 +7,12 @@ bool	init_heredoc(char *limiter, t_shell *shell)
 	pid_t	id;
 	int		status;
 
+	shell->here_doc = true;
 	id = fork();
 	if (id == 0)
 	{
-		shell->here_doc = true;
 		signals(HERE);
+		close(shell->fds_heredoc[READ_END]);
 		while (true)
 		{
 			pipe_nbr = shell->pipe_nbr;
@@ -28,7 +29,10 @@ bool	init_heredoc(char *limiter, t_shell *shell)
 			free(line);
 		}
 		close(shell->fds_heredoc[WRITE_END]);
+		close_all_fds(shell, true);
+		free_all(shell);
 		free(line);
+		exit (0);
 	}
 	signals(MAIN);
 	close(shell->fds_heredoc[WRITE_END]);

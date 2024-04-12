@@ -11,6 +11,10 @@ void	clean_up(t_shell *shell, bool print_msg)
 		free(shell->envp[i++]);
 	if (shell->envp)
 		free(shell->envp);
+	if (shell->pwd)
+		free(shell->pwd);
+	if (shell->oldpwd)
+		free(shell->oldpwd);
 	if (print_msg)
 		exit_error_message("exit", shell->status);
 }

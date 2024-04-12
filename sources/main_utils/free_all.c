@@ -5,10 +5,12 @@ void	free_all(t_shell *shell)
 	int	i;
 
 	i = 0;
-	while(shell->fd[i])
-		free(shell->fd[i++]);
 	if (shell->fd)
+	{
+		while(shell->fd[i])
+			free(shell->fd[i++]);
 		free(shell->fd);
+	}
 	if (shell->id)
 		free(shell->id);
 	if (shell->tokens)
