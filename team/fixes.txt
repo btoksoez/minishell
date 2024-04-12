@@ -68,7 +68,7 @@ echo hello | echo hello
 - valgrind waitpids not executed (giving weird message)
 
 (FIXED)
-env -i ls 
+env -i ls
 correct: executes ls
 output:  prints all envps
 

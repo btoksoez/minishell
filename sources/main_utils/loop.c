@@ -7,7 +7,7 @@ void	loop(t_shell *shell)
 		get_prompt(shell);
 		signals(MAIN);
 		if (!shell->line)
-			break;	//this determines what ctrl + d does
+			break ;
 		if (*shell->line)
 			add_history(shell->line);
 		shell->tokens = tokenize(shell);
@@ -77,6 +77,7 @@ void	wait_pids(int fds, t_shell *shell)
 		return ;
 	shell->status = 0;
 	waitpid(shell->id[shell->pipe_nbr], &status, 0);
+	//handle status -> print newline..
 	shell->status = WEXITSTATUS(status);
 }
 
@@ -86,6 +87,14 @@ void	reset(t_shell *shell)
 	shell->pipe_nbr = 0;
 	shell->builtins = 0;
 	shell->tokens = NULL;
+	shell->line = NULL;
+	shell->here_doc = 0;
+	shell->builtins = 0;
+	shell->fd = NULL;
+	shell->id = NULL;
+	shell->tree = NULL;
+	shell->fds_heredoc[0] = 0;
+	shell->fds_heredoc[1] = 0;
 	reset_fds(shell);
 }
 

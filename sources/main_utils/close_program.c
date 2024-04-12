@@ -36,10 +36,7 @@ void	close_all_fds(t_shell *shell, bool in_out)
 	int	i;
 
 	i = 0;
-	if (shell->pipe_nbr == 0)
-		childs = 0;
-	else
-		childs = shell->pipe_nbr + 1;
+	childs = shell->pipe_nbr + 1;
 	if (shell->infile > 0)
 		close(shell->infile);
 	if (shell->outfile > 0)
