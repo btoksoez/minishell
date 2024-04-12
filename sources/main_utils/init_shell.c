@@ -76,6 +76,7 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->outfile = 0;
 	shell->here_doc = 0;
 	shell->pipe_nbr = 0;
+	shell->child_flag = 0;
 	shell->status = 0;
 	shell->builtins = 0;
 	shell->fd = NULL;

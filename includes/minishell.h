@@ -35,6 +35,7 @@
 # define MAIN_PROMPT 43
 # define CHILD 44
 # define IGN 45
+# define HERE 46
 
 /*-------------------------------structs----------------------------*/
 /*------------------------------------------------------------------*/
@@ -102,6 +103,7 @@ typedef struct s_shell
 	char				*line;
 	int					infile;
 	int					outfile;
+	int					child_flag;
 	bool				here_doc;
 	char				*error_file;
 	int					fds_heredoc[2];
@@ -215,7 +217,7 @@ void			get_path_index(char **envp, int *index);
 void			free_and_close_path(int fd, char **paths, char *path, char *path_cmd);
 void			invalid_path(char **full_command, t_shell *shell, char *command);
 bool			open_files(t_shell *shell, t_redir_list *file);
-void			init_heredoc(char *limiter, t_shell *shell);
+bool			init_heredoc(char *limiter, t_shell *shell);
 
 /*--------------------------------------freeing-----------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
