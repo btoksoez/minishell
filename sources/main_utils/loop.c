@@ -88,6 +88,7 @@ void	wait_pids(t_shell *shell)
 void	reset(t_shell *shell)
 {
 	free_all(shell);
+	reset_fds(shell);
 	shell->pipe_nbr = 0;
 	shell->builtins = 0;
 	shell->tokens = NULL;
@@ -98,19 +99,18 @@ void	reset(t_shell *shell)
 	shell->id = NULL;
 	shell->tree = NULL;
 	shell->error_file = NULL;
-	shell->fds_heredoc[0] = 0;
-	shell->fds_heredoc[1] = 0;
-	reset_fds(shell);
+	shell->fds_heredoc[READ_END] = 0;
+	shell->fds_heredoc[WRITE_END] = 0;
 }
 
 void	reset_fds(t_shell *shell)
 {
+	if (shell->fds_heredoc[READ_END])
+		close(shell->fds_heredoc[READ_END]);
 	shell->infile = 0;
 	shell->outfile = 0;
 	if (dup2(shell->std_fds[0], STDIN_FILENO) == -1)
 		error_message("Failed to reset stdin", NULL);
 	if (dup2(shell->std_fds[1], STDOUT_FILENO) == -1)
 		error_message("Failed to reset stdout", NULL);
-	if (shell->fds_heredoc[READ_END])
-		close(shell->fds_heredoc[READ_END]);
 }

@@ -11,6 +11,12 @@ valgrind fds still open
 
 14. builtin?
 
+15. The first one should work but the second not
+andre-da@c1r18s8:~/42-Github/minishell$ cat <<1 <<2 <<3
+andre-da@c1r18s8:~/42-Github/minishell$ cat <<1<<2<<3
+
+
+
 FIXED TESTS:
 
 (FIXED) (STILL HAD LEAKS)

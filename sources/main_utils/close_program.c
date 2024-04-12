@@ -58,6 +58,8 @@ void	close_all_fds(t_shell *shell, bool in_out)
 		close(shell->std_fds[0]);
 		close(shell->std_fds[1]);
 	}
+	if (shell->fds_heredoc[READ_END])
+		close(shell->fds_heredoc[READ_END]);
 }
 
 void	child_error_message(t_shell *shell, char *str, char *cmd, int code)
