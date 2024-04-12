@@ -26,7 +26,8 @@ void	child_handler(int sig)
 {
 	// g_sig = sig;
 	// ft_putnbr_fd(g_sig, 2);
-	kill(getpid(), sig);
+	// g_sig = 1;
+	(void)sig;
 }
 
 /* receives signals and calls sigint handler with a certain int sig */
@@ -40,8 +41,8 @@ void	signals(int n)
 		signal(SIGINT, sigint_handler_prompt);
 	else if (n == CHILD)
 	{
-		signal(SIGINT, child_handler);
-		signal(SIGQUIT, child_handler);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 	}
 	else if (n == IGN)
 		signal(SIGINT, SIG_IGN);

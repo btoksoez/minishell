@@ -102,6 +102,7 @@ typedef struct s_shell
 	char				*line;
 	int					infile;
 	int					outfile;
+	int					child_flag;
 	bool				here_doc;
 	int					fds_heredoc[2];
 	int					pipe_nbr;

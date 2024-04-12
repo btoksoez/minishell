@@ -4,6 +4,7 @@ void	loop(t_shell *shell)
 {
 	while (true)
 	{
+		signals(MAIN_PROMPT);
 		get_prompt(shell);
 		signals(MAIN);
 		if (!shell->line)
@@ -77,8 +78,15 @@ void	wait_pids(int fds, t_shell *shell)
 		return ;
 	shell->status = 0;
 	waitpid(shell->id[shell->pipe_nbr], &status, 0);
-	//handle status -> print newline..
-	shell->status = WEXITSTATUS(status);
+	if (WIFSIGNALED(status))
+	{
+		shell->status = WTERMSIG(status) + 128;
+		if (shell->status == 131)
+			ft_putstr_fd("Quit", STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
+	}
+	else
+		shell->status = WEXITSTATUS(status);
 }
 
 void	reset(t_shell *shell)
