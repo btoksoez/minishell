@@ -83,6 +83,7 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->line = NULL;
 	shell->tree = NULL;
 	shell->tokens = NULL;
+	shell->error_file = NULL;
 	shell->std_fds[0] = dup(STDIN_FILENO);
 	shell->std_fds[1] = dup(STDOUT_FILENO);
 	shell->fds_heredoc[0] = 0;

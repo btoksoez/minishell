@@ -103,6 +103,7 @@ typedef struct s_shell
 	int					infile;
 	int					outfile;
 	bool				here_doc;
+	char				*error_file;
 	int					fds_heredoc[2];
 	int					pipe_nbr;
 	int					status;
@@ -131,7 +132,7 @@ t_envps			*init_envps(void);
 void			init_missing_env(t_shell *shell);
 void			get_prompt(t_shell *shell);
 void			loop(t_shell *shell);
-void			wait_pids(int fds, t_shell *shell);
+void			wait_pids(t_shell *shell);
 t_envps			*init_envps(void);
 void			increase_shlvl(t_shell *s);
 void			add_missing_env(t_shell *s);

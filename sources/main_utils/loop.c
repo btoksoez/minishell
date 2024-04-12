@@ -22,7 +22,7 @@ void	loop(t_shell *shell)
 		shell->tree = parse_commandline(shell->tokens, shell);
 		execute(shell);
 		close_all_fds(shell, false);
-		wait_pids(shell->pipe_nbr + 1, shell);
+		wait_pids(shell);
 		reset(shell);
 	}
 }
@@ -54,31 +54,26 @@ void	get_prompt(t_shell *shell)
 	free(tmp);
 }
 
-void	wait_pids(int fds, t_shell *shell)
+void	wait_pids(t_shell *shell)
 {
 	t_tree_node	*current;
 	int			status;
 	int			i;
 
 	i = 0;
-	current = shell->tree;
-	while (current && current->right)
-	{
-		current = current->right;
-		if (current->builtin != NULL)
-			return ;
-	}
-	while (i < (fds - 1) - shell->builtins - 1)
+	while (i < shell->pipe_nbr)
 		waitpid(shell->id[i++], NULL, 0);
 	current = shell->tree;
 	while (current && current->right)
 		current = current->right;
 	if (current->builtin != NULL)
 		return ;
-	shell->status = 0;
-	waitpid(shell->id[shell->pipe_nbr], &status, 0);
-	//handle status -> print newline..
-	shell->status = WEXITSTATUS(status);
+	if (!shell->error_file)
+	{
+		shell->status = 0;
+		waitpid(shell->id[shell->pipe_nbr], &status, 0);
+		shell->status = WEXITSTATUS(status);
+	}
 }
 
 void	reset(t_shell *shell)
@@ -93,6 +88,7 @@ void	reset(t_shell *shell)
 	shell->fd = NULL;
 	shell->id = NULL;
 	shell->tree = NULL;
+	shell->error_file = NULL;
 	shell->fds_heredoc[0] = 0;
 	shell->fds_heredoc[1] = 0;
 	reset_fds(shell);

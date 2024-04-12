@@ -29,10 +29,8 @@ void	init_heredoc(char *limiter, t_shell *shell)
 bool	open_files(t_shell *shell, t_redir_list *file)
 {
 	t_redir_list	*current;
-	char			*error_file;
 
 	current = file;
-	error_file = NULL;
 	while (current != NULL)
 	{
 		if (current->type == RE_INPUT || current->type == HEREDOC)
@@ -49,7 +47,7 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 			if (shell->infile < 0)
 			{
 				shell->status = 1;
-				error_file = file->file;
+				shell->error_file = file->file;
 			}
 		}
 		else if (current->type == RE_OUTPUT || current->type == APPEND)
@@ -63,7 +61,7 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 		}
 		current = current->next;
 	}
-	if (error_file)
-		return (error_message("zsh: no such file or directory: ", error_file), false);
+	if (shell->error_file)
+		return (error_message("zsh: no such file or directory: ", shell->error_file), false);
 	return (true);
 }
