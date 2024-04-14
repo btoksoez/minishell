@@ -174,6 +174,7 @@ int				args_len(t_args *args);
 char			*token_dollar(char *start, t_tokens *token);
 void			del_token(t_tokens **head, t_tokens *node);
 char			*token_qm(char *start, t_tokens *token);
+void			remove_spaces(t_tokens *tokens);
 
 /*--------------------------------------expansion---------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
@@ -186,7 +187,7 @@ char			*find_and_replace(t_shell *shell, char *org_str);
 
 /*--------------------------------------builtins----------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
-int				(*builtin_arr(char *str))(t_shell *shell, struct s_tree_node *cmd_node);
+int				(*builtin_arr(char *str))(t_shell *shell, struct s_tree_node *tree);
 int				mini_cd(t_shell *shell, t_tree_node *tree);
 int				mini_echo(t_shell *shell, t_tree_node *cmd_node);
 int				mini_export(t_shell *shell, t_tree_node *tree);

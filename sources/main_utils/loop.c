@@ -18,6 +18,7 @@ void	loop(t_shell *shell)
 			continue ;
 		}
 		expand(shell);
+		remove_spaces(shell->tokens);
 		if (!shell->tokens)
 			continue;
 		shell->tree = parse_commandline(shell->tokens, shell);

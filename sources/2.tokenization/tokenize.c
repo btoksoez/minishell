@@ -28,6 +28,32 @@ void	count_pipes(t_shell *shell)
 	}
 }
 
+/* concetonates all tokens if there is no space between them */
+void	remove_spaces(t_tokens *tokens)
+{
+	t_tokens	*current;
+	int			flag;
+
+	if (!tokens)
+		return ;
+	current = tokens;
+	flag = 0;
+	while (current && current->next)
+	{
+		while ((current->type ==  5 || current->type == 6) && (current->next->type == 5 || current->next->type == 6 ) && current->space == 0)
+		{
+			flag = 0;
+			current->value = ft_strjoin_free(current->value, current->next->value);
+			if (current->next->space == 1)
+				flag = 1;
+			del_token(&tokens, current->next);
+			if (!current->next || flag == 1)
+				break ;
+		}
+		current = current->next;
+	}
+}
+
 void	pre_parse_tokens(t_tokens *tokens)
 {
 	t_tokens	*current;
@@ -71,7 +97,7 @@ t_tokens	*tokenize(t_shell *shell)
 		shell->status = 0;
 	return (shell->tokens);
 }
-// something here doesn't work when there is a space before a ending quote
+
 t_tokens	*get_tokens(char *line)
 {
 	t_tokens	*head;
