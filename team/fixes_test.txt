@@ -1,0 +1,15 @@
+
+cat < dhuhskjdsjks << ola
+djd | echo hello
+4>
+echo $USER | echo $USER | cat
+echo $USER | cat -e
+ls | exit 3
+exit 3 | ls
+exit 3 | exit 4 | exit 5
+echo hello | echo hello
+env -i ls
+echo ?
+$?
+echo?
+cat << 1 | << 2 | << 3
