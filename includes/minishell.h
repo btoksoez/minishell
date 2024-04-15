@@ -100,6 +100,7 @@ typedef struct s_shell
 	char				*pwd;
 	char				*oldpwd;
 	pid_t				*id;
+	pid_t				here_id;
 	int					*id_exec;
 	int					**fd;
 	char				*line;
@@ -215,7 +216,7 @@ void			start_execution(t_shell *shell, t_tree_node *node, int i, bool last_cmd);
 void			execute_command(t_shell *shell, t_tree_node *node);
 void			redirect_input_output(t_shell *shell, int i, bool last_cmd);
 char			**get_full_cmd(t_tree_node *node);
-char			*check_path(char *cmd, char **envp);
+char			*check_path(char *cmd, char **envp, int *flag);
 char			*get_path(char *cmd, char **envp);
 void			get_path_index(char **envp, int *index);
 void			free_and_close_path(int fd, char **paths, char *path, char *path_cmd);
@@ -247,7 +248,7 @@ void			sigint_handler(int sig);
 /*--------------------------------------------------------------------------------------*/
 void			error_message(char *message, char *cmd);
 void			exit_error_message(char *message, int exit_code);
-void			child_error_message(t_shell *shell, char *message, char *command, int exit_code);
+void			child_error_message(t_shell *shell, char *str, char *cmd, int code);
 
 /*--------------------------------------testing-----------------------------------------*/
 /*--------------------------------------------------------------------------------------*/

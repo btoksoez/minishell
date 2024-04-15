@@ -67,7 +67,10 @@ void	child_error_message(t_shell *shell, char *str, char *cmd, int code)
 {
 	ft_putstr_fd(str, STDERR_FILENO);
 	if (cmd)
+	{
 		ft_putendl_fd(cmd, STDERR_FILENO);
+		free(cmd);
+	}
 	else
 		ft_putchar_fd('\n', STDERR_FILENO);
 	clean_up(shell, false);

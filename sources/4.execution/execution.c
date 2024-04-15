@@ -26,27 +26,38 @@ void	increase_shlvl(t_shell *s)
 void	execute_command(t_shell *shell, t_tree_node *node)
 {
 	char	**command;
+	char	*cmd;
 	char	*path;
+	int		flag;
 
+	flag = 1;
 	command = NULL;
 	path = NULL;
+
 	if (node->cmd)
 	{
-		path = check_path(node->cmd, shell->envp);
+		path = check_path(node->cmd, shell->envp, &flag);
 		command = get_full_cmd(node);
+		cmd = ft_strdup(command[0]);
 	}
+	else
+		return ;
 	if (ft_strncmp(node->cmd, "./", 2) == 0)
 	{
 		path = node->cmd + 2;
 		close_all_fds(shell, true);
 		execve(path, command, shell->envp);
-		child_error_message(shell, "minishell: no such file or directory: ", command[0], 126);
+		ft_freematrix(command);
+		child_error_message(shell, "minishell: no such file or directory: ", cmd, 126);
 	}
 	if (!path)
 		invalid_path(command, shell, node->cmd);
 	close_all_fds(shell, true);
 	execve(path, command, shell->envp);
-	child_error_message(shell, "minishell: command not found: ", command[0], 127);
+	if (flag)
+		free(path);
+	ft_freematrix(command);
+	child_error_message(shell, "minishell: command not found: ", cmd, 127);
 }
 
 void	start_execution(t_shell *shell, t_tree_node *node, int i, bool last_cmd)

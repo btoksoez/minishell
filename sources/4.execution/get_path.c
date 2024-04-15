@@ -1,12 +1,15 @@
 #include "../../includes/minishell.h"
 
-char	*check_path(char *cmd, char **envp)
+char	*check_path(char *cmd, char **envp, int *flag)
 {
 	char	*path;
 
 	path = NULL;
 	if (ft_strncmp("/usr/bin/", cmd, 9) == 0 || ft_strncmp("/bin/", cmd, 5) == 0)
+	{
+		flag = 0;
 		path = cmd;
+	}
 	else if (!*(envp) || !envp || ft_strcmp(*envp, "VALGRIND_LIB=/usr/libexec/valgrind") == 0)
 		path = ft_strjoin("/usr/bin/", cmd);
 	else
@@ -80,8 +83,10 @@ void	free_and_close_path(int fd, char **paths, char *path, char *path_cmd)
 
 void	invalid_path(char **full_command, t_shell *shell, char *command)
 {
-	ft_freematrix(full_command);
+	if (full_command)
+		ft_freematrix(full_command);
 	if (ft_strncmp(command, "/", 1) == 0)
 		child_error_message(shell, "minishell: Is a directory: ", command, 126);
-	child_error_message(shell, "minishell: command not found: ", command, 127);
+	else
+		child_error_message(shell, "minishell: command not found: ", command, 127);
 }

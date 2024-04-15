@@ -3,24 +3,23 @@ TESTS TO FIX:
 
 12. readline: when writing over line, need to handle?
 
-13. freeing after signals in heredoc
-
-12. loop in heredoc with ctrl-d
+13. freeing after signals in heredoc (CONTROL C)
 
 14. echo -n -n segfault
 
 12. make protections in libft
 
-16. $/ EXPANDER leaks with rnadom input in front
-$? also leaks
+16. $EXPANDER leaks
 
-17. waits for close FD if I write something
-cat <<eof
-
-12. Leaks
-minishell$ 4>
+14. ⇾ minishell$ <<1<<2<<3 (seems like this creates a new parent) so it exits later
+heredoc> 1
+heredoc> 2
+heredoc> 3
+⇾ minishell$ exit
 exit
-syntax error near `\n'
+⇾ minishell$ exit
+exit
+
 
 
 FIXED TESTS:
@@ -28,6 +27,16 @@ FIXED TESTS:
 (FIXED)
 8. cat < infile | ls > out (infile no permissions, out with permissions)
 should be permission denied: infile, exit code 0
+
+(FIXED)
+Leaks
+minishell$ 4>
+exit
+syntax error near `\n'
+
+(FIXED)
+waits for close FD if I write something
+cat <<eof
 
 (FIXED) (INVALID CLOSE)
 15. (STILL HAD LEAKS) + wrong exit code

@@ -4,12 +4,13 @@ bool	init_heredoc(char *limiter, t_shell *shell)
 {
 	char	*line;
 	int		pipe_nbr;
-	pid_t	id;
 	int		status;
 
 	shell->here_doc = true;
-	id = fork();
-	if (id == 0)
+	shell->here_id = fork();
+	if (shell->here_id == -1)
+		error_message("Failed to execute fork", NULL);
+	if (shell->here_id == 0)
 	{
 		signals(HERE);
 		close(shell->fds_heredoc[READ_END]);
@@ -37,7 +38,7 @@ bool	init_heredoc(char *limiter, t_shell *shell)
 	}
 	signals(MAIN);
 	close(shell->fds_heredoc[WRITE_END]);
-	waitpid(id, &status, 0);
+	waitpid(shell->here_id, &status, 0);
 	if (WEXITSTATUS(status) == 130)
 	{
 		shell->status = 130;
