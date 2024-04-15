@@ -29,9 +29,7 @@ bool	init_heredoc(char *limiter, t_shell *shell)
 			free(line);
 		}
 		close(shell->fds_heredoc[WRITE_END]);
-		close_all_fds(shell, true);
-		free_all(shell);
-		free(line);
+		clean_up(shell, false);
 		exit (0);
 	}
 	signals(MAIN);
@@ -43,6 +41,16 @@ bool	init_heredoc(char *limiter, t_shell *shell)
 		return (false);
 	}
 	return (true);
+}
+
+void	reset_heredoc_fds(t_shell *shell)
+{
+	if (shell->fds_heredoc[READ_END])
+		close(shell->fds_heredoc[READ_END]);
+	if (shell->fds_heredoc[WRITE_END])
+		close(shell->fds_heredoc[WRITE_END]);
+	shell->fds_heredoc[WRITE_END] = 0;
+	shell->fds_heredoc[READ_END] = 0;
 }
 
 bool	open_files(t_shell *shell, t_redir_list *file)
@@ -58,6 +66,7 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 				shell->infile = open(current->file, O_RDONLY);
 			else if (current->type == HEREDOC)
 			{
+				reset_heredoc_fds(shell);
 				if (pipe(shell->fds_heredoc) == -1)
 					return (false);
 				if (!init_heredoc(current->file, shell))

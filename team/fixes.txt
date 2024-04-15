@@ -1,7 +1,5 @@
 TESTS TO FIX:
 
-1. Change the SHLVL
-
 9. < Makefile cat | cat -e | cat > out
 valgrind fds still open
 
@@ -9,7 +7,9 @@ valgrind fds still open
 
 12. Add Signals to children
 
-14. builtin?
+15. The first one should work but the second not
+andre-da@c1r18s8:~/42-Github/minishell$ cat <<1 <<2 <<3
+andre-da@c1r18s8:~/42-Github/minishell$ cat <<1<<2<<3
 
 FIXED TESTS:
 
@@ -36,6 +36,12 @@ syntax error near `\n'
 correct: andre-da
 output:  andre-da
          andre-da
+
+(FIXED)
+builtin?
+
+(FIXED)
+Change the SHLVL
 
 (FIXED)
 - echo $USER | cat -e
