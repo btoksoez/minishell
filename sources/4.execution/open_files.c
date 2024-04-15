@@ -62,6 +62,11 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 	{
 		if (current->type == RE_INPUT || current->type == HEREDOC)
 		{
+			if (shell->infile)
+			{
+				close(shell->infile);
+				shell->infile = 0;
+			}
 			if (current->type == RE_INPUT)
 				shell->infile = open(current->file, O_RDONLY);
 			else if (current->type == HEREDOC)
@@ -81,6 +86,11 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 		}
 		else if (current->type == RE_OUTPUT || current->type == APPEND)
 		{
+			if (shell->outfile)
+			{
+				close(shell->outfile);
+				shell->outfile = 0;
+			}
 			if (current->type == RE_OUTPUT)
 				shell->outfile = open(current->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			else if (current->type == APPEND)

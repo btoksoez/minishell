@@ -8,7 +8,11 @@ int	mini_pwd(t_shell *s, t_tree_node *tree)
 	while (s->envp[i])
 	{
 		if (ft_strncmp(s->envp[i], "PWD=", 4) == 0)
+		{
+			if (s->pwd)
+				free(s->pwd);
 			s->pwd = ft_substr(s->envp[i], 4, ft_strlen(s->envp[i]) - 4);
+		}
 		i++;
 	}
 	if (!s->pwd)

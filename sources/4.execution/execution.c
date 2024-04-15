@@ -66,6 +66,7 @@ void	start_execution(t_shell *shell, t_tree_node *node, int i, bool last_cmd)
 		}
 		else
 		{
+			shell->id_exec[i] = TRUE;
 			shell->id[i] = fork();
 			if (shell->id[i] == -1)
 				error_message("Failed to execute fork", NULL);
@@ -97,12 +98,16 @@ void	prepare_to_execute(t_shell *shell)
 	shell->id = (pid_t *)malloc(sizeof(pid_t) * (shell->pipe_nbr + 2));
 	if (!(shell->id))
 		error_message("Pid Memory allocation failed", NULL);
+	shell->id_exec = (int *)malloc(sizeof(int) * (shell->pipe_nbr + 2));
+	if (!(shell->id_exec))
+		error_message("Bool array Memory allocation failed", NULL);
 	shell->fd = (int **)malloc(sizeof(int *) * (shell->pipe_nbr + 2));
 	if (!(shell->fd))
 		error_message("Fds Memory allocation failed", NULL);
 	i = 0;
 	while (i < shell->pipe_nbr + 1)
 	{
+		shell->id_exec[i] = FALSE;
 		shell->fd[i] = (int *)malloc(sizeof(int) * 2);
 		if (!(shell->fd[i]))
 			error_message("Fds Memory allocation failed", NULL);

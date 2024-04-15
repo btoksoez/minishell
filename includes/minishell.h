@@ -99,12 +99,14 @@ typedef struct s_shell
 	char				*pwd;
 	char				*oldpwd;
 	pid_t				*id;
+	int					*id_exec;
 	int					**fd;
 	char				*line;
 	int					infile;
 	int					outfile;
 	int					child_flag;
 	bool				here_doc;
+	bool				reseted;
 	char				*error_file;
 	int					fds_heredoc[2];
 	int					pipe_nbr;

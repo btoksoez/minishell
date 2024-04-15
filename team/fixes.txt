@@ -1,8 +1,5 @@
 TESTS TO FIX:
 
-9. < Makefile cat | cat -e | cat > out
-valgrind fds still open
-
 11. Give the correct exit codes to children
 
 12. Add Signals to children
@@ -11,9 +8,16 @@ valgrind fds still open
 andre-da@c1r18s8:~/42-Github/minishell$ cat <<1 <<2 <<3
 andre-da@c1r18s8:~/42-Github/minishell$ cat <<1<<2<<3
 
+16. $/ EXPANDER leaks with rnadom input in front
+$? also leaks
+
+17. waits for close FD if I write something
+cat <<eof
+
+
 FIXED TESTS:
 
-(FIXED) (STILL HAD LEAKS)
+(FIXED) (INVALID CLOSE)
 cat < dhuhskjdsjks << ola
 correct: executes heredoc then error msg
 > sdjk
@@ -21,6 +25,24 @@ correct: executes heredoc then error msg
 > ola
 bash: dhuhskjdsjks: No such file or directory
 output:  bash: dhuhskjdsjks: No such file or directory
+
+(FIXED) (STILL LEAKS)
+builtin?
+
+(FIXED) (STILL LEAKS)
+echo ?
+correct: ?
+output:  infinite loop
+
+(FIXED) (STILL LEAKS)
+unset PATH
+correct: works with /usr/bin/cmd & /bin/cmd
+output:  minishell: command not found: cmd
+
+
+(FIXED)
+< Makefile cat | cat -e | cat > out
+valgrind fds still open
 
 (FIXED)
 minishell$ djd | echo hello
@@ -38,10 +60,13 @@ output:  andre-da
          andre-da
 
 (FIXED)
-builtin?
+exit code maintains with no tokens
 
 (FIXED)
 Change the SHLVL
+
+(FIXED)
+leaks if ENTER + unknown command
 
 (FIXED)
 - echo $USER | cat -e
@@ -67,11 +92,6 @@ output : exit code 0
 - Heredoc (change the structure to not create a file)
 
 (FIXED)
-unset PATH
-correct: works with /usr/bin/cmd & /bin/cmd
-output:  minishell: command not found: cmd
-
-(FIXED)
 echo hello | echo hello
 - valgrind waitpids not executed (giving weird message)
 
@@ -79,11 +99,6 @@ echo hello | echo hello
 env -i ls
 correct: executes ls
 output:  prints all envps
-
-(FIXED)
-echo ?
-correct: ?
-output:  infinite loop
 
 
 (FIXED)

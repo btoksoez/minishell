@@ -81,8 +81,10 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->builtins = 0;
 	shell->fd = NULL;
 	shell->id = NULL;
+	shell->id_exec = NULL;
 	shell->line = NULL;
 	shell->tree = NULL;
+	shell->reseted = false;
 	shell->tokens = NULL;
 	shell->error_file = NULL;
 	shell->std_fds[0] = dup(STDIN_FILENO);

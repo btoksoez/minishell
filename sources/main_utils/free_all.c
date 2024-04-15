@@ -13,6 +13,8 @@ void	free_all(t_shell *shell)
 	}
 	if (shell->id)
 		free(shell->id);
+	if (shell->id_exec)
+		free(shell->id_exec);
 	if (shell->tokens)
 		free_tokens(shell->tokens);
 	if (shell->tree)

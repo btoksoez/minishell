@@ -5,7 +5,8 @@ void	clean_up(t_shell *shell, bool print_msg)
 	int i;
 
 	close_all_fds(shell, true);
-	free_all(shell);
+	if (!shell->reseted)
+		free_all(shell);
 	i = 0;
 	while (shell->envp[i])
 		free(shell->envp[i++]);

@@ -93,8 +93,6 @@ t_tokens	*tokenize(t_shell *shell)
 	pre_parse_tokens(shell->tokens);
 	free(trimmed_line);
 	count_pipes(shell);
-	if (!shell->tokens)
-		shell->status = 0;
 	return (shell->tokens);
 }
 
@@ -108,7 +106,7 @@ t_tokens	*get_tokens(char *line)
 	current = head;
 	previous = NULL;
 	if (!line || *line == '\0')
-		return (NULL);
+		return (free(current), NULL);
 	while (*line != '\0')
 	{
 		line = skip_whitespace(line);
@@ -132,7 +130,7 @@ t_tokens	*get_tokens(char *line)
 		current = add_node_back(previous);
 	}
 	free(current);
-	previous->next = NULL;
+	previous->next = NULL;	
 	return (head);
 }
 

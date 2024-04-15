@@ -12,6 +12,7 @@ void	loop(t_shell *shell)
 		if (*shell->line)
 			add_history(shell->line);
 		shell->tokens = tokenize(shell);
+		shell->reseted = false;
 		if (check_tokens(shell->tokens))
 		{
 			shell->status = 2;
@@ -36,17 +37,20 @@ void	get_prompt(t_shell *shell)
 	char	*tmp;
 	char	*prompt;
 
+	if (shell->line)
+	{
+		free(shell->line);
+		shell->line = NULL;
+	}
 	if (shell->status)
 		tmp = ft_strjoin(RED, "⇾ ");
 	else
 		tmp = ft_strjoin(GREEN, "⇾ ");
 	exit_status = ft_strjoin(tmp, RESET);
 	free(tmp);
-
 	tmp = ft_strjoin(CYAN, "minishell");
 	program_name = ft_strjoin(tmp, RESET);
 	free(tmp);
-
 	tmp = ft_strjoin(exit_status, program_name);
 	prompt = ft_strjoin(tmp, "$ ");
 	shell->line = readline(prompt);
@@ -64,24 +68,30 @@ void	wait_pids(t_shell *shell)
 
 	i = 0;
 	while (i < shell->pipe_nbr)
-		waitpid(shell->id[i++], NULL, 0);
+	{
+		if (shell->id_exec[i])
+			waitpid(shell->id[i], NULL, 0);
+		i++;
+	}
 	current = shell->tree;
 	while (current && current->right)
 		current = current->right;
 	if (current->builtin != NULL)
 		return ;
+	if (shell->here_doc)
+		return ;
 	if (!shell->error_file)
 	{
 		shell->status = 0;
 		waitpid(shell->id[shell->pipe_nbr], &status, 0);
-		// if (WIFSIGNALED(status))
-		// {
-		// 	shell->status = WTERMSIG(status) + 128;
-		// 	if (shell->status == 131)
-		// 		ft_putstr_fd("Quit", STDERR_FILENO);
-		// 	ft_putchar_fd('\n', STDERR_FILENO);
-		// }
-		// else
+		if (WIFSIGNALED(status))
+		{
+			shell->status = WTERMSIG(status) + 128;
+			if (shell->status == 131)
+				ft_putstr_fd("Quit", STDERR_FILENO);
+			ft_putchar_fd('\n', STDERR_FILENO);
+		}
+		else
 			shell->status = WEXITSTATUS(status);
 	}
 }
@@ -102,14 +112,23 @@ void	reset(t_shell *shell)
 	shell->error_file = NULL;
 	shell->fds_heredoc[READ_END] = 0;
 	shell->fds_heredoc[WRITE_END] = 0;
+	shell->reseted = true;
 }
 
 void	reset_fds(t_shell *shell)
 {
 	if (shell->fds_heredoc[READ_END])
 		close(shell->fds_heredoc[READ_END]);
-	shell->infile = 0;
-	shell->outfile = 0;
+	if (shell->infile)
+	{
+		close(shell->infile);
+		shell->infile = 0;
+	}
+	if (shell->outfile)
+	{
+		close(shell->outfile);
+		shell->outfile = 0;
+	}
 	if (dup2(shell->std_fds[0], STDIN_FILENO) == -1)
 		error_message("Failed to reset stdin", NULL);
 	if (dup2(shell->std_fds[1], STDOUT_FILENO) == -1)
