@@ -3,13 +3,25 @@ cat < dhuhskjdsjks << ola
 djd | echo hello
 4>
 echo $USER | echo $USER | cat
+echo $USER | echo $USER | ls
+echo $USER | echo $USER | echo | echo | echo | ls
 echo $USER | cat -e
 ls | exit 3
 exit 3 | ls
 exit 3 | exit 4 | exit 5
 echo hello | echo hello
-env -i ls
 echo ?
 $?
 echo?
 cat << 1 | << 2 | << 3
+echo hi < infile > out
+echo hi > out | wc < infile
+lsd
+echo hi > out/d/d/dw
+echo hi > ./de/de
+cat < ./de/de
+cat < invalid_file | ls > out
+cat < invalid_file | ls > outfile
+< Makefile cat | cat -e | cat > out
+echo -n -n
+

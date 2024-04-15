@@ -60,6 +60,24 @@ void	get_prompt(t_shell *shell)
 	free(tmp);
 }
 
+//here doc works
+//cmd and invalid cmd works
+//cmd with pipes works
+//last cmd builtin works
+//<<eof > no_permission works
+//cat < valid_file | ls > out
+//cat < valid_file | ls > no_permissions
+//cat -> ctrld
+//cat -> ctrlc
+//cat -> ctrl\
+
+
+//doesn't work:
+//cat < invalid_file | ls > out
+//cat < no_permission_file | ls > out
+//echo $USER | echo $USER | cat/ls... -> if 2 or more pipes and child last
+
+
 void	wait_pids(t_shell *shell)
 {
 	t_tree_node	*current;
@@ -89,7 +107,6 @@ void	wait_pids(t_shell *shell)
 			shell->status = WTERMSIG(status) + 128;
 			if (shell->status == 131)
 				ft_putstr_fd("Quit", STDERR_FILENO);
-			ft_putchar_fd('\n', STDERR_FILENO);
 		}
 		else
 			shell->status = WEXITSTATUS(status);

@@ -17,7 +17,7 @@ int	mini_echo(t_shell *shell, t_tree_node *cmd_node)
 	while (ft_strncmp(current->arg, "-n", 2) == 0)	//first arg after echo is -n, set first arg to next one
 	{
 		nl_flag = 0;
-		current =current->next;
+		current = current->next;
 	}
 	while (current)
 	{

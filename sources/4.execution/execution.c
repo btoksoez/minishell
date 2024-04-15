@@ -54,6 +54,7 @@ void	start_execution(t_shell *shell, t_tree_node *node, int i, bool last_cmd)
 	int success;
 
 	success = 1;
+	shell->error_file = NULL;
 	if (node->redir_list)
 		success = open_files(shell, node->redir_list);
 	if (success)
