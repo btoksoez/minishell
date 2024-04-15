@@ -24,4 +24,5 @@ cat < invalid_file | ls > out
 cat < invalid_file | ls > outfile
 < Makefile cat | cat -e | cat > out
 echo -n -n
+cat < infile | ls > out
 

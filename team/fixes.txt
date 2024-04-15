@@ -1,7 +1,5 @@
 TESTS TO FIX:
 
-8. cat < infile | ls > out (infile no permissions, out with permissions)
-should be permission denied: infile, exit code 0
 
 12. readline: when writing over line, need to handle?
 
@@ -12,10 +10,6 @@ should be permission denied: infile, exit code 0
 14. echo -n -n segfault
 
 12. make protections in libft
-
-11. Give the correct exit codes to children
-
-12. Add Signals to children
 
 16. $/ EXPANDER leaks with rnadom input in front
 $? also leaks
@@ -30,6 +24,10 @@ syntax error near `\n'
 
 
 FIXED TESTS:
+
+(FIXED)
+8. cat < infile | ls > out (infile no permissions, out with permissions)
+should be permission denied: infile, exit code 0
 
 (FIXED) (INVALID CLOSE)
 15. (STILL HAD LEAKS) + wrong exit code
