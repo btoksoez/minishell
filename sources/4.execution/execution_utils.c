@@ -44,7 +44,7 @@ void	redirect_input_output(t_shell *shell, int i, bool last_cmd)
 	if (shell->outfile)
 	{
 		if (dup2(shell->outfile, STDOUT_FILENO) == -1)
-			error_message("Error setting outfile to STDOUT", NULL);
+			error_message("Error setting outfile to STDOUT", NULL);	//change message and error code
 	}
 	else if (!last_cmd)
 	{

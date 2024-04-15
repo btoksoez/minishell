@@ -1,19 +1,26 @@
 TESTS TO FIX:
 
+8. cat < infile | ls > out (infile no permissions, out with permissions)
+should be permission denied: infile, exit code 0
+
+12. readline: when writing over line, need to handle?
+
+13. freeing after signals in heredoc
+
+14. echo -n -n segfault
+
 9. < Makefile cat | cat -e | cat > out
 valgrind fds still open
+
+12. make protections in libft
 
 11. Give the correct exit codes to children
 
 12. Add Signals to children
 
-15. The first one should work but the second not
-andre-da@c1r18s8:~/42-Github/minishell$ cat <<1 <<2 <<3
-andre-da@c1r18s8:~/42-Github/minishell$ cat <<1<<2<<3
+7. exit 3 | ls
 
-FIXED TESTS:
-
-(FIXED) (STILL HAD LEAKS)
+15. (STILL HAD LEAKS) + wrong exit code
 cat < dhuhskjdsjks << ola
 correct: executes heredoc then error msg
 > sdjk
@@ -21,6 +28,26 @@ correct: executes heredoc then error msg
 > ola
 bash: dhuhskjdsjks: No such file or directory
 output:  bash: dhuhskjdsjks: No such file or directory
+
+15. The first one should work but the second not
+andre-da@c1r18s8:~/42-Github/minishell$ cat <<1 <<2 <<3
+andre-da@c1r18s8:~/42-Github/minishell$ cat <<1<<2<<3
+-> if delimiter is a number, then you need space afterwards
+
+FIXED TESTS:
+
+
+(FIXED)
+cat < ./de/de
+
+(FIXED)
+echo hi > ./de/de
+
+(FIXED)
+7. minishell$ echo hi > out/d/d/dw
+Error setting outfile to STDOUT
+hi
+should be: exit code 1, zsh: not a directory: out/d/d/d
 
 (FIXED)
 minishell$ djd | echo hello
@@ -32,6 +59,13 @@ minishell$ 4>
 syntax error near `\n'
 
 (FIXED)
+cat < infile > outfile | ls > outfile
+
+(FIXED)
+cat < infile > outfile | ls < Makefile > out
+
+
+(FIXED)
 - echo $USER | echo $USER | cat
 correct: andre-da
 output:  andre-da
@@ -39,6 +73,9 @@ output:  andre-da
 
 (FIXED)
 builtin?
+
+(FIXED)
+cat and then ctrl
 
 (FIXED)
 Change the SHLVL

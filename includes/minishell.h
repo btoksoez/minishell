@@ -10,6 +10,7 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 # include <termcap.h>
+# include <errno.h>
 
 # define SINGLE_TOKENS "<>|"
 # define WHITESPACE " \t\n\v\f\r"

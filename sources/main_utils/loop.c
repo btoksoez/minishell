@@ -56,6 +56,24 @@ void	get_prompt(t_shell *shell)
 	free(tmp);
 }
 
+//here doc works
+//cmd and invalid cmd works
+//cmd with pipes works
+//last cmd builtin works
+//<<eof > no_permission works
+//cat < valid_file | ls > out
+//cat < valid_file | ls > no_permissions
+//cat -> ctrld
+//cat -> ctrlc
+//cat -> ctrl\
+
+
+//doesn't work:
+//cat < invalid_file | ls > out
+//cat < no_permission_file | ls > out
+//echo $USER | echo $USER | cat/ls... -> if 2 or more pipes and child last
+
+
 void	wait_pids(t_shell *shell)
 {
 	t_tree_node	*current;
@@ -63,6 +81,7 @@ void	wait_pids(t_shell *shell)
 	int			i;
 
 	i = 0;
+	// fprintf(stderr, "status top: %d\n", shell->status);
 	while (i < shell->pipe_nbr)
 		waitpid(shell->id[i++], NULL, 0);
 	current = shell->tree;
@@ -70,18 +89,19 @@ void	wait_pids(t_shell *shell)
 		current = current->right;
 	if (current->builtin != NULL)
 		return ;
+	if (shell->here_doc)
+		return ;
 	if (!shell->error_file)
 	{
 		shell->status = 0;
 		waitpid(shell->id[shell->pipe_nbr], &status, 0);
-		// if (WIFSIGNALED(status))
-		// {
-		// 	shell->status = WTERMSIG(status) + 128;
-		// 	if (shell->status == 131)
-		// 		ft_putstr_fd("Quit", STDERR_FILENO);
-		// 	ft_putchar_fd('\n', STDERR_FILENO);
-		// }
-		// else
+		if (WIFSIGNALED(status))
+		{
+			shell->status = WTERMSIG(status) + 128;
+			if (shell->status == 131)
+				ft_putstr_fd("Quit", STDERR_FILENO);
+		}
+		else
 			shell->status = WEXITSTATUS(status);
 	}
 }

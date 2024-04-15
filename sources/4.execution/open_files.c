@@ -20,7 +20,10 @@ bool	init_heredoc(char *limiter, t_shell *shell)
 				ft_putstr_fd("pipe ", 1);
 			line = readline("heredoc> ");
 			if (!line)
+			{
+				ft_putendl_fd("minishell: warning: here-document delimited by end-of-file", STDERR_FILENO);
 				break ;
+			}
 			if (line[ft_strlen(line) - 1] == '\n')
 				line[ft_strlen(line) - 1] = '\0';
 			if (ft_strcmp(line, limiter) == 0)
@@ -40,6 +43,7 @@ bool	init_heredoc(char *limiter, t_shell *shell)
 		shell->status = 130;
 		return (false);
 	}
+	shell->status = status;
 	return (true);
 }
 
@@ -56,8 +60,12 @@ void	reset_heredoc_fds(t_shell *shell)
 bool	open_files(t_shell *shell, t_redir_list *file)
 {
 	t_redir_list	*current;
+	int				flag_out;
+	int				flag_in;
 
 	current = file;
+	flag_out = 0;
+	flag_in = 0;
 	while (current != NULL)
 	{
 		if (current->type == RE_INPUT || current->type == HEREDOC)
@@ -76,7 +84,9 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 			if (shell->infile < 0)
 			{
 				shell->status = 1;
-				shell->error_file = file->file;
+				if (flag_in == 0 && flag_out == 0)
+					shell->error_file = current->file;
+				flag_in = 1;
 			}
 		}
 		else if (current->type == RE_OUTPUT || current->type == APPEND)
@@ -86,11 +96,35 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 			else if (current->type == APPEND)
 				shell->outfile = open(current->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 			if (shell->outfile < 0)
-				return (false);
+			{
+				shell->status = 1;
+				if (flag_in == 0 && flag_out == 0)
+					shell->error_file = current->file;
+				flag_out = 1;
+			}
 		}
 		current = current->next;
 	}
 	if (shell->error_file)
-		return (error_message("zsh: no such file or directory: ", shell->error_file), false);
+	{
+		if (flag_in && access(shell->error_file, R_OK) != 0)
+		{
+			if (errno == EACCES)
+				return (error_message("minishell: permission denied: ", shell->error_file), false);
+			else if (errno == ENOENT)
+				return (error_message("minishell: no such file or directory: ", shell->error_file), false);
+			else if (errno == ENOTDIR)
+				return (error_message("minishell: not a directory: ", shell->error_file), false);
+		}
+		if (flag_out && access(shell->error_file, R_OK) != 0)
+		{
+			if (errno == EACCES)
+				return (error_message("minishell: permission denied: ", shell->error_file), false);
+			else if (errno == ENOENT)
+				return (error_message("minishell: no such file or directory: ", shell->error_file), false);
+			else if (errno == ENOTDIR)
+				return (error_message("minishell: not a directory: ", shell->error_file), false);
+		}
+	}
 	return (true);
 }

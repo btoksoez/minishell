@@ -137,10 +137,7 @@ void	append_env(char **s, char *var, char *value)
 	new_var = ft_strjoin(var, "=");
 	*s = ft_strjoin(new_var, new_value);
 	if (current_value != NULL)
-	{
-		printf("hi\n");
 		free(current_value);
-	}
 	free(append_value);
 	free(new_value);
 	free(var);
