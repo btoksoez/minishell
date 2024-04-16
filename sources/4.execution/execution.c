@@ -27,26 +27,37 @@ void	execute_command(t_shell *shell, t_tree_node *node)
 {
 	char	**command;
 	char	*path;
+	int		flag;
 
 	command = NULL;
 	path = NULL;
+	flag = 1;
 	if (node->cmd)
 	{
-		path = check_path(node->cmd, shell->envp);
+		path = check_path(node->cmd, shell->envp, &flag);
 		command = get_full_cmd(node);
+	}
+	else
+	{
+		clean_up(shell, false);
+		exit (0);
 	}
 	if (ft_strncmp(node->cmd, "./", 2) == 0)
 	{
 		path = node->cmd + 2;
 		close_all_fds(shell, true);
 		execve(path, command, shell->envp);
-		child_error_message(shell, "minishell: no such file or directory: ", command[0], 126);
+		ft_freematrix(command);
+		child_error_message(shell, "minishell: no such file or directory: ", node->cmd, 126);
 	}
 	if (!path)
 		invalid_path(command, shell, node->cmd);
 	close_all_fds(shell, true);
 	execve(path, command, shell->envp);
-	child_error_message(shell, "minishell: command not found: ", command[0], 127);
+	ft_freematrix(command);
+	if (flag)
+		free(path);
+	child_error_message(shell, "minishell: command not found: ", node->cmd, 127);
 }
 
 void	start_execution(t_shell *shell, t_tree_node *node, int i, bool last_cmd)
