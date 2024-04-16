@@ -19,13 +19,8 @@ ctrl c with no input: 130 exit code
 
 echo -n -nnna hello
 
-(LEAKS)
-13. export hi
-13. export hi += 123
-14. export
-14. export $&@#&#
 
-(FIXED) (STILL LEAKS)
+ (STILL LEAKS)
 unset PATH
 correct: works with /usr/bin/cmd & /bin/cmd
 output:  minishell: command not found: cmd
@@ -42,6 +37,12 @@ FIXED TESTS:
 unset HOME
 cd
 exit
+
+(LEAKS FIXED)
+13. export hi
+13. export hi += 123
+14. export
+14. export $&@#&#
 
 (FIXED)
 exit 1-1
