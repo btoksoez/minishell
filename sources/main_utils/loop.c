@@ -87,6 +87,7 @@ void	wait_pids(t_shell *shell)
 	int			i;
 
 	i = 0;
+	status = 0;
 	while (i < shell->pipe_nbr)
 	{
 		if (shell->id_exec[i])
@@ -100,7 +101,9 @@ void	wait_pids(t_shell *shell)
 		return ;
 	if (shell->here_doc)
 	{
-		waitpid(shell->id[shell->pipe_nbr], NULL, 0);
+		waitpid(shell->id[shell->pipe_nbr], &status, 0);
+		if (WEXITSTATUS(status))
+			shell->status = WEXITSTATUS(status);
 		return ;
 	}
 	if (!shell->error_file)
@@ -141,16 +144,12 @@ void	reset_fds(t_shell *shell)
 {
 	if (shell->fds_heredoc[READ_END])
 		close(shell->fds_heredoc[READ_END]);
-	if (shell->infile > 0)
-	{
+	if (shell->infile >= 0)
 		close(shell->infile);
-		shell->infile = 0;
-	}
-	if (shell->outfile > 0)
-	{
+	shell->infile = 0;
+	if (shell->outfile >= 0)
 		close(shell->outfile);
-		shell->outfile = 0;
-	}
+	shell->outfile = 0;
 	if (dup2(shell->std_fds[0], STDIN_FILENO) == -1)
 		error_message("Failed to reset stdin", NULL);
 	if (dup2(shell->std_fds[1], STDOUT_FILENO) == -1)

@@ -3,8 +3,6 @@ TESTS TO FIX:
 
 12. readline: when writing over line, need to handle?
 
-13. freeing after signals in heredoc
-
 12. make protections in libft
 
 16. $/ EXPANDER leaks with rnadom input in front
@@ -21,10 +19,12 @@ $? also leaks
 14. export $&@#&#
 
 
-
 FIXED TESTS:
 (FIXED)
 12. loop in heredoc with ctrl-d
+
+(FIXED)
+13. freeing after signals in heredoc
 
 (FIXED)
 13. HEREDOC: cat < dedek << ola

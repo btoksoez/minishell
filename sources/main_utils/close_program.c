@@ -59,7 +59,7 @@ void	close_all_fds(t_shell *shell, bool in_out)
 		close(shell->std_fds[0]);
 		close(shell->std_fds[1]);
 	}
-	if (shell->fds_heredoc[READ_END])
+	if (shell->fds_heredoc[READ_END] > 0)
 		close(shell->fds_heredoc[READ_END]);
 }
 

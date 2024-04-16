@@ -10,6 +10,7 @@ int	main(int argc, char *argv[], char *envp[])
 	signals(MAIN_PROMPT);
 	fprintf(stderr, "\n"); // temporary (for easy to undestand tests)
 	init_shell(&shell, envp);
+	exit_info(&shell);
 	loop(&shell);
 	clean_up(&shell, true);
 	fprintf(stderr, "\n"); // temporary (for easy to undestand tests)
