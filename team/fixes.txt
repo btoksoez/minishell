@@ -1,45 +1,45 @@
 TESTS TO FIX:
 
-
-
-
 12. make protections in libft
 
-exit 111111111111111111111111111111111
 
-$EMPTY echo hi
 
 exit djgsedjged
 
-unset PATH
-any command
-
+exit 1-1
+        segfaults
 
 echo -n -nnna hello
-
-
- (STILL LEAKS)
-unset PATH
-correct: works with /usr/bin/cmd & /bin/cmd
-output:  minishell: command not found: cmd
---> leaks when no path given
 
 echo $USER.123 (only delimiter are letters or numbers or underscore)
 
 
 cat << $USER -> don't expand
 
-FIXED TESTS:
+
+
+
+## FIXED TESTS: ##
+
 export hi=$USER
 
 12. readline: when writing over line, need to handle?
 
 ctrl c with no input: 130 exit code
 
+
+unset PATH
+any command
+
 (FIXED) (HAD LEAKS)
 unset HOME
 cd
 exit
+
+exit 111111111111111111111111111111111
+
+(FIXED)
+$EMPTY echo hi
 
 (LEAKS FIXED)
 13. export hi

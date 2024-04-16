@@ -30,5 +30,6 @@ exit 111111111111111111111111111111111
 exit           1
 exit djgsedjged
 export hi=$USER
+$EMPTY echo hi
 
 
