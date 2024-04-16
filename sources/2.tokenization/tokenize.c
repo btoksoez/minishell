@@ -28,15 +28,37 @@ void	count_pipes(t_shell *shell)
 	}
 }
 
+void	remove_empty_tokens(t_tokens **tokens)
+{
+	t_tokens	*current;
+	t_tokens	*temp;
+
+	if (!tokens || !(*tokens))
+		return ;
+	current = *tokens;
+	temp = NULL;
+	while (current)
+	{
+		if (current->type == 6 && ft_strcmp("", current->value) == 0)
+		{
+			temp = current->next;
+			del_token(tokens, current);
+			current = temp;
+		}
+		else
+			current = current->next;
+	}
+}
+
 /* concetonates all tokens if there is no space between them */
-void	remove_spaces(t_tokens *tokens)
+void	remove_spaces(t_tokens **tokens)
 {
 	t_tokens	*current;
 	int			flag;
 
-	if (!tokens)
+	if (!tokens || !(*tokens))
 		return ;
-	current = tokens;
+	current = *tokens;
 	flag = 0;
 	while (current && current->next)
 	{
@@ -46,7 +68,7 @@ void	remove_spaces(t_tokens *tokens)
 			current->value = ft_strjoin_free(current->value, current->next->value);
 			if (current->next->space == 1)
 				flag = 1;
-			del_token(&tokens, current->next);
+			del_token(tokens, current->next);
 			if (!current->next || flag == 1)
 				break ;
 		}
@@ -130,7 +152,7 @@ t_tokens	*get_tokens(char *line)
 		current = add_node_back(previous);
 	}
 	free(current);
-	previous->next = NULL;	
+	previous->next = NULL;
 	return (head);
 }
 

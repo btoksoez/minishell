@@ -2,7 +2,6 @@
 
 char	*find_and_replace(t_shell *shell, char *org_str)
 {
-	// char		*new_str;
 	char		*str_before;
 	char		*str_env;
 	char		*result;
@@ -41,12 +40,16 @@ void	expand(t_shell *shell)
 	while (current)
 	{
 		if (current->type == 6 || (current->type == 6 && current->previous && current->previous->type != HEREDOC))
+		{
+			// if (current->previous)
+			// 	fprintf(stderr, "current pervious: %s %d\n", current->previous->value, current->previous->type);
 			if (ft_strcmp(current->value, "$$"))
 			{
 				temp = current->value;
 				current->value = find_and_replace(shell, temp);
 				free(temp);
 			}
+		}
 		current = current->next;
 	}
 }

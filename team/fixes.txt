@@ -1,7 +1,7 @@
 TESTS TO FIX:
 
 
-12. readline: when writing over line, need to handle?
+
 
 12. make protections in libft
 
@@ -13,8 +13,6 @@ exit djgsedjged
 
 unset PATH
 any command
-
-ctrl c with no input: 130 exit code
 
 
 echo -n -nnna hello
@@ -28,11 +26,16 @@ output:  minishell: command not found: cmd
 
 echo $USER.123 (only delimiter are letters or numbers or underscore)
 
-export hi=$USER
 
 cat << $USER -> don't expand
 
 FIXED TESTS:
+export hi=$USER
+
+12. readline: when writing over line, need to handle?
+
+ctrl c with no input: 130 exit code
+
 (FIXED) (HAD LEAKS)
 unset HOME
 cd

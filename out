@@ -1,0 +1,11 @@
+ignore_readline.supp
+includes
+Makefile
+minishell
+minishell_tester
+objects
+out
+outfile
+sources
+team
+tester.sh
