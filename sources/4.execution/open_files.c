@@ -71,7 +71,7 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 	{
 		if (current->type == RE_INPUT || current->type == HEREDOC)
 		{
-			if (shell->infile)
+			if (shell->infile > 0)
 			{
 				close(shell->infile);
 				shell->infile = 0;
@@ -97,7 +97,7 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 		}
 		else if (current->type == RE_OUTPUT || current->type == APPEND)
 		{
-			if (shell->outfile)
+			if (shell->outfile > 0)
 			{
 				close(shell->outfile);
 				shell->outfile = 0;

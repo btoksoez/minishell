@@ -141,12 +141,12 @@ void	reset_fds(t_shell *shell)
 {
 	if (shell->fds_heredoc[READ_END])
 		close(shell->fds_heredoc[READ_END]);
-	if (shell->infile)
+	if (shell->infile > 0)
 	{
 		close(shell->infile);
 		shell->infile = 0;
 	}
-	if (shell->outfile)
+	if (shell->outfile > 0)
 	{
 		close(shell->outfile);
 		shell->outfile = 0;
