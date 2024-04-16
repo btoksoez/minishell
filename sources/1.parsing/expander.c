@@ -2,10 +2,11 @@
 
 char	*find_and_replace(t_shell *shell, char *org_str)
 {
-	char		*new_str;
+	// char		*new_str;
 	char		*str_before;
 	char		*str_env;
 	char		*result;
+	char		*env;
 
 	if (!org_str)
 		return (NULL);
@@ -20,10 +21,11 @@ char	*find_and_replace(t_shell *shell, char *org_str)
 			break ;
 		}
 		str_env = ft_strdup_delimiter_string(++org_str, WHITESPACE_DOLLAR_SINGLE);
-		new_str = ft_strjoin(str_before, get_env(shell, str_env));
+		env = get_env(shell, str_env);
+		str_before = ft_strjoin_free(str_before, env);
 		org_str += ft_strlen(str_env);
-		result = ft_strjoin_free(result, new_str);
-		free_strs(str_before, str_env, new_str);
+		result = ft_strjoin_free(result, str_before);
+		free_strs(str_before, str_env, env);
 	}
 	return (result);
 }
@@ -48,22 +50,3 @@ void	expand(t_shell *shell)
 		current = current->next;
 	}
 }
-// int main() {
-//     // Sample tokens with an environment variable
-//     t_tokens *tokens = malloc(sizeof(t_tokens));
-//     tokens->type = 6;  // Assuming type 6 represents an environment variable
-//     tokens->value = "yes it works $USER";  // Environment variable to expand
-//     tokens->next = NULL;
-// 	tokens->previous = NULL;
-
-//     // Call the expand function to expand environment variables
-//     printf("Before expansion: %s\n", tokens->value);
-//     expand(tokens);
-//     printf("After expansion: %s\n", tokens->value);
-
-//     // Free allocated memory
-//     free(tokens->value);
-//     free(tokens);
-
-//     return 0;
-// }

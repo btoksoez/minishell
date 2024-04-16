@@ -29,7 +29,7 @@ char	*get_env(t_shell *shell, char *str)
 		return ("$$");
 	env_value = get_env_shell(shell, str);
 	if (!env_value)
-		env_value = "";
+		env_value = ft_strdup("");
 	return (env_value);
 }
 
