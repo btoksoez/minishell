@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-bool	init_heredoc(char *limiter, t_shell *shell)
+bool	init_heredoc(char *limiter, t_shell *shell, int flag_in, int flag_out)
 {
 	char	*line;
 	int		pipe_nbr;
@@ -43,6 +43,8 @@ bool	init_heredoc(char *limiter, t_shell *shell)
 		shell->status = 130;
 		return (false);
 	}
+	if (flag_in != 1 && flag_out != 1)
+		shell->status = status;
 	return (true);
 }
 
@@ -81,7 +83,7 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 				reset_heredoc_fds(shell);
 				if (pipe(shell->fds_heredoc) == -1)
 					return (false);
-				if (!init_heredoc(current->file, shell))
+				if (!init_heredoc(current->file, shell, flag_in, flag_out))
 					return (false);
 				shell->infile = shell->fds_heredoc[READ_END];
 			}

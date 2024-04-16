@@ -120,6 +120,7 @@ void	prepare_to_execute(t_shell *shell)
 	while (i < shell->pipe_nbr + 1)
 	{
 		shell->id_exec[i] = FALSE;
+		shell->id[i] = 0;
 		shell->fd[i] = (int *)malloc(sizeof(int) * 2);
 		if (!(shell->fd[i]))
 			error_message("Fds Memory allocation failed", NULL);

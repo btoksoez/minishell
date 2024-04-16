@@ -221,7 +221,7 @@ void			get_path_index(char **envp, int *index);
 void			free_and_close_path(int fd, char **paths, char *path, char *path_cmd);
 void			invalid_path(char **full_command, t_shell *shell, char *command);
 bool			open_files(t_shell *shell, t_redir_list *file);
-bool			init_heredoc(char *limiter, t_shell *shell);
+bool			init_heredoc(char *limiter, t_shell *shell, int flag_in, int flag_out);
 
 /*--------------------------------------freeing-----------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
