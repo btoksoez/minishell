@@ -31,5 +31,6 @@ exit           1
 exit djgsedjged
 export hi=$USER
 $EMPTY echo hi
+echo $USER.123
 
 

@@ -9,9 +9,7 @@ exit djgsedjged
 exit 1-1
         segfaults
 
-echo -n -nnna hello
 
-echo $USER.123 (only delimiter are letters or numbers or underscore)
 
 
 cat << $USER -> don't expand
@@ -22,6 +20,8 @@ cat << $USER -> don't expand
 ## FIXED TESTS: ##
 
 export hi=$USER
+
+echo -n -nnna hello
 
 12. readline: when writing over line, need to handle?
 
@@ -35,6 +35,8 @@ any command
 unset HOME
 cd
 exit
+
+echo $USER.123 (only delimiter are letters or numbers or underscore)
 
 exit 111111111111111111111111111111111
 

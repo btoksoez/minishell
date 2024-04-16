@@ -42,6 +42,27 @@ char	*ft_strdup_delimiter_string(const char *s, char *delimiter)
 	return (dup);
 }
 
+char	*ft_strdup_while_string(const char *s, char *delimiter)
+{
+	int		i;
+	char	*dup;
+
+	i = 0;
+	while (s[i] && ft_strchr(delimiter, s[i]))
+		i++;
+	dup = malloc(sizeof(char) * (i + 1));
+	if (dup == NULL)
+		return (NULL);
+	i = 0;
+	while (s[i] && ft_strchr(delimiter, s[i]))
+	{
+		((unsigned char *)dup)[i] = ((unsigned char *)s)[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+
 /* checks whether the current and next char are empty quotes or whitespace and skips them,
 else returns current position */
 char	*skip_whitespace_and_empty_quotes(char *line)
