@@ -19,9 +19,24 @@ void	sigint_handler_prompt(int sig)
 	rl_redisplay();
 }
 
+t_info	exit_info(t_shell *shell)
+{
+	static t_info	info;
+
+	if (shell)
+		info.info = shell;
+	return (info);
+}
+
 void	heredoc_handler(int sig)
 {
+	t_info	info;
+	
 	(void)sig;
+	info = exit_info(NULL);
+	clean_up(info.info, false);
+	if (info.info->fds_heredoc[WRITE_END] > 0)
+		close(info.info->fds_heredoc[WRITE_END]);	
 	exit(130);
 }
 

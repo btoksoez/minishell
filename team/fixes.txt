@@ -16,7 +16,6 @@ $EMPTY echo hi
 14. export $&@#&#
 
 
-
 FIXED TESTS:
 (FIXED) (HAD LEAKS)
 unset HOME
@@ -31,11 +30,19 @@ exit 1-1
 
 (FIXED)
 16. $/ EXPANDER leaks with rnadom input in front
+(FIXED)
+12. loop in heredoc with ctrl-d
+
+(FIXED)
+13. freeing after signals in heredoc
 
 (FIXED)
 13. HEREDOC: cat < dedek << ola
 when exiting with delimiter/ctrl-d, wait4(pid)...
 $? also leaks
+
+(FIXED)
+12. invalid file close invalid fd
 
 (FIXED)
 12. loop in heredoc with ctrl-d

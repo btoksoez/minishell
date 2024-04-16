@@ -129,11 +129,18 @@ typedef struct	s_tree_node
 	struct s_redir_list	*redir_list;
 }						t_tree_node;
 
+typedef struct	s_info
+{
+	t_shell				*info;
+}						t_info;
+
+
 /*--------------------------------------minishell---------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
 void			init_shell(t_shell *shell, char **envp);
 void			copy_envp(t_shell *shell, char **envp);
 t_envps			*init_envps(void);
+t_info			exit_info(t_shell *shell);
 void			init_missing_env(t_shell *shell);
 void			get_prompt(t_shell *shell);
 void			loop(t_shell *shell);
@@ -221,7 +228,7 @@ void			get_path_index(char **envp, int *index);
 void			free_and_close_path(int fd, char **paths, char *path, char *path_cmd);
 void			invalid_path(char **full_command, t_shell *shell, char *command);
 bool			open_files(t_shell *shell, t_redir_list *file);
-bool			init_heredoc(char *limiter, t_shell *shell);
+bool			init_heredoc(char *limiter, t_shell *shell, int flag_in, int flag_out);
 
 /*--------------------------------------freeing-----------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
