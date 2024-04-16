@@ -257,6 +257,7 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 {
 	char	*var;
 	char	*value;
+	// char	*new;
 	char	**copy;
 	char	*new_var;
 	int		flag_append;
@@ -303,22 +304,7 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 		}
 		else
 		{
-			//get value from tokens
-			if (current->space)
-				value = ft_strdup(ft_strchr(current->arg, '=') + 1);
-			else
-			{
-				value = ft_strdup(ft_strchr(current->arg, '=') + 1);
-				current = current->next;
-				while (current->space == 0)
-				{
-					value = ft_strjoin(value, current->arg);
-					current = current->next;
-				}
-				if (current)
-					value = ft_strjoin(value, current->arg);
-			}
-			// value = add_double_quotes(value);
+			value = ft_strdup(ft_strchr(current->arg, '=') + 1);
 			new_var = ft_strjoin(var, "=");
 			value = ft_strjoin(new_var, value);
 			free(new_var);

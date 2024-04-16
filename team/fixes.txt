@@ -9,12 +9,33 @@ exit 111111111111111111111111111111111
 
 $EMPTY echo hi
 
+exit djgsedjged
+
+unset PATH
+any command
+
+ctrl c with no input: 130 exit code
+
+
+echo -n -nnna hello
+
 (LEAKS)
 13. export hi
 13. export hi += 123
 14. export
 14. export $&@#&#
 
+(FIXED) (STILL LEAKS)
+unset PATH
+correct: works with /usr/bin/cmd & /bin/cmd
+output:  minishell: command not found: cmd
+--> leaks when no path given
+
+echo $USER.123 (only delimiter are letters or numbers or underscore)
+
+export hi=$USER
+
+cat << $USER -> don't expand
 
 FIXED TESTS:
 (FIXED) (HAD LEAKS)
@@ -86,13 +107,9 @@ echo ?
 correct: ?
 output:  infinite loop
 
-(FIXED) (STILL LEAKS)
-unset PATH
-correct: works with /usr/bin/cmd & /bin/cmd
-output:  minishell: command not found: cmd
---> leaks when no path given
 
-(FIXED) (STILL LEAKS) after expander
+
+(FIXED) after expander
 $ANYTHING
 $?
 correct: int i.e 0

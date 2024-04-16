@@ -45,7 +45,6 @@ void	expand(t_shell *shell)
 			{
 				temp = current->value;
 				current->value = find_and_replace(shell, temp);
-				fprintf(stderr, "len: %zu\n", ft_strlen(current->value));
 				free(temp);
 			}
 		current = current->next;
