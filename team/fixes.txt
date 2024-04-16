@@ -7,8 +7,6 @@ TESTS TO FIX:
 
 12. loop in heredoc with ctrl-d
 
-14. echo -n -n segfault
-
 12. make protections in libft
 
 16. $/ EXPANDER leaks with rnadom input in front
@@ -24,6 +22,9 @@ syntax error near `\n'
 
 
 FIXED TESTS:
+
+(FIXED)
+14. echo -n -n segfault
 
 (FIXED)
 8. cat < infile | ls > out (infile no permissions, out with permissions)
