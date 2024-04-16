@@ -12,7 +12,11 @@ void	sigint_handler(int sig)
 /* replaces line and shows prompt (is called if no prompt printed yet)*/
 void	sigint_handler_prompt(int sig)
 {
+	t_info	info;
+	
 	(void)sig;
+	info = exit_info(NULL);
+	info.info->status = 130;
 	rl_replace_line("", 0);
 	write(1, "\n", 1);
 	rl_on_new_line();
@@ -43,7 +47,6 @@ void	heredoc_handler(int sig)
 /* receives signals and calls sigint handler with a certain int sig */
 void	signals(int n)
 {
-
 	signal(SIGQUIT, SIG_IGN);	//ignore sigquit
 	if (n == MAIN)
 		signal(SIGINT, sigint_handler);

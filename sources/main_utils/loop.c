@@ -34,51 +34,13 @@ void	loop(t_shell *shell)
 
 void	get_prompt(t_shell *shell)
 {
-	char	*exit_status;
-	char	*program_name;
-	char	*tmp;
-	char	*prompt;
-
 	if (shell->line)
 	{
 		free(shell->line);
 		shell->line = NULL;
 	}
-	if (shell->status)
-		tmp = ft_strjoin(RED, "⇾ ");
-	else
-		tmp = ft_strjoin(GREEN, "⇾ ");
-	exit_status = ft_strjoin(tmp, RESET);
-	free(tmp);
-	tmp = ft_strjoin(CYAN, "minishell");
-	program_name = ft_strjoin(tmp, RESET);
-	free(tmp);
-	tmp = ft_strjoin(exit_status, program_name);
-	prompt = ft_strjoin(tmp, "$ ");
-	shell->line = readline(prompt);
-	free(exit_status);
-	free(program_name);
-	free(prompt);
-	free(tmp);
+	shell->line = readline("minishell$ ");
 }
-
-//here doc works
-//cmd and invalid cmd works
-//cmd with pipes works
-//last cmd builtin works
-//<<eof > no_permission works
-//cat < valid_file | ls > out
-//cat < valid_file | ls > no_permissions
-//cat -> ctrld
-//cat -> ctrlc
-//cat -> ctrl\
-
-
-//doesn't work:
-//cat < invalid_file | ls > out
-//cat < no_permission_file | ls > out
-//echo $USER | echo $USER | cat/ls... -> if 2 or more pipes and child last
-
 
 void	wait_pids(t_shell *shell)
 {

@@ -1,6 +1,5 @@
 TESTS TO FIX:
 
-
 12. readline: when writing over line, need to handle?
 
 12. make protections in libft
@@ -30,6 +29,7 @@ exit 1-1
 
 (FIXED)
 16. $/ EXPANDER leaks with rnadom input in front
+
 (FIXED)
 12. loop in heredoc with ctrl-d
 
