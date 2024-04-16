@@ -12,16 +12,41 @@ TESTS TO FIX:
 16. $/ EXPANDER leaks with rnadom input in front
 $? also leaks
 
-17. waits for close FD if I write something
-cat <<eof
+12. invalid file close invalid fd
 
+13. HEREDOC: cat < dedek << ola
+when exiting with delimiter/ctrl-d, wait4(pid)...
+
+15. unset HOME -> cd 
+
+14. unset PWD -> pwd ->exit (LEAKS)
+
+(LEAKS)
+13. export hi
+13. export hi += 123
+14. export
+14. export $&@#&#
+
+
+
+FIXED TESTS:
+
+(FIXED)
+12. loop in heredoc with ctrl-d
+
+(FIXED)
+14. echo -n -n segfault
+
+(FIXED)
 12. Leaks
 minishell$ 4>
 exit
 syntax error near `\n'
 
 
-FIXED TESTS:
+(FIXED)
+17. waits for close FD if I write something
+cat <<eof
 
 (FIXED)
 14. echo -n -n segfault
@@ -40,10 +65,10 @@ correct: executes heredoc then error msg
 bash: dhuhskjdsjks: No such file or directory
 output:  bash: dhuhskjdsjks: No such file or directory
 
-(FIXED) (STILL LEAKS)
+(FIXED)
 builtin?
 
-(FIXED) (STILL LEAKS)
+(FIXED)
 echo ?
 correct: ?
 output:  infinite loop
@@ -52,6 +77,7 @@ output:  infinite loop
 unset PATH
 correct: works with /usr/bin/cmd & /bin/cmd
 output:  minishell: command not found: cmd
+--> leaks when no path given
 
 (FIXED) (STILL LEAKS) after expander
 $ANYTHING

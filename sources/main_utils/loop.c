@@ -16,6 +16,8 @@ void	loop(t_shell *shell)
 		if (check_tokens(shell->tokens))
 		{
 			shell->status = 2;
+			free_tokens(shell->tokens);
+			shell->tokens = NULL;
 			continue ;
 		}
 		expand(shell);
@@ -97,7 +99,10 @@ void	wait_pids(t_shell *shell)
 	if (current->builtin != NULL)
 		return ;
 	if (shell->here_doc)
+	{
+		waitpid(shell->id[shell->pipe_nbr], NULL, 0);
 		return ;
+	}
 	if (!shell->error_file)
 	{
 		shell->status = 0;
