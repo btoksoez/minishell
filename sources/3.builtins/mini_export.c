@@ -261,6 +261,7 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 	char	*new_var;
 	int		flag_append;
 	int		return_value;
+	t_args	*current;
 
 	var = NULL;
 	value = NULL;
@@ -276,24 +277,25 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 		print_env(copy);
 		return (EXIT_SUCCESS);
 	}
+	current = tree->args;
 	//for each arg
-	while (tree->args)
+	while (current)
 	{
-		// printf("args arg %s\n", tree->args->arg);
+		// printf("args arg %s\n", current->arg);
 		//get var
-		var = ft_strdup_delimiter_char(tree->args->arg, '=');
+		var = ft_strdup_delimiter_char(current->arg, '=');
 		//check var
-		if (ft_strlen(var) != ft_strlen(tree->args->arg))
+		if (ft_strlen(var) != ft_strlen(current->arg))
 			check_append(var, &flag_append);
 		if (check_var(var))
 		{
-			if (tree->args)
-				tree->args = tree->args->next;
+			if (current)
+				current = current->next;
 			return_value = 1;
 			continue;
 		}
 		//check for equal sign
-		if (ft_strlen(var) == ft_strlen(tree->args->arg))
+		if (ft_strlen(var) == ft_strlen(current->arg))
 		{
 			//check if it's in envp, if not then add it, else nothing
 			if (!is_inenvp(s->envp, var))
@@ -302,19 +304,19 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 		else
 		{
 			//get value from tokens
-			if (tree->args->space)
-				value = ft_strdup(ft_strchr(tree->args->arg, '=') + 1);
+			if (current->space)
+				value = ft_strdup(ft_strchr(current->arg, '=') + 1);
 			else
 			{
-				value = ft_strdup(ft_strchr(tree->args->arg, '=') + 1);
-				tree->args = tree->args->next;
-				while (tree->args->space == 0)
+				value = ft_strdup(ft_strchr(current->arg, '=') + 1);
+				current = current->next;
+				while (current->space == 0)
 				{
-					value = ft_strjoin(value, tree->args->arg);
-					tree->args = tree->args->next;
+					value = ft_strjoin(value, current->arg);
+					current = current->next;
 				}
-				if (tree->args)
-					value = ft_strjoin(value, tree->args->arg);
+				if (current)
+					value = ft_strjoin(value, current->arg);
 			}
 			// value = add_double_quotes(value);
 			new_var = ft_strjoin(var, "=");
@@ -326,8 +328,8 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 			else
 				add_env(s, value);
 		}
-		if (tree->args)
-			tree->args = tree->args->next;
+		if (current)
+			current = current->next;
 	}
 	ft_freematrix(copy);
 	return (return_value);

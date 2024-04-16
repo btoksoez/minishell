@@ -18,35 +18,40 @@ void	remove_entry_from_envp(char ***envp, int entry_index)
 	if (entry_index >= len || entry_index < 0)
 		return (error_message("remove entry error", NULL));
 	new_envp = malloc(sizeof(char *) * len);
-	while (j < len - 1)
-    {
-		if (j == entry_index)
-			i = 1;
-        new_envp[j] = (*envp)[i + j];
-        j++;
-    }
+	while (i < len)
+	{
+		if (i == entry_index) {
+			i++;
+			continue;
+		}
+		new_envp[j++] = ft_strdup((*envp)[i++]);
+	}
 	new_envp[j] = NULL;
-	i = 0;
+	ft_freematrix(*envp);
 	*envp = new_envp;
 }
 
 int	mini_unset(t_shell *s, t_tree_node *tree)
 {
-	int	i;
+	int		i;
+	t_args	*current;
 
-	while (tree->args)
+	if (!tree->args)
+		return (EXIT_SUCCESS);
+	current = tree->args;
+	while (current)
 	{
 		i = 0;
 		while (s->envp[i])
 		{
-			if (ft_strequ(s->envp[i], tree->args->arg))
+			if (ft_strequ(s->envp[i], current->arg))
 			{
 				remove_entry_from_envp(&(s->envp), i);
 				continue;	//don't increase i to stay at right position
 			}
 			i++;
 		}
-		tree->args = tree->args->next;
+		current = current->next;
 	}
 	return (EXIT_SUCCESS);
 }

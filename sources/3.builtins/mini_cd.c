@@ -79,8 +79,10 @@ int	specific_path(t_shell *s, char *str)
 	char	*tmp;
 	int		ret;
 
+	ret = 1;
 	tmp = find_path_ret(str, s);
-	ret = chdir(tmp);
+	if (tmp)
+		ret = chdir(tmp);
 	if (ret != 0)
 	{
 		str = ft_substr(str, 0, ft_strlen(str) - 1);
@@ -89,9 +91,10 @@ int	specific_path(t_shell *s, char *str)
 		free(str);
 		ft_putendl_fd(" not set", STDERR_FILENO);
 	}
-	if (ft_strcmp(str, "OLDPWD=") == 0)
+	if (tmp && ft_strcmp(str, "OLDPWD=") == 0)
 		ft_putendl_fd(tmp, STDERR_FILENO);
-	free(tmp);
+	if (tmp)
+		free(tmp);
 	return (ret);
 }
 
@@ -124,19 +127,6 @@ int	mini_cd(t_shell *s, t_tree_node *tree)
 	change_path(s);
 	add_path_to_env(s);
 	return (EXIT_SUCCESS);
-
-
-	// // print_test_cd(s);
-	// if (chdir(new_cd))	//changes directory of process
-	// {
-	// 	ft_putstr_fd("path not set", STDERR_FILENO);	//this protection shouldn't be necessary because we already check it in extend_path
-	// 	return (EXIT_FAILURE);
-	// }
-	// change_directory(s);	//modifies environment variables
-	// // print_test_cd(s);
-	// if (new_cd)
-	// 	free(new_cd);
-
 }
 
 

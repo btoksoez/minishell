@@ -56,10 +56,7 @@ void	add_arg(t_args **args, t_tokens *current)
 	new_arg = (t_args *)malloc(sizeof(t_args));
 	if (!new_arg)
 		return (error_message("malloc error args", NULL));
-	// if (current->value != NULL)
 	new_arg->arg = current->value;
-	// else
-	// 	new_arg->arg = NULL;
 	new_arg->next = NULL;
 	new_arg->space = current->space;
 	if (!*args)

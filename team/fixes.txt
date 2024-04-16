@@ -3,19 +3,11 @@ TESTS TO FIX:
 
 12. readline: when writing over line, need to handle?
 
-13. freeing after signals in heredoc
-
 12. make protections in libft
 
+exit 111111111111111111111111111111111
 
-12. invalid file close invalid fd
-
-13. HEREDOC: cat < dedek << ola
-when exiting with delimiter/ctrl-d, wait4(pid)...
-
-15. unset HOME -> cd
-
-14. unset PWD -> pwd ->exit (LEAKS)
+$EMPTY echo hi
 
 (LEAKS)
 13. export hi
@@ -26,8 +18,23 @@ when exiting with delimiter/ctrl-d, wait4(pid)...
 
 
 FIXED TESTS:
+(FIXED) (HAD LEAKS)
+unset HOME
+cd
+exit
+
+(FIXED)
+exit 1-1
+
+(FIXED)
+14. unset PWD -> pwd ->exit
+
 (FIXED)
 16. $/ EXPANDER leaks with rnadom input in front
+
+(FIXED)
+13. HEREDOC: cat < dedek << ola
+when exiting with delimiter/ctrl-d, wait4(pid)...
 $? also leaks
 
 (FIXED)

@@ -17,8 +17,15 @@ int	env_exists(t_shell *s, char *env)
 /*if the important ones are missing */
 void	add_missing_env(t_shell *s)
 {
+	char	*cwd;
+
+	cwd = NULL;
 	if (!env_exists(s, "PWD="))
-		add_env(s, ft_strjoin("PWD=", getcwd(NULL, 0)));
+	{
+		cwd = getcwd(NULL, 0);
+		add_env(s, ft_strjoin("PWD=", cwd));
+		free(cwd);
+	}
 }
 
 void	copy_envp(t_shell *shell, char **envp)
@@ -56,7 +63,7 @@ void	init_missing_env(t_shell *shell)
 		shell->envp[0] = ft_strjoin("HOME=", path);
 		shell->envp[1] = ft_strjoin("PWD=", path);
 		shell->envp[2] = ft_strjoin("OLDPWD=", path);
-		shell->envp[3] = ft_strdup("SHLVL=0");
+		shell->envp[3] = ft_strdup("SHLVL=1");
 		shell->envp[4] = ft_strdup("_=/usr/bin/env");
 		shell->envp[5] = ft_strdup("TERM=xterm-256color");
 		shell->envp[6] = NULL;
@@ -81,6 +88,8 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->builtins = 0;
 	shell->fd = NULL;
 	shell->id = NULL;
+	shell->oldpwd = NULL;
+	shell->pwd = NULL;
 	shell->id_exec = NULL;
 	shell->line = NULL;
 	shell->tree = NULL;
