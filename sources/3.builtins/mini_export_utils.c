@@ -6,7 +6,7 @@
 /*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:35:24 by btoksoez          #+#    #+#             */
-/*   Updated: 2024/04/17 14:35:47 by btoksoez         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:23:02 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	print_env(char **env)
 		return ;
 	while (env[i])
 	{
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		ft_putendl_fd(env[i], STDOUT_FILENO);
 		i++;
 	}

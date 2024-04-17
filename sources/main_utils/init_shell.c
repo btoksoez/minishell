@@ -26,6 +26,8 @@ void	add_missing_env(t_shell *s)
 		add_env(s, ft_strjoin("PWD=", cwd));
 		free(cwd);
 	}
+	if (!env_exists(s, "SHLVL="))
+		add_env(s, ft_strdup("SHLVL=0"));
 }
 
 void	copy_envp(t_shell *shell, char **envp)
