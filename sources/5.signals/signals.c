@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 14:46:43 by btoksoez          #+#    #+#             */
+/*   Updated: 2024/04/17 14:46:44 by btoksoez         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 /* replaces line but doesn't show new prompt */
@@ -13,7 +25,7 @@ void	sigint_handler(int sig)
 void	sigint_handler_prompt(int sig)
 {
 	t_info	info;
-	
+
 	(void)sig;
 	info = exit_info(NULL);
 	info.info->status = 130;
@@ -35,19 +47,19 @@ t_info	exit_info(t_shell *shell)
 void	heredoc_handler(int sig)
 {
 	t_info	info;
-	
+
 	(void)sig;
 	info = exit_info(NULL);
 	clean_up(info.info, false);
 	if (info.info->fds_heredoc[WRITE_END] > 0)
-		close(info.info->fds_heredoc[WRITE_END]);	
+		close(info.info->fds_heredoc[WRITE_END]);
 	exit(130);
 }
 
 /* receives signals and calls sigint handler with a certain int sig */
 void	signals(int n)
 {
-	signal(SIGQUIT, SIG_IGN);	//ignore sigquit
+	signal(SIGQUIT, SIG_IGN);
 	if (n == MAIN)
 		signal(SIGINT, sigint_handler);
 	else if (n == MAIN_PROMPT)

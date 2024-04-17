@@ -106,7 +106,6 @@ typedef struct s_shell
 	char				*line;
 	int					infile;
 	int					outfile;
-	int					child_flag;
 	bool				here_doc;
 	bool				reseted;
 	char				*error_file;
@@ -123,7 +122,7 @@ typedef struct	s_tree_node
 {
 	t_tree_type			type;
 	char				*cmd;
-	int					(*builtin)(t_shell *shell, struct s_tree_node *cmd_node);	//stores builtin function pointer
+	int					(*builtin)(t_shell *s, struct s_tree_node *cmd_node);	//stores builtin function pointer
 	struct s_args		*args;
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
@@ -154,20 +153,22 @@ void			add_missing_env(t_shell *s);
 /*--------------------------------------------------------------------------------------*/
 t_tree_node		*parse_commandline(t_tokens *tokens_start, t_shell *shell);
 t_tree_node		*add_ast_node(void);
-void			add_redir_list(t_redir_list **head, t_token_type type, char *filename);
+void			add_redir_list(t_redir_list **head, t_token_type type, char *file);
 void			add_arg(t_args **args, t_tokens *current);
 int				tokens_len(t_tokens *tokens_start, t_tokens *tokens_end);
-t_tree_node		*parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end, t_shell *shell);
+t_tree_node		*parse_cmd(t_tokens *t_start, t_tokens *t_end, t_shell *shell);
 void			count_pipes(t_shell *shell);
 bool			check_syntax_errors(char *line);
 bool			check_quotation_marks(char *line);
 bool			check_pipes(char *line);
 void			clean_up(t_shell *shell, bool print_msg);
 bool			check_tokens(t_tokens *tokens);
+void			ft_cmd_node(t_tree_node *cmd_node, t_tokens *current, t_shell *shell);
 
 /*--------------------------------------tokenization------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
 t_tokens		*tokenize(t_shell *shell);
+char			*trim_line(char *line, char *set);
 t_tokens		*get_tokens(char *line);
 char			*handle_single_quotes(char *start, t_tokens *token);
 char			*handle_double_quotes(char *start, t_tokens *token);
@@ -188,6 +189,7 @@ void			del_token(t_tokens **head, t_tokens *node);
 char			*token_qm(char *start, t_tokens *token);
 void			remove_spaces(t_tokens **tokens);
 void			remove_empty_tokens(t_tokens **tokens);
+void			pre_parse_tokens(t_tokens *tokens);
 
 /*--------------------------------------expansion---------------------------------------*/
 /*--------------------------------------------------------------------------------------*/
@@ -215,6 +217,18 @@ int				export_error(char *c);
 int				check_valid_identifier(char c);
 void			get_env_vars(t_shell *s);
 void			add_env(t_shell *s, char *var);
+void			change_path(t_shell *shell);
+char			*find_path_ret(char *str, t_shell *s);
+void			add_value(t_args *current, int flag_append, char *var, t_shell *s);
+void			sort_env(char **envp);
+char			**copy_env(char **envp);
+void			print_env(char **env);
+int				is_inenvp(char **env, char *var);
+void			add_env(t_shell *s, char *var);
+void			append_env(char **s, char *var, char *value);
+int				check_var(char *var);
+void			check_append(char *var, int *flag_append);
+
 
 /*-------------------------------------execution----------------------------------------*/
 /*--------------------------------------------------------------------------------------*/

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_unset.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 14:16:50 by btoksoez          #+#    #+#             */
+/*   Updated: 2024/04/17 14:16:51 by btoksoez         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 /* accepts one argument, remove it in envp
@@ -5,9 +17,9 @@ if no args, error message and return */
 
 void	remove_entry_from_envp(char ***envp, int entry_index)
 {
-	int	len;
-	int	i;
-	int	j;
+	int		len;
+	int		i;
+	int		j;
 	char	**new_envp;
 
 	len = 0;
@@ -20,9 +32,10 @@ void	remove_entry_from_envp(char ***envp, int entry_index)
 	new_envp = malloc(sizeof(char *) * len);
 	while (i < len)
 	{
-		if (i == entry_index) {
+		if (i == entry_index)
+		{
 			i++;
-			continue;
+			continue ;
 		}
 		new_envp[j++] = ft_strdup((*envp)[i++]);
 	}
@@ -47,7 +60,7 @@ int	mini_unset(t_shell *s, t_tree_node *tree)
 			if (ft_strequ(s->envp[i], current->arg))
 			{
 				remove_entry_from_envp(&(s->envp), i);
-				continue;	//don't increase i to stay at right position
+				continue ;
 			}
 			i++;
 		}

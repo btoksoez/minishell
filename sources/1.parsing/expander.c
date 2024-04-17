@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 12:50:59 by btoksoez          #+#    #+#             */
+/*   Updated: 2024/04/17 13:00:32 by btoksoez         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 char	*find_and_replace(t_shell *shell, char *org_str)
@@ -29,6 +41,12 @@ char	*find_and_replace(t_shell *shell, char *org_str)
 	return (result);
 }
 
+void	expand_status(t_shell *shell, t_tokens *current)
+{
+	free(current->value);
+	current->value = ft_itoa(shell->status);
+}
+
 /* expands environment variables in the token list,
 replacing them by their value or by a empty string (\0\0) */
 void	expand(t_shell *shell)
@@ -44,14 +62,9 @@ void	expand(t_shell *shell)
 		{
 			if (current->previous && current->previous->type == HEREDOC)
 			{
-				current = current->next;
-				continue ;
 			}
 			else if (!ft_strcmp(current->value, "$?"))
-			{
-				free(current->value);
-				current->value = ft_itoa(shell->status);
-			}
+				expand_status(shell, current);
 			else if (ft_strcmp(current->value, "$$"))
 			{
 				temp = current->value;

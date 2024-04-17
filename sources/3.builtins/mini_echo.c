@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_echo.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 14:00:10 by btoksoez          #+#    #+#             */
+/*   Updated: 2024/04/17 14:00:11 by btoksoez         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-int	only_n(char *str)
+int	only_n(char *str, int *flag)
 {
 	if (!str)
 		return (0);
@@ -10,7 +22,15 @@ int	only_n(char *str)
 			return (0);
 		str++;
 	}
+	*flag = 0;
 	return (1);
+}
+
+void	put_arg(t_args *current)
+{
+	ft_putstr_fd(current->arg, 1);
+	if (current->next && current->space)
+		ft_putchar_fd(' ', 1);
 }
 
 /* take all args as input and write to STDOUT (with space in between)
@@ -21,27 +41,19 @@ int	mini_echo(t_shell *shell, t_tree_node *cmd_node)
 	t_args	*current;
 
 	if (!cmd_node || !cmd_node->args)
-	{
-		ft_putchar_fd('\n', 1);
-		return (EXIT_SUCCESS);
-	}
+		return (ft_putchar_fd('\n', 1), EXIT_SUCCESS);
 	nl_flag = 1;
 	current = cmd_node->args;
-	while (current && ft_strncmp(current->arg, "-n", 2) == 0)	//first arg after echo is -n, set first arg to next one
+	while (current && ft_strncmp(current->arg, "-n", 2) == 0)
 	{
-		if (only_n(current->arg + 1))
-		{
-			nl_flag = 0;
+		if (only_n(current->arg + 1, &nl_flag))
 			current = current->next;
-		}
 		else
 			break ;
 	}
 	while (current)
 	{
-		ft_putstr_fd(current->arg, 1);
-		if (current->next && current->space)
-			ft_putchar_fd(' ', 1);
+		put_arg(current);
 		current = current->next;
 	}
 	if (nl_flag)
@@ -49,11 +61,3 @@ int	mini_echo(t_shell *shell, t_tree_node *cmd_node)
 	shell->status = 0;
 	return (EXIT_SUCCESS);
 }
-
-// int main(void)
-// {
-// 	printf("%d\n", only_n("nnnnnn"));
-// 	printf("%d\n", only_n("n"));
-// 	printf("%d\n", only_n("nnnnnna"));
-// 	printf("%d\n", only_n(NULL));
-// }
