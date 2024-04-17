@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:38:27 by andre-da          #+#    #+#             */
-/*   Updated: 2023/10/18 14:50:56 by andre-da         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:21:34 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	**ft_split(char const *s, char c)
 {
 	char	**str;
 
+	if (!s)
+		return (NULL);
 	str = (char **)malloc(sizeof(char *) * (ft_cwords(s, c) + 1));
 	if (str == NULL)
 		return (NULL);

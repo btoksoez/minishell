@@ -37,13 +37,19 @@ void	expand(t_shell *shell)
 	char		*temp;
 
 	current = shell->tokens;
+	temp = NULL;
 	while (current)
 	{
-		if (current->type == 6 || (current->type == 6 && current->previous && current->previous->type != HEREDOC))
+		if (current->type == 6)
 		{
-			// if (current->previous)
-			// 	fprintf(stderr, "current pervious: %s %d\n", current->previous->value, current->previous->type);
-			if (ft_strcmp(current->value, "$$"))
+			if (current->previous && current->previous->type == HEREDOC)
+			{
+				current = current->next;
+				continue ;
+			}
+			else if (!ft_strcmp(current->value, "$?"))
+				current->value = ft_itoa(shell->status);
+			else if (ft_strcmp(current->value, "$$"))
 			{
 				temp = current->value;
 				current->value = find_and_replace(shell, temp);

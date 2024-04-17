@@ -6,14 +6,14 @@
 /*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 12:25:16 by andrealbuqu       #+#    #+#             */
-/*   Updated: 2024/03/29 13:56:06 by btoksoez         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:25:19 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 static void		ft_free(int *nl_finder, char *buffer);
-size_t	ft_stringlen(const char *s);
+size_t			ft_stringlen(const char *s);
 static char		*ft_stringjoin(char *s1, char *s2);
 
 char	*get_next_line(int fd)
@@ -78,13 +78,13 @@ static char	*ft_stringjoin(char *s1, char *s2)
 {
 	int		i;
 	int		j;
-	int		tlenght;
+	int		tlength;
 	char	*n_str;
 
 	i = 0;
 	j = 0;
-	tlenght = ft_stringlen(s1) + ft_stringlen(s2) + 1;
-	n_str = (char *)malloc(sizeof(char) * tlenght);
+	tlength = ft_stringlen(s1) + ft_stringlen(s2) + 1;
+	n_str = (char *)malloc(sizeof(char) * tlength);
 	if (!n_str)
 		return (free(s1), NULL);
 	while (s1 && s1[i])

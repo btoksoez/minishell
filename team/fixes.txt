@@ -4,20 +4,19 @@ TESTS TO FIX:
 
 
 
-exit djgsedjged
-
-exit 1-1
-        segfaults
 
 
 
-
-cat << $USER -> don't expand
 
 
 
 
 ## FIXED TESTS: ##
+
+exit djgsedjged
+        segfaults
+exit 1-1
+        segfaults
 
 export hi=$USER
 
@@ -27,6 +26,7 @@ echo -n -nnna hello
 
 ctrl c with no input: 130 exit code
 
+cat << $USER -> don't expand
 
 unset PATH
 any command

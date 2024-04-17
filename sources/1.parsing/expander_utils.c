@@ -23,9 +23,7 @@ char	*get_env(t_shell *shell, char *str)
 {
 	char	*env_value;
 
-	if (*str == '?')
-		return (ft_itoa(shell->status));
-	else if (*str == '$')
+	if (*str == '$')
 		return ("$$");
 	env_value = get_env_shell(shell, str);
 	if (!env_value)
@@ -55,6 +53,8 @@ char	*ft_strdup_until(char *s)
 	char	*dup;
 	char	*end;
 
+	if (!s)
+		return (NULL);
 	end = find_env(s);
 	if (end == NULL)
 		return (s);
