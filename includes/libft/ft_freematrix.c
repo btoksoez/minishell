@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_freematrix.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 12:06:34 by andrealbuqu       #+#    #+#             */
-/*   Updated: 2024/04/17 11:17:10 by btoksoez         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:07:49 by andrealbuqu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

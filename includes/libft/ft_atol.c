@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 16:50:25 by andrealbuqu       #+#    #+#             */
-/*   Updated: 2024/04/17 11:16:45 by btoksoez         ###   ########.fr       */
+/*   Updated: 2023/12/14 16:51:01 by andrealbuqu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ long	ft_atol(const char *str)
 	i = 0;
 	sign = 1;
 	nbr = 0;
-	if (!str)
-		return (0);
 	if (str[i] == '+' || str[i] == '-')
 	{
 		if (str[i] == '-')

@@ -6,7 +6,7 @@
 /*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 13:27:31 by andre-da          #+#    #+#             */
-/*   Updated: 2024/04/17 11:16:00 by btoksoez         ###   ########.fr       */
+/*   Updated: 2024/04/05 12:48:11 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	ft_atoi(const char *nptr)
 	int	sign;
 	int	result;
 
-	if (!nptr)
-		return (0);
 	i = 0;
 	sign = 1;
 	result = 0;

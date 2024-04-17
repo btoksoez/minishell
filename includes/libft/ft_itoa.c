@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 12:20:06 by andre-da          #+#    #+#             */
-/*   Updated: 2024/04/17 11:18:36 by btoksoez         ###   ########.fr       */
+/*   Updated: 2023/10/11 18:59:13 by andre-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_length(int f);
+static int	ft_lenght(int f);
 
 char	*ft_itoa(int n)
 {
 	char	*str;
 	int		i;
 
-	i = ft_length(n);
+	i = ft_lenght(n);
 	str = (char *)malloc((i * sizeof(char)) + 1);
 	if (str == NULL)
 		return (NULL);
@@ -43,7 +43,7 @@ char	*ft_itoa(int n)
 	return (str);
 }
 
-static int	ft_length(int n)
+static int	ft_lenght(int n)
 {
 	int	i;
 	int	c;

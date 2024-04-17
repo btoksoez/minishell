@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 13:46:51 by andre-da          #+#    #+#             */
-/*   Updated: 2024/04/17 11:16:39 by btoksoez         ###   ########.fr       */
+/*   Updated: 2023/10/10 18:14:21 by andre-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	ft_bzero(void *s, size_t n)
 
 	i = 0;
 	temp = s;
-	if (!s)
-		return ;
 	if (n == 0)
 		return ;
 	while (i < n)
