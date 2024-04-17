@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:55:07 by andre-da          #+#    #+#             */
-/*   Updated: 2024/04/17 15:05:14 by andre-da         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:41:26 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,8 @@ void		get_status(t_shell *shell, int status);
 void		wait_pids(t_shell *shell);
 void		increase_shlvl(t_shell *s);
 void		add_missing_env(t_shell *s);
+void		close_wait_reset(t_shell *shell);
+void		prepare_tokens(t_shell *shell);
 
 /*---------------------------------parsing-----------------------------------*/
 /*---------------------------------------------------------------------------*/
@@ -164,7 +166,6 @@ t_tree_node	*parse_commandline(t_tokens *tokens_start, t_shell *shell);
 t_tree_node	*add_ast_node(void);
 void		add_redir_list(t_redir_list **head, t_token_type type, char *file);
 void		add_arg(t_args **args, t_tokens *current);
-int			tokens_len(t_tokens *tokens_start, t_tokens *tokens_end);
 t_tree_node	*parse_cmd(t_tokens *t_start, t_tokens *t_end, t_shell *shell);
 void		count_pipes(t_shell *shell);
 bool		check_syntax_errors(char *line);
@@ -172,6 +173,7 @@ bool		check_quotation_marks(char *line);
 bool		check_pipes(char *line);
 void		clean_up(t_shell *shell, bool print_msg);
 bool		check_tokens(t_tokens *tokens);
+void		ft_cmd_node(t_tree_node *cmd_node, t_tokens *current, t_shell *shell);
 
 /*---------------------------------tokenization------------------------------*/
 /*---------------------------------------------------------------------------*/
@@ -188,14 +190,14 @@ t_tokens	*token_init(void);
 char		*ft_strdup_delimiter_char(const char *s, char delimiter);
 char		*ft_strdup_delimiter_string(const char *s, char *delimiter);
 char		*ft_strdup_while_string(const char *s, char *delimiter);
-char		*skip_whitespace_and_empty_quotes(char *line);
 char		*skip_whitespace(char *line);
 int			args_len(t_args *args);
 char		*token_dollar(char *start, t_tokens *token);
 void		del_token(t_tokens **head, t_tokens *node);
-char		*token_qm(char *start, t_tokens *token);
 void		remove_spaces(t_tokens **tokens);
 void		remove_empty_tokens(t_tokens **tokens);
+char		*trim_line(char *line, char *set);
+void		pre_parse_tokens(t_tokens *tokens);
 
 /*---------------------------------expansion---------------------------------*/
 /*---------------------------------------------------------------------------*/
@@ -221,6 +223,16 @@ int			export_error(char *c);
 int			check_valid_identifier(char c);
 void		get_env_vars(t_shell *s);
 void		add_env(t_shell *s, char *var);
+void		print_env(char **env);
+char		*find_path_ret(char *str, t_shell *s);
+void		change_path(t_shell *shell);
+int			is_inenvp(char **env, char *var);
+void		check_append(char *var, int *flag_append);
+int			check_var(char *var);
+void		add_value(t_args *current, int flag_append, char *var, t_shell *s);
+char		**copy_env(char **envp);
+void		sort_env(char **envp);
+void		append_env(char **s, char *var, char *value);
 
 /*--------------------------------execution----------------------------------*/
 /*---------------------------------------------------------------------------*/

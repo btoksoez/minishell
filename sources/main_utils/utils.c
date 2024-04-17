@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:52:57 by andre-da          #+#    #+#             */
-/*   Updated: 2024/04/17 15:02:49 by andre-da         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:41:02 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,20 @@ void	increase_shlvl(t_shell *s)
 		}
 		i++;
 	}
+}
+
+void	prepare_tokens(t_shell *shell)
+{
+	expand(shell);
+	remove_spaces(&shell->tokens);
+	remove_empty_tokens(&shell->tokens);
+}
+
+void	close_wait_reset(t_shell *shell)
+{
+	close_all_fds(shell, false);
+	wait_pids(shell);
+	reset(shell);
 }
 
 void	get_status(t_shell *shell, int status)

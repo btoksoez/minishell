@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_syntax.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 12:49:40 by btoksoez          #+#    #+#             */
+/*   Updated: 2024/04/17 12:50:25 by btoksoez         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 bool	check_quotation_marks(char *line)
@@ -8,13 +20,15 @@ bool	check_quotation_marks(char *line)
 		{
 			line = ft_strchr(line + 1, '\"');
 			if (!line)
-				return (error_message("parse error: unclosed quote", NULL), true);
+				return (error_message("parse error: unclosed quote", NULL),
+					true);
 		}
 		else if (*line == '\'')
 		{
 			line = ft_strchr(line + 1, '\'');
 			if (!line)
-				return (error_message("parse error: unclosed quote", NULL), true);
+				return (error_message("parse error: unclosed quote", NULL),
+					true);
 		}
 		line++;
 	}

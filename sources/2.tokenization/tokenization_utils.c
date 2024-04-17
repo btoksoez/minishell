@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenization_utils.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 13:13:55 by btoksoez          #+#    #+#             */
+/*   Updated: 2024/04/17 13:16:40 by btoksoez         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 char	*ft_strdup_delimiter_char(const char *s, char delimiter)
@@ -63,22 +75,6 @@ char	*ft_strdup_while_string(const char *s, char *delimiter)
 	return (dup);
 }
 
-/* checks whether the current and next char are empty quotes or whitespace and skips them,
-else returns current position */
-char	*skip_whitespace_and_empty_quotes(char *line)
-{
-	while ((ft_strchr(WHITESPACE, *line)
-		|| (*line == '\'' && *(line + 1) == '\'')
-		|| (*line == '\"' && *(line + 1) == '\"')) && *line)
-	{
-		if (*line == '\'' || *line == '\"')
-			line += 2;
-		else
-			line++;
-	}
-	return line;
-}
-
 char	*skip_whitespace(char *line)
 {
 	while (ft_strchr(WHITESPACE, *line) && *line)
@@ -100,69 +96,4 @@ t_tokens	*add_node_back(t_tokens *previous)
 	new->type = 0;
 	new->space = 0;
 	return (new);
-}
-
-t_tokens	*token_init(void)
-{
-	t_tokens	*new;
-
-	new = (t_tokens *)malloc(sizeof(t_tokens));
-	if (!new)
-		return (error_message("malloc error: token init", NULL), NULL);
-	new->previous = NULL;
-	new->next = NULL;
-	new->value = NULL;
-	new->type = 0;
-	new->space = 0;
-	return (new);
-}
-
-int	tokens_len(t_tokens *tokens_start, t_tokens *tokens_end)
-{
-	int	len;
-	t_tokens	*current;
-
-	current = tokens_start;
-	len = 0;
-	while (current != tokens_end && current->next)
-	{
-		current = current->next;
-		len++;
-	}
-	return (len);
-}
-int	args_len(t_args *args)
-{
-	int	len;
-
-	len = 0;
-	if (!args)
-		return (len);
-	while (args)
-	{
-		args = args->next;
-		len++;
-	}
-	return (len);
-}
-
-void	del_token(t_tokens **head, t_tokens *node)
-{
-	if (*head == NULL || node == NULL)
-		return ;
-	if (*head == node)
-	{
-		*head = node->next;
-		if (*head)
-			(*head)->previous = NULL;
-		free(node->value);
-		free(node);
-		return ;
-	}
-	if (node->previous)
-		node->previous->next = node->next;
-	if (node->next)
-		node->next->previous = node->previous;
-	free(node->value);
-	free(node);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:28:24 by andre-da          #+#    #+#             */
-/*   Updated: 2024/04/17 15:02:23 by andre-da         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:40:57 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,12 @@ void	loop(t_shell *shell)
 			shell->tokens = NULL;
 			continue ;
 		}
-		expand(shell);
-		remove_spaces(&shell->tokens);
-		remove_empty_tokens(&shell->tokens);
+		prepare_tokens(shell);
 		if (!shell->tokens)
 			continue ;
 		shell->tree = parse_commandline(shell->tokens, shell);
 		execute(shell);
-		close_all_fds(shell, false);
-		wait_pids(shell);
-		reset(shell);
+		close_wait_reset(shell);
 	}
 }
 
@@ -90,6 +86,7 @@ void	reset(t_shell *shell)
 	shell->fd = NULL;
 	shell->id = NULL;
 	shell->tree = NULL;
+	shell->id_exec = NULL;
 	shell->error_file = NULL;
 	shell->fds_heredoc[READ_END] = 0;
 	shell->fds_heredoc[WRITE_END] = 0;
