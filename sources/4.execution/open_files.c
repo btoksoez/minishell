@@ -127,7 +127,7 @@ bool	open_files(t_shell *shell, t_redir_list *file)
 			else if (errno == ENOTDIR)
 				return (error_message("minishell: not a directory: ", shell->error_file), false);
 		}
-		if (flag_out && access(shell->error_file, R_OK) != 0)
+		if (flag_out && access(shell->error_file, W_OK) != 0)
 		{
 			if (errno == EACCES)
 				return (error_message("minishell: permission denied: ", shell->error_file), false);

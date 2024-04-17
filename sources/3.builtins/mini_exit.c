@@ -9,6 +9,8 @@ int	is_digit_string(char *str)
 	i = 0;
 	sign = 1;
 	result = 0;
+	if (ft_strlen(str) > 18)
+		return (0);
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '-' || str[i] == '+')
@@ -63,8 +65,11 @@ int	mini_exit(t_shell *shell, t_tree_node *tree)
 		ft_putstr_fd(current->arg, STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		shell->status = 2;
-		return (shell->status);
-
+		if (exit_flag)
+		{
+			clean_up(shell, false);
+			exit(2);
+		}
 	}
 	if (current->next)
 	{

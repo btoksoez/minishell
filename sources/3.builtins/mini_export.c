@@ -140,8 +140,8 @@ void	append_env(char **s, char *var, char *value)
 		free(current_value);
 	free(append_value);
 	free(new_value);
-	free(var);
 	free(new_var);
+	free(value);
 }
 
 /* if append flag, it should find var*/
@@ -257,6 +257,7 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 {
 	char	*var;
 	char	*value;
+	char	*new_value;
 	char	**copy;
 	char	*new_var;
 	int		flag_append;
@@ -275,6 +276,7 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 	if (!tree->args)
 	{
 		print_env(copy);
+		ft_freematrix(copy);
 		return (EXIT_SUCCESS);
 	}
 	current = tree->args;
@@ -292,6 +294,7 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 			if (current)
 				current = current->next;
 			return_value = 1;
+			free(var);
 			continue;
 		}
 		//check for equal sign
@@ -300,33 +303,22 @@ int	mini_export(t_shell *s, t_tree_node *tree)
 			//check if it's in envp, if not then add it, else nothing
 			if (!is_inenvp(s->envp, var))
 				add_env(s, var);
+			else
+				free(var);
 		}
 		else
 		{
-			//get value from tokens
-			if (current->space)
-				value = ft_strdup(ft_strchr(current->arg, '=') + 1);
-			else
-			{
-				value = ft_strdup(ft_strchr(current->arg, '=') + 1);
-				current = current->next;
-				while (current->space == 0)
-				{
-					value = ft_strjoin(value, current->arg);
-					current = current->next;
-				}
-				if (current)
-					value = ft_strjoin(value, current->arg);
-			}
-			// value = add_double_quotes(value);
+			new_value = ft_strdup(ft_strchr(current->arg, '=') + 1);
 			new_var = ft_strjoin(var, "=");
-			value = ft_strjoin(new_var, value);
+			value = ft_strjoin(new_var, new_value);
+			free(new_value);
 			free(new_var);
 			//check if var in s->envp already, if yes replace, else add
 			if (is_inenvp(s->envp, var))
 				replace_env(s, var, value, flag_append);
 			else
 				add_env(s, value);
+			free(var);
 		}
 		if (current)
 			current = current->next;

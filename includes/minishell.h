@@ -15,6 +15,7 @@
 # define SINGLE_TOKENS "<>|"
 # define WHITESPACE " \t\n\v\f\r"
 # define WHITESPACE_DOLLAR " \t\n\v\f\r$"
+# define LETTERS_DIGITS "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"
 # define WHITESPACE_DOLLAR_SINGLE " \t\n\v\f\r$\'"
 # define WHITESPACE_QUOTES " \t\n\v\f\r\'\""
 # define WHITESPACE_Q_D " \t\n\v\f\r\'\"$?<>|"
@@ -178,13 +179,15 @@ t_tokens		*add_node_back(t_tokens *previous);
 t_tokens		*token_init(void);
 char			*ft_strdup_delimiter_char(const char *s, char delimiter);
 char			*ft_strdup_delimiter_string(const char *s, char *delimiter);
+char			*ft_strdup_while_string(const char *s, char *delimiter);
 char			*skip_whitespace_and_empty_quotes(char *line);
 char			*skip_whitespace(char *line);
 int				args_len(t_args *args);
 char			*token_dollar(char *start, t_tokens *token);
 void			del_token(t_tokens **head, t_tokens *node);
 char			*token_qm(char *start, t_tokens *token);
-void			remove_spaces(t_tokens *tokens);
+void			remove_spaces(t_tokens **tokens);
+void			remove_empty_tokens(t_tokens **tokens);
 
 /*--------------------------------------expansion---------------------------------------*/
 /*--------------------------------------------------------------------------------------*/

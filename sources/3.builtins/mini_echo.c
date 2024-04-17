@@ -1,5 +1,18 @@
 #include "../../includes/minishell.h"
 
+int	only_n(char *str)
+{
+	if (!str)
+		return (0);
+	while (*str)
+	{
+		if (*str != 'n')
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
 /* take all args as input and write to STDOUT (with space in between)
 if first arg is -n, then don't write newline */
 int	mini_echo(t_shell *shell, t_tree_node *cmd_node)
@@ -16,8 +29,13 @@ int	mini_echo(t_shell *shell, t_tree_node *cmd_node)
 	current = cmd_node->args;
 	while (current && ft_strncmp(current->arg, "-n", 2) == 0)	//first arg after echo is -n, set first arg to next one
 	{
-		nl_flag = 0;
-		current = current->next;
+		if (only_n(current->arg + 1))
+		{
+			nl_flag = 0;
+			current = current->next;
+		}
+		else
+			break ;
 	}
 	while (current)
 	{
@@ -31,3 +49,11 @@ int	mini_echo(t_shell *shell, t_tree_node *cmd_node)
 	shell->status = 0;
 	return (EXIT_SUCCESS);
 }
+
+// int main(void)
+// {
+// 	printf("%d\n", only_n("nnnnnn"));
+// 	printf("%d\n", only_n("n"));
+// 	printf("%d\n", only_n("nnnnnna"));
+// 	printf("%d\n", only_n(NULL));
+// }

@@ -1,25 +1,53 @@
 TESTS TO FIX:
 
-12. readline: when writing over line, need to handle?
-
 12. make protections in libft
 
-exit 111111111111111111111111111111111
-
-$EMPTY echo hi
-
-(LEAKS)
-13. export hi
-13. export hi += 123
-14. export
-14. export $&@#&#
 
 
-FIXED TESTS:
+
+
+
+
+
+
+
+## FIXED TESTS: ##
+
+exit djgsedjged
+        segfaults
+exit 1-1
+        segfaults
+
+export hi=$USER
+
+echo -n -nnna hello
+
+12. readline: when writing over line, need to handle?
+
+ctrl c with no input: 130 exit code
+
+cat << $USER -> don't expand
+
+unset PATH
+any command
+
 (FIXED) (HAD LEAKS)
 unset HOME
 cd
 exit
+
+echo $USER.123 (only delimiter are letters or numbers or underscore)
+
+exit 111111111111111111111111111111111
+
+(FIXED)
+$EMPTY echo hi
+
+(LEAKS FIXED)
+13. export hi
+13. export hi += 123
+14. export
+14. export $&@#&#
 
 (FIXED)
 exit 1-1
@@ -86,13 +114,9 @@ echo ?
 correct: ?
 output:  infinite loop
 
-(FIXED) (STILL LEAKS)
-unset PATH
-correct: works with /usr/bin/cmd & /bin/cmd
-output:  minishell: command not found: cmd
---> leaks when no path given
 
-(FIXED) (STILL LEAKS) after expander
+
+(FIXED) after expander
 $ANYTHING
 $?
 correct: int i.e 0
