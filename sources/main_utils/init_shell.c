@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_shell.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 13:28:22 by andre-da          #+#    #+#             */
+/*   Updated: 2024/04/17 15:05:03 by andre-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int	env_exists(t_shell *s, char *env)
@@ -14,7 +26,6 @@ int	env_exists(t_shell *s, char *env)
 	return (0);
 }
 
-/*if the important ones are missing */
 void	add_missing_env(t_shell *s)
 {
 	char	*cwd;
@@ -50,7 +61,6 @@ void	copy_envp(t_shell *shell, char **envp)
 	increase_shlvl(shell);
 }
 
-/* if all envs are unset */
 void	init_missing_env(t_shell *shell)
 {
 	char	path[1024];
@@ -71,8 +81,6 @@ void	init_missing_env(t_shell *shell)
 	}
 }
 
-//add extract_user() function
-
 void	init_shell(t_shell *shell, char **envp)
 {
 	if (!*envp || !envp)
@@ -83,16 +91,15 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->outfile = 0;
 	shell->here_doc = 0;
 	shell->pipe_nbr = 0;
-	shell->child_flag = 0;
 	shell->status = 0;
 	shell->builtins = 0;
 	shell->fd = NULL;
 	shell->id = NULL;
-	shell->oldpwd = NULL;
-	shell->pwd = NULL;
 	shell->id_exec = NULL;
 	shell->line = NULL;
 	shell->tree = NULL;
+	shell->oldpwd = NULL;
+	shell->pwd = NULL;
 	shell->reseted = false;
 	shell->tokens = NULL;
 	shell->error_file = NULL;

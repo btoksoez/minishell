@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   printing_tests.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 13:28:27 by andre-da          #+#    #+#             */
+/*   Updated: 2024/04/17 13:31:32 by andre-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-
-void	print_tokens(t_tokens *head)
+/* void	print_tokens(t_tokens *head)
 {
 	t_tokens	*current = head;
 	int			index = 1;
@@ -16,7 +27,8 @@ void	print_tokens(t_tokens *head)
 		printf("| Space: %-26d |\n", current->space);
 
 		if (current->previous != NULL)
-			printf("| Previous: Node %-4d (%-10s)|\n", index - 1, current->previous->value);
+			printf("| Previous: Node %-4d (%-10s)|\n", index - 1, 
+            current->previous->value);
 		else
 			printf("| Previous: %-24s|\n", "NULL");
 
@@ -131,5 +143,4 @@ void    print_envp(t_shell *shell)
         printf("%s\n", envp[i]);
         i++;
     }
-}
-
+} */

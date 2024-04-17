@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 13:27:18 by andre-da          #+#    #+#             */
+/*   Updated: 2024/04/17 14:52:06 by andre-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 char	**get_full_cmd(t_tree_node *node)
@@ -44,11 +56,40 @@ void	redirect_input_output(t_shell *shell, int i, bool last_cmd)
 	if (shell->outfile)
 	{
 		if (dup2(shell->outfile, STDOUT_FILENO) == -1)
-			error_message("Error setting outfile to STDOUT", NULL);	//change message and error code
+			error_message("Error setting outfile to STDOUT", NULL);
 	}
 	else if (!last_cmd)
 	{
 		if (dup2(shell->fd[i + 1][WRITE_END], STDOUT_FILENO) == -1)
 			error_message("Error setting pipe write end to STDOUT", NULL);
 	}
+}
+
+void	execute_child(t_shell *shell, t_tree_node *node, int i)
+{
+	shell->id_exec[i] = TRUE;
+	shell->id[i] = fork();
+	if (shell->id[i] == -1)
+		error_message("Failed to execute fork", NULL);
+	if (shell->id[i] == 0)
+	{
+		signals(CHILD);
+		execute_command(shell, node);
+	}
+	else
+		signals(IGN);
+}
+
+void	exec(t_shell *shell, char *path, char **cmd)
+{
+	close_all_fds(shell, true);
+	execve(path, cmd, shell->envp);
+	ft_freematrix(cmd);
+}
+
+void	executable(t_shell *shell, char *path, char **full_cmd, char *cmd)
+{
+	path = cmd + 2;
+	exec(shell, path, full_cmd);
+	child_error_msg(shell, "minishell: no such file or directory: ", cmd, 126);
 }

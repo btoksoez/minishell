@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_all.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 13:28:19 by andre-da          #+#    #+#             */
+/*   Updated: 2024/04/17 13:32:36 by andre-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	free_all(t_shell *shell)
@@ -7,7 +19,7 @@ void	free_all(t_shell *shell)
 	i = 0;
 	if (shell->fd)
 	{
-		while(shell->fd[i])
+		while (shell->fd[i])
 			free(shell->fd[i++]);
 		free(shell->fd);
 	}
@@ -29,7 +41,7 @@ void	free_redir_list(t_redir_list *redir_list)
 	t_redir_list	*temp;
 
 	if (!redir_list)
-		return;
+		return ;
 	current = redir_list;
 	while (current != NULL)
 	{
@@ -41,8 +53,8 @@ void	free_redir_list(t_redir_list *redir_list)
 
 void	free_args(t_args *args)
 {
-	t_args *current;
-	t_args *temp;
+	t_args	*current;
+	t_args	*temp;
 
 	if (!args)
 		return ;
@@ -58,7 +70,7 @@ void	free_args(t_args *args)
 void	free_tree(t_tree_node *node)
 {
 	if (!node)
-		return;
+		return ;
 	if (node->left)
 		free_tree(node->left);
 	if (node->right)
@@ -72,11 +84,11 @@ void	free_tree(t_tree_node *node)
 
 void	free_tokens(t_tokens *head)
 {
-	t_tokens *current;
-	t_tokens *next_node;
+	t_tokens	*current;
+	t_tokens	*next_node;
 
 	if (!head)
-		return;
+		return ;
 	current = head;
 	while (current != NULL)
 	{

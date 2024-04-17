@@ -1,27 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 13:27:21 by andre-da          #+#    #+#             */
+/*   Updated: 2024/04/17 14:51:57 by andre-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
-
-void	increase_shlvl(t_shell *s)
-{
-	int	i;
-	int	temp;
-	char	*temp_nbr;
-
-	i = 0;
-	temp = 0;
-	temp_nbr = NULL;
-	while (s->envp[i])
-	{
-		if (!ft_strncmp(s->envp[i], "SHLVL=", 6))
-		{
-			temp = ft_atoi(ft_strchr(s->envp[i], '=') + 1);
-			free(s->envp[i]);
-			temp_nbr = ft_itoa(temp + 1);
-			s->envp[i] = ft_strjoin("SHLVL=", temp_nbr);
-			free(temp_nbr);
-		}
-		i++;
-	}
-}
 
 void	execute_command(t_shell *shell, t_tree_node *node)
 {
@@ -43,64 +32,44 @@ void	execute_command(t_shell *shell, t_tree_node *node)
 		exit (0);
 	}
 	if (ft_strncmp(node->cmd, "./", 2) == 0)
-	{
-		path = node->cmd + 2;
-		close_all_fds(shell, true);
-		execve(path, command, shell->envp);
-		ft_freematrix(command);
-		child_error_message(shell, "minishell: no such file or directory: ", node->cmd, 126);
-	}
+		executable(shell, path, command, node->cmd);
 	if (!path)
 		invalid_path(command, shell, node->cmd);
-	close_all_fds(shell, true);
-	execve(path, command, shell->envp);
-	ft_freematrix(command);
+	exec(shell, path, command);
 	if (flag)
 		free(path);
-	child_error_message(shell, "minishell: command not found: ", node->cmd, 127);
+	child_error_msg(shell, "minishell: command not found: ", node->cmd, 127);
 }
 
-void	start_execution(t_shell *shell, t_tree_node *node, int i, bool last_cmd)
+void	start_execution(t_shell *s, t_tree_node *node, int i, bool l_cmd)
 {
-	int success;
+	int	success;
 
 	success = 1;
-	shell->error_file = NULL;
+	s->error_file = NULL;
 	if (node->redir_list)
-		success = open_files(shell, node->redir_list);
+		success = open_files(s, node->redir_list);
 	if (success)
 	{
-		redirect_input_output(shell, i, last_cmd);
+		redirect_input_output(s, i, l_cmd);
 		if (node->builtin != NULL)
 		{
 			signals(IGN);
-			shell->status = node->builtin(shell, node);
+			s->status = node->builtin(s, node);
 		}
 		else
-		{
-			shell->id_exec[i] = TRUE;
-			shell->id[i] = fork();
-			if (shell->id[i] == -1)
-				error_message("Failed to execute fork", NULL);
-			if (shell->id[i] == 0)
-			{
-				signals(CHILD);
-				execute_command(shell, node);
-			}
-			else
-				signals(IGN);
-		}
+			execute_child(s, node, i);
 	}
-	reset_fds(shell);
+	reset_fds(s);
 }
 
-void	execute_pipe(t_shell *shell, t_tree_node *l_node, t_tree_node *r_node, int i)
+void	exec_pipe(t_shell *s, t_tree_node *l_nd, t_tree_node *r_nd, int i)
 {
-	start_execution(shell, l_node, i, false);
-	if (r_node->type == PIPE_TREE)
-		execute_pipe(shell, r_node->left, r_node->right, i + 1);
+	start_execution(s, l_nd, i, false);
+	if (r_nd->type == PIPE_TREE)
+		exec_pipe(s, r_nd->left, r_nd->right, i + 1);
 	else
-		start_execution(shell, r_node, i + 1, true);
+		start_execution(s, r_nd, i + 1, true);
 }
 
 void	prepare_to_execute(t_shell *shell)
@@ -135,7 +104,7 @@ void	execute(t_shell *shell)
 {
 	prepare_to_execute(shell);
 	if (shell->tree->type == PIPE_TREE)
-		execute_pipe(shell, shell->tree->left, shell->tree->right, 0);
+		exec_pipe(shell, shell->tree->left, shell->tree->right, 0);
 	else
 		start_execution(shell, shell->tree, 0, true);
 }

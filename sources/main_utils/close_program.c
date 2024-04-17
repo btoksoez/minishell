@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   close_program.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 13:28:17 by andre-da          #+#    #+#             */
+/*   Updated: 2024/04/17 13:37:41 by andre-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	clean_up(t_shell *shell, bool print_msg)
 {
-	int i;
+	int	i;
 
 	close_all_fds(shell, true);
 	if (!shell->reseted)
@@ -63,9 +75,9 @@ void	close_all_fds(t_shell *shell, bool in_out)
 		close(shell->fds_heredoc[READ_END]);
 }
 
-void	child_error_message(t_shell *shell, char *str, char *cmd, int code)
+void	child_error_msg(t_shell *shell, char *msg, char *cmd, int code)
 {
-	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
 	if (cmd)
 		ft_putendl_fd(cmd, STDERR_FILENO);
 	else

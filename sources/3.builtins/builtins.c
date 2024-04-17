@@ -5,7 +5,7 @@ later in execution can be executed with
 if (cmd->builtin != NULL)
 	cmd->builtin(shell, tree)
 */
-int	(*builtin_arr(char *str))(t_shell *shell, struct s_tree_node *tree)
+int	(*builtin_arr(char *str))(t_shell *s, struct s_tree_node *tree)
 {
 	static void	*builtins[7][2] = {
 	{"echo", mini_echo},

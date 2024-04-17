@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   loop.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 13:28:24 by andre-da          #+#    #+#             */
+/*   Updated: 2024/04/17 15:02:23 by andre-da         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	loop(t_shell *shell)
@@ -24,7 +36,7 @@ void	loop(t_shell *shell)
 		remove_spaces(&shell->tokens);
 		remove_empty_tokens(&shell->tokens);
 		if (!shell->tokens)
-			continue;
+			continue ;
 		shell->tree = parse_commandline(shell->tokens, shell);
 		execute(shell);
 		close_all_fds(shell, false);
@@ -62,26 +74,7 @@ void	wait_pids(t_shell *shell)
 		current = current->right;
 	if (current->builtin != NULL)
 		return ;
-	if (shell->here_doc)
-	{
-		waitpid(shell->id[shell->pipe_nbr], &status, 0);
-		if (WEXITSTATUS(status))
-			shell->status = WEXITSTATUS(status);
-		return ;
-	}
-	if (!shell->error_file)
-	{
-		shell->status = 0;
-		waitpid(shell->id[shell->pipe_nbr], &status, 0);
-		if (WIFSIGNALED(status))
-		{
-			shell->status = WTERMSIG(status) + 128;
-			if (shell->status == 131)
-				ft_putstr_fd("Quit", STDERR_FILENO);
-		}
-		else
-			shell->status = WEXITSTATUS(status);
-	}
+	get_status(shell, status);
 }
 
 void	reset(t_shell *shell)

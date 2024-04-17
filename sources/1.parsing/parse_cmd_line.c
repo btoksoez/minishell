@@ -17,7 +17,7 @@ t_tree_node	*add_ast_node(void)
 	return (new_node);
 }
 
-void	add_redir_list(t_redir_list **head, t_token_type type, char *filename)
+void	add_redir_list(t_redir_list **head, t_token_type type, char *file)
 {
 	t_redir_list	*new;
 	t_redir_list	*current;
@@ -26,10 +26,10 @@ void	add_redir_list(t_redir_list **head, t_token_type type, char *filename)
 	new = (t_redir_list *)malloc(sizeof(t_redir_list));
 	if (!new)
 		return (error_message("malloc error redir list", NULL));
-	if (!filename)
+	if (!file)
 		return (error_message("not a valid file", NULL));	//might have to handle this as proper error
 	new->type = type;
-	new->file = filename;
+	new->file = file;
 	new->next = NULL;
 	if (!*head)
 		*head = new;
@@ -71,17 +71,17 @@ void	add_arg(t_args **args, t_tokens *current)
 }
 
 
-t_tree_node	*parse_cmd(t_tokens *tokens_start, t_tokens *tokens_end, t_shell *shell)
+t_tree_node	*parse_cmd(t_tokens *t_start, t_tokens *t_end, t_shell *shell)
 {
 	//tokens_end will either point to the pipe or to NULL (end of tokens)
 	t_tree_node	*cmd_node;
 	t_tokens	*current;
 
-	current = tokens_start;
+	current = t_start;
 	//adds phantom node for now
 	cmd_node = add_ast_node();
 	//go through tokens
-	while (current != tokens_end)	//will not process tokens_end
+	while (current != t_end)	//will not process tokens_end
 	{
 		//if it's a redirection add to list
 		if (current->type >= RE_INPUT && current->type <= HEREDOC)
