@@ -6,7 +6,7 @@
 /*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:27:26 by andre-da          #+#    #+#             */
-/*   Updated: 2024/04/17 13:42:33 by andre-da         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:49:46 by andre-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*check_path(char *cmd, char **envp, int *flag)
 		ft_strncmp("/bin/", cmd, 5) == 0)
 	{
 		path = cmd;
-		flag = 0;
+		*flag = 0;
 	}
 	else if (!*(envp) || !envp 
 		|| ft_strcmp(*envp, "VALGRIND_LIB=/usr/libexec/valgrind") == 0)
