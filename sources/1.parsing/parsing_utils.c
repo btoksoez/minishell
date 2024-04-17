@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:10:17 by btoksoez          #+#    #+#             */
-/*   Updated: 2024/04/17 13:13:50 by btoksoez         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:44:53 by andre-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ void	add_arg(t_args **args, t_tokens *current)
 	}
 }
 
-void	ft_cmd_node(t_tree_node *cmd_node, t_tokens *current, t_shell *shell)
+void	ft_cmd_node(t_tree_node *cmd_node, t_tokens *current, t_shell *s)
 {
 	cmd_node->builtin = builtin_arr(current->value);
 	if (cmd_node->builtin != NULL)
 	{
-		shell->builtins++;
+		s->builtins++;
 		cmd_node->type = BUILTIN;
 	}
 	else

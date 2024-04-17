@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:55:07 by andre-da          #+#    #+#             */
-/*   Updated: 2024/04/17 15:41:26 by btoksoez         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:44:38 by andre-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ bool		check_quotation_marks(char *line);
 bool		check_pipes(char *line);
 void		clean_up(t_shell *shell, bool print_msg);
 bool		check_tokens(t_tokens *tokens);
-void		ft_cmd_node(t_tree_node *cmd_node, t_tokens *current, t_shell *shell);
+void		ft_cmd_node(t_tree_node *cmd_node, t_tokens *current, t_shell *s);
 
 /*---------------------------------tokenization------------------------------*/
 /*---------------------------------------------------------------------------*/
