@@ -65,6 +65,22 @@ void	start_execution(t_shell *s, t_tree_node *node, int i, bool l_cmd)
 
 void	exec_pipe(t_shell *s, t_tree_node *l_nd, t_tree_node *r_nd, int i)
 {
+	s->i = i;
+	if (i != 0 && s->fd[i - 1])
+	{
+		if (s->fd[i - 1][READ_END] > 0)
+			close(s->fd[i - 1][READ_END]);
+		if (s->fd[i - 1][WRITE_END] > 0)
+			close(s->fd[i - 1][WRITE_END]);
+	}
+	if (i != 0)
+	{
+		s->fd[i + 1] = (int *)malloc(sizeof(int) * 2);
+		if (!(s->fd[i + 1]))
+			error_message("Fds Memory allocation failed", NULL);
+		if (pipe(s->fd[i + 1]) == -1)
+			error_message("Failed to create the pipe", NULL);
+	}
 	start_execution(s, l_nd, i, false);
 	if (r_nd->type == PIPE_TREE)
 		exec_pipe(s, r_nd->left, r_nd->right, i + 1);
@@ -78,26 +94,19 @@ void	prepare_to_execute(t_shell *shell)
 
 	shell->id = (pid_t *)malloc(sizeof(pid_t) * (shell->pipe_nbr + 2));
 	if (!(shell->id))
-		error_message("Pid Memory allocation failed", NULL);
+		error_message("pid_t Memory allocation failed", NULL);
 	shell->id_exec = (int *)malloc(sizeof(int) * (shell->pipe_nbr + 2));
 	if (!(shell->id_exec))
-		error_message("Bool array Memory allocation failed", NULL);
-	shell->fd = (int **)malloc(sizeof(int *) * (shell->pipe_nbr + 2));
-	if (!(shell->fd))
-		error_message("Fds Memory allocation failed", NULL);
+		error_message("id_exec Memory allocation failed", NULL);
 	i = 0;
 	while (i < shell->pipe_nbr + 1)
 	{
 		shell->id_exec[i] = FALSE;
 		shell->id[i] = 0;
-		shell->fd[i] = (int *)malloc(sizeof(int) * 2);
-		if (!(shell->fd[i]))
-			error_message("Fds Memory allocation failed", NULL);
-		if (pipe(shell->fd[i]) == -1)
-			error_message("Failed to create the pipe", NULL);
 		i++;
 	}
-	shell->fd[i] = NULL;
+	if (shell->pipe_nbr != 0)
+		alloc_pipes(shell);
 }
 
 void	execute(t_shell *shell)

@@ -49,21 +49,22 @@ void	exit_error_message(char *message, int exit_code)
 
 void	close_all_fds(t_shell *shell, bool in_out)
 {
-	int	childs;
 	int	i;
 
 	i = 0;
-	childs = shell->pipe_nbr + 1;
 	if (shell->infile > 0)
 		close(shell->infile);
 	if (shell->outfile > 0)
 		close(shell->outfile);
-	while (i < childs && shell->fd)
+	while (i < 2)
 	{
-		if (shell->fd[i][WRITE_END] > 0)
-			close(shell->fd[i][WRITE_END]);
-		if (shell->fd[i][READ_END] > 0)
-			close(shell->fd[i][READ_END]);
+		if (shell->fd)
+		{
+			if (shell->fd[shell->i + i][WRITE_END] > 0)
+				close(shell->fd[shell->i + i][WRITE_END]);
+			if (shell->fd[shell->i + i][READ_END] > 0)
+				close(shell->fd[shell->i + i][READ_END]);
+		}
 		i++;
 	}
 	if (in_out)

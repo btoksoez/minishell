@@ -127,6 +127,7 @@ typedef struct s_shell
 	int					std_fds[2];
 	struct s_tree_node	*tree;
 	t_tokens			*tokens;
+	int					i;
 }						t_shell;
 
 typedef struct s_tree_node
@@ -238,6 +239,7 @@ void		append_env(char **s, char *var, char *value);
 /*---------------------------------------------------------------------------*/
 void		execute(t_shell *shell);
 void		prepare_to_execute(t_shell *shell);
+void		alloc_pipes(t_shell *shell);
 void		exec_pipe(t_shell *s, t_tree_node *l_nd, t_tree_node *r_nd, int i);
 void		start_execution(t_shell *s, t_tree_node *node, int i, bool l_cmd);
 void		execute_command(t_shell *shell, t_tree_node *node);

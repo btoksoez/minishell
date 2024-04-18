@@ -85,6 +85,7 @@ void	reset(t_shell *shell)
 	shell->builtins = 0;
 	shell->fd = NULL;
 	shell->id = NULL;
+	shell->i = 0;
 	shell->tree = NULL;
 	shell->id_exec = NULL;
 	shell->error_file = NULL;

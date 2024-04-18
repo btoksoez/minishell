@@ -14,7 +14,7 @@ SRC_1_parsing = check_syntax.c expander_utils.c expander.c parse_cmd_line.c pars
 SRC_2_tokenization = check_tokens.c tokenization_utils.c tokenization_utils2.c tokenization.c tokenize.c
 SRC_3_builtins = builtins.c mini_cd_utils.c mini_cd.c mini_echo.c mini_env.c mini_exit.c mini_export_utils.c mini_export_utils2.c \
 				mini_export.c mini_pwd.c mini_unset.c mini_utils.c
-SRC_4_execution = execution_utils.c execution.c get_path.c here_doc.c open_files.c
+SRC_4_execution = execution_utils.c  execution_utils2.c execution.c get_path.c here_doc.c open_files.c
 SRC_5_signals = signals.c
 SRC_main_utils = close_program.c free_all.c init_shell.c loop.c printing_tests.c utils.c
 SRC_main = minishell.c
@@ -63,5 +63,8 @@ fclean: clean
 	@echo "$(RED)$@$(RESET) $(NAME) $(GREEN)[OK]$(RESET)"
 
 re: fclean all
+
+run: all
+	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes --suppressions=ignore_readline.supp ./minishell
 
 .PHONY: all clean fclean re

@@ -17,13 +17,13 @@ char	*check_path(char *cmd, char **envp, int *flag)
 	char	*path;
 
 	path = NULL;
-	if (ft_strncmp("/usr/bin/", cmd, 9) == 0 || 
-		ft_strncmp("/bin/", cmd, 5) == 0)
+	if (ft_strncmp("/usr/bin/", cmd, 9) == 0
+		|| ft_strncmp("/bin/", cmd, 5) == 0)
 	{
 		path = cmd;
 		*flag = 0;
 	}
-	else if (!*(envp) || !envp 
+	else if (!*(envp) || !envp
 		|| ft_strcmp(*envp, "VALGRIND_LIB=/usr/libexec/valgrind") == 0)
 		path = ft_strjoin("/usr/bin/", cmd);
 	else

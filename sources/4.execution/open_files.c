@@ -68,22 +68,22 @@ bool	check_access(t_shell *shell, int flag_in, int flag_out)
 			return (error_message("minishell: permission denied: ",
 					shell->error_file), false);
 		else if (errno == ENOENT)
-			return (error_message("minishell: no such file or directory: ", 
+			return (error_message("minishell: no such file or directory: ",
 					shell->error_file), false);
 		else if (errno == ENOTDIR)
-			return (error_message("minishell: not a directory: ", 
+			return (error_message("minishell: not a directory: ",
 					shell->error_file), false);
 	}
 	if (flag_out && access(shell->error_file, W_OK) != 0)
 	{
 		if (errno == EACCES)
-			return (error_message("minishell: permission denied: ", 
+			return (error_message("minishell: permission denied: ",
 					shell->error_file), false);
 		else if (errno == ENOENT)
-			return (error_message("minishell: no such file or directory: ", 
+			return (error_message("minishell: no such file or directory: ",
 					shell->error_file), false);
 		else if (errno == ENOTDIR)
-			return (error_message("minishell: not a directory: ", 
+			return (error_message("minishell: not a directory: ",
 					shell->error_file), false);
 	}
 	return (true);

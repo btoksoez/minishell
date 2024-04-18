@@ -27,13 +27,14 @@
 		printf("| Space: %-26d |\n", current->space);
 
 		if (current->previous != NULL)
-			printf("| Previous: Node %-4d (%-10s)|\n", index - 1, 
+			printf("| Previous: Node %-4d (%-10s)|\n", index - 1,
             current->previous->value);
 		else
 			printf("| Previous: %-24s|\n", "NULL");
 
 		if (current->next != NULL)
-			printf("| Next: Node %-8d (%-10s)|\n", index + 1, current->next->value);
+			printf("| Next: Node %-8d (%-10s)|\n", index + 1,
+			current->next->value);
 		else
 			printf("| Next: %-28s|\n", "NULL");
 		printf("+----------------------------------+\n\n");

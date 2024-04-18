@@ -29,6 +29,8 @@ void	get_env_vars(t_shell *s)
 	int	i;
 
 	i = 0;
+	s->oldpwd = NULL;
+	s->pwd = NULL;
 	while (s->envp[i])
 	{
 		if (ft_strncmp(s->envp[i], "PWD=", 4) == 0)

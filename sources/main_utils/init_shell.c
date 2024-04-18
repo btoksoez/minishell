@@ -100,11 +100,10 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->id_exec = NULL;
 	shell->line = NULL;
 	shell->tree = NULL;
-	shell->oldpwd = NULL;
-	shell->pwd = NULL;
 	shell->reseted = false;
 	shell->tokens = NULL;
 	shell->error_file = NULL;
+	shell->i = 0;
 	shell->std_fds[0] = dup(STDIN_FILENO);
 	shell->std_fds[1] = dup(STDOUT_FILENO);
 	shell->fds_heredoc[READ_END] = 0;
