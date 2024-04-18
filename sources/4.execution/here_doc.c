@@ -28,7 +28,7 @@ void	exec_child_here(t_shell *s, char *limit, char *line, int pipe_nbr)
 delimited by end-of-file", STDERR_FILENO);
 			break ;
 		}
-		if (line[ft_strlen(line) - 1] == '\n')
+		if (ft_strlen(line) != 0 && line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
 		if (ft_strcmp(line, limit) == 0)
 			break ;
