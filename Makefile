@@ -65,6 +65,6 @@ fclean: clean
 re: fclean all
 
 run: all
-	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes --suppressions=ignore_readline.supp ./minishell
+	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes --suppressions=/home/btoksoez/Documents/minishell/ignore_readline.supp ./minishell
 
 .PHONY: all clean fclean re

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: btoksoez <btoksoez@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:46:02 by btoksoez          #+#    #+#             */
-/*   Updated: 2024/04/22 08:39:09 by btoksoez         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:47:09 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ int	get_ret(t_tree_node *tree, t_shell *s)
 
 	if (!tree->args)
 		ret = specific_path(s, "HOME=");
-	else if (ft_strncmp(tree->args->arg, "-", ft_strlen(tree->args->arg)) == 0)
-		ret = -1;
 	else
 	{
 		ret = chdir(tree->args->arg);

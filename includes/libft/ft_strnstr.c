@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 11:17:17 by andre-da          #+#    #+#             */
-/*   Updated: 2023/10/10 18:15:00 by andre-da         ###   ########.fr       */
+/*   Updated: 2024/04/22 11:08:44 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strnstr(const char *phrase, const char *word, size_t n)
 		j = 0;
 		i++;
 	}
-	return ((char *)0);
+	return (NULL);
 }
 
 /* int	main(void)

@@ -6,7 +6,7 @@
 /*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:14:42 by btoksoez          #+#    #+#             */
-/*   Updated: 2024/04/17 13:20:26 by btoksoez         ###   ########.fr       */
+/*   Updated: 2024/04/22 11:53:25 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*handle_double_quotes(char *start, t_tokens *token)
 		return (error_message("token error: '\0' input", NULL), NULL);
 	token->value = word;
 	dollar = ft_strchr(word, '$');
-	if (dollar && !ft_strchr(WHITESPACE, *(dollar + 1)))
+	if (dollar && ft_strchr(LETTERS_DIGITS, *(dollar + 1)))
 		token->type = ENV_VAR;
 	else
 		token->type = WORD;

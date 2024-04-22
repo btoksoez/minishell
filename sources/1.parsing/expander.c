@@ -6,7 +6,7 @@
 /*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:50:59 by btoksoez          #+#    #+#             */
-/*   Updated: 2024/04/17 13:00:32 by btoksoez         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:03:57 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,55 @@ void	expand_status(t_shell *shell, t_tokens *current)
 	current->value = ft_itoa(shell->status);
 }
 
+void	ft_strcpy_exit_status(char *str, char *new_str, char *exit_code)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (str[i] != '$')
+	{
+		new_str[i] = str[i];
+		i++;
+	}
+	j = 0;
+	while (exit_code[j] != '\0')
+	{
+		new_str[i + j] = exit_code[j];
+		j++;
+	}
+	while (str[i + 2] != '\0')
+	{
+		new_str[i + j] = str[i + 2];
+		i++;
+	}
+	new_str[i + j] = '\0';
+}
+
+void	replace_exit_status(t_shell *shell, t_tokens *current)
+{
+	char	*str;
+	char	*replace;
+	char	*new_str;
+	char	*exit_code;
+
+	str = current->value;
+	if (!str)
+		return ;
+	replace = ft_strnstr(str, "$?", ft_strlen(str));
+	if (!replace)
+		return ;
+	exit_code = ft_itoa(shell->status);
+	new_str = (char *)malloc(sizeof(char)
+			* (ft_strlen(str) - 1 + ft_strlen(exit_code)));
+	if (!new_str)
+		return ;
+	ft_strcpy_exit_status(str, new_str, exit_code);
+	free(current->value);
+	free(exit_code);
+	current->value = new_str;
+}
+
 /* expands environment variables in the token list,
 replacing them by their value or by a empty string (\0\0) */
 void	expand(t_shell *shell)
@@ -67,6 +116,7 @@ void	expand(t_shell *shell)
 				expand_status(shell, current);
 			else if (ft_strcmp(current->value, "$$"))
 			{
+				replace_exit_status(shell, current);
 				temp = current->value;
 				current->value = find_and_replace(shell, temp);
 				free(temp);
