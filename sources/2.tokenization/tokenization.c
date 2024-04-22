@@ -6,7 +6,7 @@
 /*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:18:35 by btoksoez          #+#    #+#             */
-/*   Updated: 2024/04/22 12:02:19 by btoksoez         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:52:36 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,6 @@ char	*token_word(char *start, t_tokens *token, char *delimiter)
 	char	*word;
 
 	word = ft_strdup_delimiter_string(start, delimiter);
-	if (!word)
-		return (error_message("token error: no word", NULL), NULL);
-	token->value = word;
-	token->type = WORD;
-	start += ft_strlen(word);
-	if (ft_strchr(WHITESPACE, *start))
-		token->space = 1;
-	return (start);
-}
-
-char	*token_dollar(char *start, t_tokens *token)
-{
-	char	*word;
-
-	word = ft_strdup_delimiter_string(start, WHITESPACE);
 	if (!word)
 		return (error_message("token error: no word", NULL), NULL);
 	token->value = word;

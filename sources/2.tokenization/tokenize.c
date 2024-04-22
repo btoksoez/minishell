@@ -6,7 +6,7 @@
 /*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:23:27 by btoksoez          #+#    #+#             */
-/*   Updated: 2024/04/22 11:58:55 by btoksoez         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:50:43 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,30 @@
 /* concetonates all tokens if there is no space between them */
 void	remove_spaces(t_tokens **tokens)
 {
-	t_tokens	*current;
+	t_tokens	*cur;
 	int			flag;
 
 	if (!tokens || !(*tokens))
 		return ;
-	current = *tokens;
+	cur = *tokens;
 	flag = 0;
-	while (current && current->next)
+	while (cur && cur->next)
 	{
-		while ((current->type == 5 || current->type == 6)
-			&& (current->next->type == 5 || current->next->type == 6)
-			&& current->space == 0)
+		while (cur->type >= 5 && cur->next->type >= 5 && cur->space == 0)
 		{
 			flag = 0;
-			current->value = ft_strjoin_free(current->value,
-					current->next->value);
-			if (current->next->space == 1)
+			cur->value = ft_strjoin_free(cur->value,
+					cur->next->value);
+			if (cur->next->space == 1)
+			{
+				cur->space = 1;
 				flag = 1;
-			del_token(tokens, current->next);
-			if (!current->next || flag == 1)
+			}
+			del_token(tokens, cur->next);
+			if (!cur->next || flag == 1)
 				break ;
 		}
-		current = current->next;
+		cur = cur->next;
 	}
 }
 
@@ -50,6 +51,7 @@ t_tokens	*tokenize(t_shell *shell)
 		return (NULL);
 	if (check_syntax_errors(trimmed_line))
 	{
+		free(trimmed_line);
 		shell->status = 2;
 		return (NULL);
 	}
@@ -71,7 +73,11 @@ char	*handle_line(char *l, t_tokens *current)
 		line = handle_double_quotes(line, current);
 	else if (ft_strchr(SINGLE_TOKENS, *line))
 		line = single_token(line, current);
-	else if (*line == '$' && ft_strchr(WHITESPACE, *(line + 1)))
+	else if (*line == '$' && *(line + 1) == '\0')
+		line = token_dollar2(line, current);
+	else if (*line == '$' && ft_isdigit(*(line + 1)))
+		line = token_dollarnumber(line, current);
+	else if (*line == '$' && !ft_strchr(LETTERS_DIGITS_QM, *(line + 1)))
 		line = token_dollar(line, current);
 	else if (*line == '$' && !ft_strchr(WHITESPACE, *(line + 1)))
 		line = token_envp(line, current);

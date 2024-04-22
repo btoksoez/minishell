@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: btoksoez <btoksoez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:55:07 by andre-da          #+#    #+#             */
-/*   Updated: 2024/04/17 15:44:38 by andre-da         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:27:45 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@
 # define WHITESPACE_DOLLAR " \t\n\v\f\r$"
 # define LETTERS_DIGITS "ABCDEFGHIJKLMNOPQRSTUVWXYZabcd\
 efghijklmnopqrstuvwxyz0123456789_"
+# define LETTERS_DIGITS_QM "ABCDEFGHIJKLMNOPQRSTUVWXYZabcd\
+efghijklmnopqrstuvwxyz0123456789_?"
+# define LETTERS_DIGITS_WS "ABCDEFGHIJKLMNOPQRSTUVWXYZabcd\
+efghijklmnopqrstuvwxyz0123456789_ \t\n\v\f\r"
 # define WHITESPACE_DOLLAR_SINGLE " \t\n\v\f\r$\'"
 # define WHITESPACE_QUOTES " \t\n\v\f\r\'\""
 # define WHITESPACE_Q_D " \t\n\v\f\r\'\"$?<>|"
@@ -199,6 +203,8 @@ void		remove_spaces(t_tokens **tokens);
 void		remove_empty_tokens(t_tokens **tokens);
 char		*trim_line(char *line, char *set);
 void		pre_parse_tokens(t_tokens *tokens);
+char		*token_dollar2(char *start, t_tokens *token);
+char		*token_dollarnumber(char *start, t_tokens *token);
 
 /*---------------------------------expansion---------------------------------*/
 /*---------------------------------------------------------------------------*/

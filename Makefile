@@ -11,7 +11,7 @@ OBJ_DIR = objects
 SRC_DIRS = sources/1.parsing sources/2.tokenization sources/3.builtins sources/4.execution sources/5.signals sources sources/main_utils
 
 SRC_1_parsing = check_syntax.c expander_utils.c expander.c parse_cmd_line.c parsing_utils.c
-SRC_2_tokenization = check_tokens.c tokenization_utils.c tokenization_utils2.c tokenization.c tokenize.c
+SRC_2_tokenization = check_tokens.c tokenization_utils.c tokenization_utils2.c tokenization_utils3.c tokenization.c tokenize.c
 SRC_3_builtins = builtins.c mini_cd_utils.c mini_cd.c mini_echo.c mini_env.c mini_exit.c mini_export_utils.c mini_export_utils2.c \
 				mini_export.c mini_pwd.c mini_unset.c mini_utils.c
 SRC_4_execution = execution_utils.c  execution_utils2.c execution.c get_path.c here_doc.c open_files.c
