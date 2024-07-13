@@ -6,7 +6,7 @@
 /*   By: btoksoez <btoksoez@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:46:43 by btoksoez          #+#    #+#             */
-/*   Updated: 2024/04/22 08:41:50 by btoksoez         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:57:18 by btoksoez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	sigint_handler(int sig)
 {
 	(void)sig;
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	write(1, "\n", 1);
 	rl_on_new_line();
 }
@@ -29,7 +29,7 @@ void	sigint_handler_prompt(int sig)
 	(void)sig;
 	info = exit_info(NULL);
 	info.info->status = 130;
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_redisplay();
