@@ -58,10 +58,11 @@ $minishell> exit
 
 Minishell follows a typical shell execution flow:
 
-Lexer: Tokenizes input commands into meaningful components.
-Parser: Parses tokens to create a command structure.
-Expander: Handles expansions, such as environment variables and quotes.
-Executor: Executes commands, handling built-ins and external programs.
+Lexer: Tokenizes input commands into meaningful components.  
+Parser: Parses tokens to create a binary syntax tree (BST).  
+Expander: Handles expansions, such as environment variables and quotes.  
+Executor: Executes commands, handling built-ins and external programs by going through the tree.  
+
 This project taught us valuable lessons in parsing, memory management, and system calls. By recreating bash, we gained a deeper understanding of how shells interact with the operating system and manage user commands effectively.
 
-Built together with @AndrePortfolio
+Built with love together with [@AndrePortfolio](https://github.com/AndrePortfolio)
