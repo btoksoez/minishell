@@ -2,7 +2,7 @@
 
 Minishell is a small-scale Unix shell implementation written in C, designed as a learning project to understand the fundamentals of operating systems and command-line interfaces. This project aims to replicate basic functionalities of a Unix shell, providing features such as command execution, built-in commands (e.g., cd, echo, export), environment variable handling, and basic input/output redirection.
 
-![minishell](./img/minishell.png)
+![minishell](./minishell.png)
 
 ## Features
 
