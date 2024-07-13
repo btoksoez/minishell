@@ -2,6 +2,8 @@
 
 Minishell is a small-scale Unix shell implementation written in C, designed as a learning project to understand the fundamentals of operating systems and command-line interfaces. This project aims to replicate basic functionalities of a Unix shell, providing features such as command execution, built-in commands (e.g., cd, echo, export), environment variable handling, and basic input/output redirection.
 
+![minishell](./img/minishell.png)
+
 ## Features
 
 - **Command Execution:** Execute commands entered by the user, including external programs and built-in shell commands.
@@ -22,10 +24,11 @@ Ensure you have the following installed:
 
 ### Build Instructions
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/btoksoez/minishell.git
-   cd minishell
+Clone the repository:
+```
+git clone https://github.com/btoksoez/minishell.git
+cd minishell
+```
 Compile the Minishell:
 ```
 make
@@ -61,3 +64,4 @@ Expander: Handles expansions, such as environment variables and quotes.
 Executor: Executes commands, handling built-ins and external programs.
 This project taught us valuable lessons in parsing, memory management, and system calls. By recreating bash, we gained a deeper understanding of how shells interact with the operating system and manage user commands effectively.
 
+Built together with @AndrePortfolio
